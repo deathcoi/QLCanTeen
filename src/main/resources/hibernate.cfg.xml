@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6399296</property>
+		<property name="hibernate.connection.username">sql6399296</property>
+		<property name="hibernate.connection.password">KCevUAEFd7</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		
+		<mapping class="entities.HoaDon"></mapping>
+		<mapping class="entities.KhachHang"></mapping>
+		<mapping class="entities.LoaiMonAn"></mapping>
+		<mapping class="entities.MonAn"></mapping>
+		<mapping class="entities.NguyenLieu"></mapping>
+		<mapping class="entities.NhanVien"></mapping>
+		<mapping class="entities.TaiKhoanKH"></mapping>
+		<mapping class="entities.TaiKhoanNV"></mapping>
+		<mapping class="entities.CTHoaDon"></mapping>
+	</session-factory>
+</hibernate-configuration>
