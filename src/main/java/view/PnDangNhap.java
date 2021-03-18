@@ -23,6 +23,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class PnDangNhap extends JPanel {
 	private JTextField txtTaiKhoan;
@@ -37,29 +40,20 @@ public class PnDangNhap extends JPanel {
 		this.cardLayout = cardLayout;
 		this.cardPanel = cardPanel;
 
-		setBounds(0, 0, 800, 600);
+		setBounds(0, 0, 1024, 600);
 		setLayout(new BorderLayout(0, 0));
 
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("QUẢN LÝ CĂN TIN HUTECH");
 		lblNewLabel.setForeground(Color.ORANGE);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblNewLabel.setBounds(10, 10, 780, 96);
-		panel.add(lblNewLabel);
-
-		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 155, 780, 27);
-		panel.add(separator);
 
 		JLabel lblNewLabel_1 = new JLabel("Tên đăng nhập");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNewLabel_1.setBounds(58, 225, 159, 39);
-		panel.add(lblNewLabel_1);
 
 		txtTaiKhoan = new JTextField();
 		txtTaiKhoan.addKeyListener(new KeyAdapter() {
@@ -70,8 +64,6 @@ public class PnDangNhap extends JPanel {
 			}
 		});
 		txtTaiKhoan.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txtTaiKhoan.setBounds(227, 225, 383, 39);
-		panel.add(txtTaiKhoan);
 		txtTaiKhoan.setColumns(10);
 
 		txtMatKhau = new JPasswordField();
@@ -83,18 +75,10 @@ public class PnDangNhap extends JPanel {
 			}
 		});
 		txtMatKhau.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txtMatKhau.setBounds(227, 316, 383, 39);
-		panel.add(txtMatKhau);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Mật khẩu");
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNewLabel_1_1.setBounds(58, 313, 159, 39);
-		panel.add(lblNewLabel_1_1);
-
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(10, 414, 780, 27);
-		panel.add(separator_1);
 
 		JButton btnThoat = new JButton("Thoát");
 		btnThoat.addActionListener(new ActionListener() {
@@ -103,8 +87,6 @@ public class PnDangNhap extends JPanel {
 			}
 		});
 		btnThoat.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnThoat.setBounds(434, 439, 164, 45);
-		panel.add(btnThoat);
 
 		JButton btnDangNhap = new JButton("Đăng nhập");
 		btnDangNhap.addActionListener(new ActionListener() {
@@ -113,8 +95,54 @@ public class PnDangNhap extends JPanel {
 			}
 		});
 		btnDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnDangNhap.setBounds(231, 439, 164, 45);
-		panel.add(btnDangNhap);
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(10)
+							.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+							.addGap(209)
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+									.addGap(131)
+									.addComponent(btnDangNhap, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(btnThoat, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE))
+								.addGroup(Alignment.LEADING, gl_panel.createParallelGroup(Alignment.LEADING)
+									.addGroup(gl_panel.createSequentialGroup()
+										.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
+										.addGap(18)
+										.addComponent(txtTaiKhoan, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
+									.addGroup(gl_panel.createSequentialGroup()
+										.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
+										.addGap(18)
+										.addComponent(txtMatKhau, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))))
+							.addGap(245)))
+					.addGap(10))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(10)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+					.addGap(66)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtTaiKhoan, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
+					.addGap(49)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtMatKhau, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
+					.addGap(91)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnDangNhap, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnThoat, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(165, Short.MAX_VALUE))
+		);
+		panel.setLayout(gl_panel);
 	}
 
 	private void btnDangNhapClicked() {
