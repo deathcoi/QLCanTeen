@@ -46,6 +46,11 @@ import javax.swing.border.TitledBorder;
 
 import javax.swing.ImageIcon;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.ComponentOrientation;
+import java.awt.Point;
 
 
 public class PnQuanLy extends JPanel {
@@ -135,7 +140,7 @@ public class PnQuanLy extends JPanel {
 		JLabel lbNhanVien = new JLabel("");
 		lbNhanVien.setHorizontalAlignment(SwingConstants.CENTER);
 		lbNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbNhanVien.setBounds(87, 64, 80, 20);
+		lbNhanVien.setBounds(98, 70, 80, 20);
 		panel_4.add(lbNhanVien);
 		
 		JLabel lbDateTime = new JLabel("");
@@ -357,7 +362,50 @@ public class PnQuanLy extends JPanel {
 		panel_13.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_13.setBounds(0, 0, 64, 600);
 		add(panel_13);
-		panel_13.setLayout(null);
+		panel_13.setLayout(new BoxLayout(panel_13, BoxLayout.Y_AXIS));
+
+		JPanel panel = new JPanel();
+		panel_13.add(panel);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_3 = new JPanel();
+		panel_13.add(panel_3);
+		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel.setIcon(new ImageIcon("D:\\Hoctap\\Java\\QLCanTeen\\picture\\setting.png"));
+		panel_3.add(lblNewLabel);
+		
+		JPanel panel_8 = new JPanel();
+		panel_13.add(panel_8);
+		panel_8.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_9 = new JPanel();
+		panel_13.add(panel_9);
+		panel_9.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon("D:\\Hoctap\\Java\\QLCanTeen\\picture\\help.png"));
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_9.add(lblNewLabel_2, BorderLayout.CENTER);
+		
+		JPanel panel_10 = new JPanel();
+		panel_13.add(panel_10);
+		panel_10.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_11 = new JPanel();
+		panel_13.add(panel_11);
+		panel_11.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setIcon(new ImageIcon("D:\\Hoctap\\Java\\QLCanTeen\\picture\\Calculator.png"));
+		panel_11.add(lblNewLabel_3, BorderLayout.CENTER);
+		
+		JPanel panel_12 = new JPanel();
+		panel_13.add(panel_12);
+		panel_12.setLayout(new BorderLayout(0, 0));
 		
 		
 		

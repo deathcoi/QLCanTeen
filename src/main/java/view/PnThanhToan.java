@@ -46,7 +46,7 @@ public class PnThanhToan extends JPanel {
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblNewLabel_1 = new JLabel("<<");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_1.add(lblNewLabel_1, BorderLayout.NORTH);
 		
@@ -55,7 +55,7 @@ public class PnThanhToan extends JPanel {
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblNewLabel = new JLabel("Thanh toán");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_2.add(lblNewLabel, BorderLayout.CENTER);
 	}
