@@ -40,7 +40,7 @@ public class Main extends JFrame {
 	 */
 	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 1050, 650);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -48,8 +48,8 @@ public class Main extends JFrame {
 		cardLayout = new CardLayout(0, 0);
 		contentPane.setLayout(cardLayout);
 		
-		JPanel pnDangNhap = new PnDangNhap(cardLayout, contentPane);
-		contentPane.add(pnDangNhap, "pnDangNhap");
+		//JPanel pnDangNhap = new PnDangNhap(cardLayout, contentPane);
+		//contentPane.add(pnDangNhap, "pnDangNhap");
 		
 		JPanel pnQuanLy = new PnQuanLy(cardLayout, contentPane);
 		contentPane.add(pnQuanLy, "pnQuanLy");
