@@ -10,12 +10,13 @@ import java.awt.FlowLayout;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 
-public class PnHoaDon extends JPanel {
+public class PnMenuKhongChucNang extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public PnHoaDon() {
+	public PnMenuKhongChucNang() {
+		setBackground(Color.BLACK);
 		setBounds(0, 0, 560, 600);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -36,6 +37,8 @@ public class PnHoaDon extends JPanel {
 		pnNuocLoc.setLayout(new BoxLayout(pnNuocLoc, BoxLayout.X_AXIS));
 		
 		JPanel pnTable = new JPanel();
+		pnTable.setBackground(Color.YELLOW);
+		pnTable.setForeground(Color.WHITE);
 		add(pnTable);
 		pnTable.setLayout(null);
 	}
