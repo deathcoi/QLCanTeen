@@ -51,6 +51,10 @@ public class PnDangNhap extends JPanel {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
 
+		lblNewLabel.setBounds(10, 10, 780, 96);
+		panel.add(lblNewLabel);
+
+
 		JLabel lblNewLabel_1 = new JLabel("Tên đăng nhập");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -79,6 +83,9 @@ public class PnDangNhap extends JPanel {
 		JLabel lblNewLabel_1_1 = new JLabel("Mật khẩu");
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
+		lblNewLabel_1_1.setBounds(58, 313, 159, 39);
+		panel.add(lblNewLabel_1_1);
 
 		JButton btnThoat = new JButton("Thoát");
 		btnThoat.addActionListener(new ActionListener() {
