@@ -50,8 +50,8 @@ public class Main extends JFrame {
 		cardLayout = new CardLayout(0, 0);
 		contentPane.setLayout(cardLayout);
 		
-		//JPanel pnDangNhap = new PnDangNhap(cardLayout, contentPane);
-		//contentPane.add(pnDangNhap, "pnDangNhap");
+		JPanel pnDangNhap = new PnDangNhap(cardLayout, contentPane);
+		contentPane.add(pnDangNhap, "pnDangNhap");
 		
 		JPanel pnQuanLy = new PnQuanLy(cardLayout, contentPane);
 		contentPane.add(pnQuanLy, "pnQuanLy");

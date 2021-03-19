@@ -58,6 +58,9 @@ public class PnQuanLy extends JPanel {
 	
 	private CardLayout cardLayoutThis;
 	private JPanel cardPanelThis;
+	
+	private JPanel pnSwitch;
+	private CardLayout cardSwitch;
 	private JTextField txtTimKiem;
 	public PnQuanLy(CardLayout cardLayout, JPanel cardPanel) {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -70,7 +73,18 @@ public class PnQuanLy extends JPanel {
 		setLayout(null);
 		
 
-		setLayout(null);
+		cardPanelThis = new JPanel();
+		cardPanelThis.setBorder(new LineBorder(new Color(0, 0, 0)));
+		cardPanelThis.setBounds(64, 100, 560, 500);
+		add(cardPanelThis);
+		cardLayoutThis = new CardLayout(0, 0);
+		cardPanelThis.setLayout(cardLayoutThis);
+		
+		pnSwitch = new JPanel();
+		pnSwitch.setBounds(624, 0, 400, 600);
+		add(pnSwitch);
+		cardSwitch = new CardLayout(0, 0);
+		pnSwitch.setLayout(cardSwitch);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -88,7 +102,7 @@ public class PnQuanLy extends JPanel {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_2.setBounds(624, 0, 400, 600);
-		add(panel_2);
+		//add(panel_2);
 		panel_2.setLayout(null);
 		
 		JPanel panel_4 = new JPanel();
@@ -144,7 +158,7 @@ public class PnQuanLy extends JPanel {
 		pnHoaDonBtn.setBackground(new Color(153, 0, 0));
 		panel_6.add(pnHoaDonBtn);
 		pnHoaDonBtn.setLayout(new BorderLayout(0, 0));
-		pnHoaDonBtn.addMouseListener(new PanelButtonMouseAdapter(pnHoaDonBtn, cardPanelThis));
+		pnHoaDonBtn.addMouseListener(new PanelButtonHoaDonMouseAdapter(pnHoaDonBtn, cardPanelThis, pnSwitch));
 		
 		JLabel lbHoaDon = new JLabel("Hóa đơn");
 
@@ -337,18 +351,26 @@ public class PnQuanLy extends JPanel {
 		separator_26.setOrientation(SwingConstants.VERTICAL);
 		pnNhapNguyenLieuBtn.add(separator_26, BorderLayout.EAST);
 		
-		cardPanelThis = new JPanel();
-		cardPanelThis.setBorder(new LineBorder(new Color(0, 0, 0)));
-		cardPanelThis.setBounds(64, 100, 560, 500);
-		add(cardPanelThis);
-		cardLayoutThis = new CardLayout(0, 0);
-		cardPanelThis.setLayout(cardLayoutThis);
+		
 		
 		JPanel panel_13 = new JPanel();
 		panel_13.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_13.setBounds(0, 0, 64, 600);
 		add(panel_13);
 		panel_13.setLayout(null);
+		
+		
+		
+		pnSwitch.add(panel_2, "panel_2");
+		
+		JPanel pnThanhToan = new PnThanhToan(cardLayoutThis, cardSwitch, cardPanelThis, pnSwitch);
+		pnSwitch.add(pnThanhToan, "pnThanhToan");
+		
+		JPanel pnMenuKhongChucNang = new PnMenuKhongChucNang();
+		cardPanelThis.add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
+		
+		JPanel pnMenu = new PnMenu();
+		cardPanelThis.add(pnMenu, "pnMenu");
 
 	}
 	
@@ -364,13 +386,40 @@ public class PnQuanLy extends JPanel {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			panel.setBackground(Color.CYAN);
+		}
 
-			//if (panel.getName().compareTo("pnLoaiMonAnButton") == 0) {
-				//cardLayoutThis.show(cardPanel, "pnLoaiMonAn");
-			//}
-			if (panel.getName().compareTo("pnHoaDonBtn") == 0) {
-				cardLayoutThis.show(cardPanel, "pnHoaDon");
-			}
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			panel.setBackground(new Color(153, 0, 0));
+		}
+	}
+	
+	private class PanelButtonHoaDonMouseAdapter extends MouseAdapter {
+		JPanel panel;
+		JPanel cardPanel;
+		JPanel pnSwitch;
+		
+		public PanelButtonHoaDonMouseAdapter(JPanel panel, JPanel cardPanel, JPanel pnSwitch) {
+			this.panel = panel;
+			this.cardPanel = cardPanel;
+			this.pnSwitch = pnSwitch;
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			panel.setBackground(Color.CYAN);
+			cardLayoutThis.show(cardPanel, "pnMenu");
+			cardSwitch.show(pnSwitch, "pnThanhToan");
 		}
 
 		@Override
