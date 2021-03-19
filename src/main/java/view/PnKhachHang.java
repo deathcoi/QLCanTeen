@@ -29,7 +29,7 @@ public class PnKhachHang extends JPanel {
 		});
 		add(btnNewButton);
 		
-		JLabel lblNewLabel = new JLabel("khach hàng");
+		JLabel lblNewLabel = new JLabel("khách hàng");
 		add(lblNewLabel);
 		
 	}
