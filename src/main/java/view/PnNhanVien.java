@@ -151,7 +151,7 @@ public class PnNhanVien extends JPanel {
 		JPanel pnLoaiMonAn = new PnLoaiMonAn();
 		cardPanelThis.add(pnLoaiMonAn, "pnLoaiMonAn");
 		
-		JPanel pnHoaDon = new PnHoaDon();
+		JPanel pnHoaDon = new PnMenuKhongChucNang();
 		cardPanelThis.add(pnHoaDon, "pnHoaDon");
 
 	}

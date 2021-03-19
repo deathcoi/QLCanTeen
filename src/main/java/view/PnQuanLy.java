@@ -42,6 +42,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+
 import javax.swing.ImageIcon;
 import java.awt.Dimension;
 
@@ -53,18 +55,36 @@ public class PnQuanLy extends JPanel {
 	 */
 	private CardLayout cardLayout;
 	private JPanel cardPanel;
+	
+	private CardLayout cardLayoutThis;
+	private JPanel cardPanelThis;
+	
+	private JPanel pnSwitch;
+	private CardLayout cardSwitch;
 	private JTextField txtTimKiem;
 	public PnQuanLy(CardLayout cardLayout, JPanel cardPanel) {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		this.cardLayout = cardLayout;
 		this.cardPanel = cardPanel;
 		
+		
 		setBounds(0, 0, 1024, 600);
 
 		setLayout(null);
 		
 
-		setLayout(null);
+		cardPanelThis = new JPanel();
+		cardPanelThis.setBorder(new LineBorder(new Color(0, 0, 0)));
+		cardPanelThis.setBounds(64, 100, 560, 500);
+		add(cardPanelThis);
+		cardLayoutThis = new CardLayout(0, 0);
+		cardPanelThis.setLayout(cardLayoutThis);
+		
+		pnSwitch = new JPanel();
+		pnSwitch.setBounds(624, 0, 400, 600);
+		add(pnSwitch);
+		cardSwitch = new CardLayout(0, 0);
+		pnSwitch.setLayout(cardSwitch);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -82,11 +102,10 @@ public class PnQuanLy extends JPanel {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_2.setBounds(624, 0, 400, 600);
-		add(panel_2);
+		//add(panel_2);
 		panel_2.setLayout(null);
 		
-		//panel_2.add(null, new Jpanel_MouseClicked());
-		
+
 		JPanel panel_4 = new JPanel();
 		panel_4.setBackground(Color.WHITE);
 		panel_4.setForeground(Color.WHITE);
@@ -135,271 +154,288 @@ public class PnQuanLy extends JPanel {
 		panel_5.add(panel_6);
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.Y_AXIS));
 		
-		JPanel panel_8 = new JPanel();
-		panel_8.setForeground(Color.WHITE);
-		panel_8.setBackground(new Color(153, 0, 0));
-		panel_6.add(panel_8);
-		panel_8.setLayout(new BorderLayout(0, 0));
+		JPanel pnHoaDonBtn = new JPanel();
+		pnHoaDonBtn.setForeground(Color.WHITE);
+		pnHoaDonBtn.setBackground(new Color(153, 0, 0));
+		panel_6.add(pnHoaDonBtn);
+		pnHoaDonBtn.setLayout(new BorderLayout(0, 0));
+		pnHoaDonBtn.addMouseListener(new PanelButtonHoaDonMouseAdapter(pnHoaDonBtn, cardPanelThis, pnSwitch));
 		
 		JLabel lbHoaDon = new JLabel("Hóa đơn");
 
 		lbHoaDon.setForeground(Color.WHITE);
 		lbHoaDon.setHorizontalAlignment(SwingConstants.CENTER);
 		lbHoaDon.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panel_8.add(lbHoaDon, BorderLayout.CENTER);
+		pnHoaDonBtn.add(lbHoaDon, BorderLayout.CENTER);
 		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
-		panel_8.add(separator, BorderLayout.EAST);
+		pnHoaDonBtn.add(separator, BorderLayout.EAST);
 		
 		JSeparator separator_5 = new JSeparator();
-		panel_8.add(separator_5, BorderLayout.SOUTH);
+		pnHoaDonBtn.add(separator_5, BorderLayout.SOUTH);
 		
 		JSeparator separator_20 = new JSeparator();
 		separator_20.setOrientation(SwingConstants.VERTICAL);
-		panel_8.add(separator_20, BorderLayout.WEST);
+		pnHoaDonBtn.add(separator_20, BorderLayout.WEST);
 		
 		JSeparator separator_21 = new JSeparator();
-		panel_8.add(separator_21, BorderLayout.NORTH);
+		pnHoaDonBtn.add(separator_21, BorderLayout.NORTH);
 		
-		JPanel panel_9 = new JPanel();
+		JPanel pnChinhSuaNhanVienBtn = new JPanel();
 
-		panel_9.setForeground(Color.WHITE);
-		panel_9.setBackground(new Color(153, 0, 0));
-		panel_6.add(panel_9);
-		panel_9.setLayout(new BorderLayout(0, 0));
+		pnChinhSuaNhanVienBtn.setForeground(Color.WHITE);
+		pnChinhSuaNhanVienBtn.setBackground(new Color(153, 0, 0));
+		panel_6.add(pnChinhSuaNhanVienBtn);
+		pnChinhSuaNhanVienBtn.setLayout(new BorderLayout(0, 0));
+		pnChinhSuaNhanVienBtn.addMouseListener(new PanelButtonMouseAdapter(pnChinhSuaNhanVienBtn, cardPanelThis));
 		
 		JLabel lbChinhSuaNhanVien = new JLabel("Chỉnh sửa nhân viên");
 
 		lbChinhSuaNhanVien.setForeground(Color.WHITE);
 		lbChinhSuaNhanVien.setHorizontalAlignment(SwingConstants.CENTER);
 		lbChinhSuaNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panel_9.add(lbChinhSuaNhanVien, BorderLayout.CENTER);
+		pnChinhSuaNhanVienBtn.add(lbChinhSuaNhanVien, BorderLayout.CENTER);
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setOrientation(SwingConstants.VERTICAL);
-		panel_9.add(separator_1, BorderLayout.EAST);
+		pnChinhSuaNhanVienBtn.add(separator_1, BorderLayout.EAST);
 		
 		JSeparator separator_7 = new JSeparator();
-		panel_9.add(separator_7, BorderLayout.SOUTH);
+		pnChinhSuaNhanVienBtn.add(separator_7, BorderLayout.SOUTH);
 		
 		JSeparator separator_19 = new JSeparator();
 		separator_19.setOrientation(SwingConstants.VERTICAL);
-		panel_9.add(separator_19, BorderLayout.WEST);
+		pnChinhSuaNhanVienBtn.add(separator_19, BorderLayout.WEST);
 		
-		JPanel panel_8_1 = new JPanel();
-		panel_8_1.setForeground(Color.WHITE);
-		panel_8_1.setBackground(new Color(153, 0, 0));
-		panel_6.add(panel_8_1);
-		panel_8_1.setLayout(new BorderLayout(0, 0));
+		JPanel pnKhachHangBtn = new JPanel();
+		pnKhachHangBtn.setForeground(Color.WHITE);
+		pnKhachHangBtn.setBackground(new Color(153, 0, 0));
+		panel_6.add(pnKhachHangBtn);
+		pnKhachHangBtn.setLayout(new BorderLayout(0, 0));
+		pnKhachHangBtn.addMouseListener(new PanelButtonMouseAdapter(pnKhachHangBtn, cardPanelThis));
 		
 		JLabel lbKhachHang = new JLabel("Khách hàng");
 		lbKhachHang.setForeground(Color.WHITE);
 		lbKhachHang.setHorizontalAlignment(SwingConstants.CENTER);
 		lbKhachHang.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panel_8_1.add(lbKhachHang, BorderLayout.CENTER);
+		pnKhachHangBtn.add(lbKhachHang, BorderLayout.CENTER);
 		
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setOrientation(SwingConstants.VERTICAL);
-		panel_8_1.add(separator_2, BorderLayout.EAST);
+		pnKhachHangBtn.add(separator_2, BorderLayout.EAST);
 		
 		JSeparator separator_9 = new JSeparator();
-		panel_8_1.add(separator_9, BorderLayout.SOUTH);
+		pnKhachHangBtn.add(separator_9, BorderLayout.SOUTH);
 		
 		JSeparator separator_18 = new JSeparator();
 		separator_18.setOrientation(SwingConstants.VERTICAL);
-		panel_8_1.add(separator_18, BorderLayout.WEST);
+		pnKhachHangBtn.add(separator_18, BorderLayout.WEST);
 		
-		JPanel panel_9_1 = new JPanel();
-		panel_9_1.setForeground(Color.WHITE);
-		panel_9_1.setBackground(new Color(153, 0, 0));
-		panel_6.add(panel_9_1);
-		panel_9_1.setLayout(new BorderLayout(0, 0));
+		JPanel pnTinhLuongBtn = new JPanel();
+		pnTinhLuongBtn.setForeground(Color.WHITE);
+		pnTinhLuongBtn.setBackground(new Color(153, 0, 0));
+		panel_6.add(pnTinhLuongBtn);
+		pnTinhLuongBtn.setLayout(new BorderLayout(0, 0));
+		pnTinhLuongBtn.addMouseListener(new PanelButtonMouseAdapter(pnTinhLuongBtn, cardPanelThis));
 		
 		JLabel lbTinhLuong = new JLabel("Tính lương");
 
 		lbTinhLuong.setForeground(Color.WHITE);
 		lbTinhLuong.setHorizontalAlignment(SwingConstants.CENTER);
 		lbTinhLuong.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panel_9_1.add(lbTinhLuong, BorderLayout.CENTER);
+		pnTinhLuongBtn.add(lbTinhLuong, BorderLayout.CENTER);
 		
 		JSeparator separator_3 = new JSeparator();
 		separator_3.setOrientation(SwingConstants.VERTICAL);
-		panel_9_1.add(separator_3, BorderLayout.EAST);
+		pnTinhLuongBtn.add(separator_3, BorderLayout.EAST);
 		
 		JSeparator separator_12 = new JSeparator();
-		panel_9_1.add(separator_12, BorderLayout.SOUTH);
+		pnTinhLuongBtn.add(separator_12, BorderLayout.SOUTH);
 		
 		JSeparator separator_17 = new JSeparator();
 		separator_17.setOrientation(SwingConstants.VERTICAL);
-		panel_9_1.add(separator_17, BorderLayout.WEST);
-		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(153, 0, 0));
-		panel_6.add(panel);
-		panel.setLayout(new BorderLayout(0, 0));
-		
-		JLabel lblNewLabel_2 = new JLabel("<<");
-		lblNewLabel_2.setPreferredSize(new Dimension(16, 5));
-		lblNewLabel_2.setForeground(Color.WHITE);
-		lblNewLabel_2.setBackground(new Color(153, 0, 0));
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.LEFT);
-		panel.add(lblNewLabel_2, BorderLayout.CENTER);
-		
-		JSeparator separator_4 = new JSeparator();
-		separator_4.setOrientation(SwingConstants.VERTICAL);
-		panel.add(separator_4, BorderLayout.EAST);
-		
-		JSeparator separator_14 = new JSeparator();
-		panel.add(separator_14, BorderLayout.SOUTH);
-		
-		JSeparator separator_16 = new JSeparator();
-		separator_16.setOrientation(SwingConstants.VERTICAL);
-		panel.add(separator_16, BorderLayout.WEST);
+		pnTinhLuongBtn.add(separator_17, BorderLayout.WEST);
 		
 		JPanel panel_7 = new JPanel();
 		panel_5.add(panel_7);
 		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.Y_AXIS));
 		
-		JPanel panel_10 = new JPanel();
+		JPanel pnLichSuHoaDonBtn = new JPanel();
 
-		panel_10.setForeground(Color.WHITE);
-		panel_10.setBackground(new Color(153, 0, 0));
-		panel_7.add(panel_10);
-		panel_10.setLayout(new BorderLayout(0, 0));
+		pnLichSuHoaDonBtn.setForeground(Color.WHITE);
+		pnLichSuHoaDonBtn.setBackground(new Color(153, 0, 0));
+		panel_7.add(pnLichSuHoaDonBtn);
+		pnLichSuHoaDonBtn.setLayout(new BorderLayout(0, 0));
+		pnLichSuHoaDonBtn.addMouseListener(new PanelButtonMouseAdapter(pnLichSuHoaDonBtn, cardPanelThis));
 		
 		JLabel lbLichSuHoaDon = new JLabel("Lịch sử hóa đơn");
 
 		lbLichSuHoaDon.setForeground(Color.WHITE);
 		lbLichSuHoaDon.setHorizontalAlignment(SwingConstants.CENTER);
 		lbLichSuHoaDon.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panel_10.add(lbLichSuHoaDon, BorderLayout.CENTER);
+		pnLichSuHoaDonBtn.add(lbLichSuHoaDon, BorderLayout.CENTER);
 		
 		JSeparator separator_6 = new JSeparator();
-		panel_10.add(separator_6, BorderLayout.SOUTH);
+		pnLichSuHoaDonBtn.add(separator_6, BorderLayout.SOUTH);
 		
 		JSeparator separator_22 = new JSeparator();
-		panel_10.add(separator_22, BorderLayout.NORTH);
+		pnLichSuHoaDonBtn.add(separator_22, BorderLayout.NORTH);
 		
 		JSeparator separator_23 = new JSeparator();
 		separator_23.setOrientation(SwingConstants.VERTICAL);
-		panel_10.add(separator_23, BorderLayout.EAST);
+		pnLichSuHoaDonBtn.add(separator_23, BorderLayout.EAST);
 		
-		JPanel panel_11 = new JPanel();
+		JPanel pnChinhSuaMonAnBtn = new JPanel();
 
-		panel_11.setForeground(Color.WHITE);
-		panel_11.setBackground(new Color(153, 0, 0));
-		panel_7.add(panel_11);
-		panel_11.setLayout(new BorderLayout(0, 0));
+		pnChinhSuaMonAnBtn.setForeground(Color.WHITE);
+		pnChinhSuaMonAnBtn.setBackground(new Color(153, 0, 0));
+		panel_7.add(pnChinhSuaMonAnBtn);
+		pnChinhSuaMonAnBtn.setLayout(new BorderLayout(0, 0));
+		pnChinhSuaMonAnBtn.addMouseListener(new PanelButtonMouseAdapter(pnChinhSuaMonAnBtn, cardPanelThis));
 		
 		JLabel lbChinhSuaMonAn = new JLabel("Chỉnh sửa món ăn");
 
 		lbChinhSuaMonAn.setForeground(Color.WHITE);
 		lbChinhSuaMonAn.setHorizontalAlignment(SwingConstants.CENTER);
 		lbChinhSuaMonAn.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panel_11.add(lbChinhSuaMonAn, BorderLayout.CENTER);
+		pnChinhSuaMonAnBtn.add(lbChinhSuaMonAn, BorderLayout.CENTER);
 		
 		JSeparator separator_8 = new JSeparator();
-		panel_11.add(separator_8, BorderLayout.SOUTH);
+		pnChinhSuaMonAnBtn.add(separator_8, BorderLayout.SOUTH);
 		
 		JSeparator separator_24 = new JSeparator();
 		separator_24.setOrientation(SwingConstants.VERTICAL);
-		panel_11.add(separator_24, BorderLayout.EAST);
+		pnChinhSuaMonAnBtn.add(separator_24, BorderLayout.EAST);
 		
-		JPanel panel_8_2 = new JPanel();
+		JPanel pnThongKeBtn = new JPanel();
 
-		panel_8_2.setForeground(Color.WHITE);
-		panel_8_2.setBackground(new Color(153, 0, 0));
-		panel_7.add(panel_8_2);
-		panel_8_2.setLayout(new BorderLayout(0, 0));
+		pnThongKeBtn.setForeground(Color.WHITE);
+		pnThongKeBtn.setBackground(new Color(153, 0, 0));
+		panel_7.add(pnThongKeBtn);
+		pnThongKeBtn.setLayout(new BorderLayout(0, 0));
+		pnThongKeBtn.addMouseListener(new PanelButtonMouseAdapter(pnThongKeBtn, cardPanelThis));
 		
 		JLabel lbThongKe = new JLabel("Thống kê");
 
 		lbThongKe.setForeground(Color.WHITE);
 		lbThongKe.setHorizontalAlignment(SwingConstants.CENTER);
 		lbThongKe.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panel_8_2.add(lbThongKe, BorderLayout.CENTER);
+		pnThongKeBtn.add(lbThongKe, BorderLayout.CENTER);
 		
 		JSeparator separator_11 = new JSeparator();
-		panel_8_2.add(separator_11, BorderLayout.SOUTH);
+		pnThongKeBtn.add(separator_11, BorderLayout.SOUTH);
 		
 		JSeparator separator_25 = new JSeparator();
 		separator_25.setOrientation(SwingConstants.VERTICAL);
-		panel_8_2.add(separator_25, BorderLayout.EAST);
+		pnThongKeBtn.add(separator_25, BorderLayout.EAST);
 		
-		JPanel panel_9_2 = new JPanel();
+		JPanel pnNhapNguyenLieuBtn = new JPanel();
 
-		panel_9_2.setForeground(Color.WHITE);
-		panel_9_2.setBackground(new Color(153, 0, 0));
-		panel_7.add(panel_9_2);
-		panel_9_2.setLayout(new BorderLayout(0, 0));
+		pnNhapNguyenLieuBtn.setForeground(Color.WHITE);
+		pnNhapNguyenLieuBtn.setBackground(new Color(153, 0, 0));
+		panel_7.add(pnNhapNguyenLieuBtn);
+		pnNhapNguyenLieuBtn.setLayout(new BorderLayout(0, 0));
+		pnNhapNguyenLieuBtn.addMouseListener(new PanelButtonMouseAdapter(pnNhapNguyenLieuBtn, cardPanelThis));
 		
 		JLabel lbNhapNguyenLieu = new JLabel("Nhập nguyên liệu");
 
 		lbNhapNguyenLieu.setForeground(Color.WHITE);
 		lbNhapNguyenLieu.setHorizontalAlignment(SwingConstants.CENTER);
 		lbNhapNguyenLieu.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panel_9_2.add(lbNhapNguyenLieu, BorderLayout.CENTER);
+		pnNhapNguyenLieuBtn.add(lbNhapNguyenLieu, BorderLayout.CENTER);
 		
 		JSeparator separator_13 = new JSeparator();
-		panel_9_2.add(separator_13, BorderLayout.SOUTH);
+		pnNhapNguyenLieuBtn.add(separator_13, BorderLayout.SOUTH);
 		
 		JSeparator separator_26 = new JSeparator();
 		separator_26.setOrientation(SwingConstants.VERTICAL);
-		panel_9_2.add(separator_26, BorderLayout.EAST);
+		pnNhapNguyenLieuBtn.add(separator_26, BorderLayout.EAST);
 		
-		JPanel panel_12 = new JPanel();
-		panel_12.setBackground(new Color(153, 0, 0));
-		panel_7.add(panel_12);
-		panel_12.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel_3 = new JLabel(">>");
-		lblNewLabel_3.setPreferredSize(new Dimension(16, 5));
-		lblNewLabel_3.setForeground(Color.WHITE);
-		lblNewLabel_3.setBackground(new Color(153, 0, 0));
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		panel_12.add(lblNewLabel_3, BorderLayout.CENTER);
-		
-		JSeparator separator_15 = new JSeparator();
-		panel_12.add(separator_15, BorderLayout.SOUTH);
-		
-		JSeparator separator_27 = new JSeparator();
-		separator_27.setOrientation(SwingConstants.VERTICAL);
-		panel_12.add(separator_27, BorderLayout.EAST);
-		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_3.setBounds(64, 100, 560, 500);
-		add(panel_3);
-		panel_3.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_13 = new JPanel();
 		panel_13.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_13.setBounds(0, 0, 64, 600);
 		add(panel_13);
 		panel_13.setLayout(null);
+		
+		
+		
+		pnSwitch.add(panel_2, "panel_2");
+		
+		JPanel pnThanhToan = new PnThanhToan(cardLayoutThis, cardSwitch, cardPanelThis, pnSwitch);
+		pnSwitch.add(pnThanhToan, "pnThanhToan");
+		
+		JPanel pnMenuKhongChucNang = new PnMenuKhongChucNang();
+		cardPanelThis.add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
+		
+		JPanel pnMenu = new PnMenu();
+		cardPanelThis.add(pnMenu, "pnMenu");
 
 	}
-	private class Jpanel_MouseClicked{
+	
+	private class PanelButtonMouseAdapter extends MouseAdapter {
+		JPanel panel;
+		JPanel cardPanel;
 		
+		public PanelButtonMouseAdapter(JPanel panel, JPanel cardPanel) {
+			this.panel = panel;
+			this.cardPanel = cardPanel;
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			panel.setBackground(Color.CYAN);
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			panel.setBackground(new Color(153, 0, 0));
+		}
 	}
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
+	
+	private class PanelButtonHoaDonMouseAdapter extends MouseAdapter {
+		JPanel panel;
+		JPanel cardPanel;
+		JPanel pnSwitch;
+		
+		public PanelButtonHoaDonMouseAdapter(JPanel panel, JPanel cardPanel, JPanel pnSwitch) {
+			this.panel = panel;
+			this.cardPanel = cardPanel;
+			this.pnSwitch = pnSwitch;
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			panel.setBackground(Color.CYAN);
+			cardLayoutThis.show(cardPanel, "pnMenu");
+			cardSwitch.show(pnSwitch, "pnThanhToan");
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			panel.setBackground(new Color(153, 0, 0));
+		}
 	}
 }
