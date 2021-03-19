@@ -85,7 +85,7 @@ public class PnQuanLy extends JPanel {
 		add(panel_2);
 		panel_2.setLayout(null);
 		
-		panel_2.add(null, new Jpanel_MouseClicked());
+		//panel_2.add(null, new Jpanel_MouseClicked());
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBackground(Color.WHITE);
