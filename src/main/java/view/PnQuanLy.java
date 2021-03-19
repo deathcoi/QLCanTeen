@@ -5,52 +5,19 @@ import javax.swing.JPanel;
 import java.awt.CardLayout;
 
 import javax.swing.JLabel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.JToolBar;
-import javax.swing.JComboBox;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
-import javax.swing.JPopupMenu;
-import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JMenuBar;
 import java.awt.Font;
-import javax.swing.JTree;
-import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import java.awt.Color;
-import javax.swing.JDesktopPane;
-import javax.swing.BoxLayout;
-import javax.swing.UIManager;
-import java.awt.Component;
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JSeparator;
-import javax.swing.JProgressBar;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.border.LineBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-
-
 import javax.swing.ImageIcon;
-import java.awt.Dimension;
-import java.awt.event.KeyEvent;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.ComponentOrientation;
-import java.awt.Point;
 
 
 public class PnQuanLy extends JPanel {
