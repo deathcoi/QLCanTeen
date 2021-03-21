@@ -184,7 +184,7 @@ public class PnQuanLy extends JPanel {
 		pnKhachHangBtn.setBackground(new Color(153, 0, 0));
 		panel_6.add(pnKhachHangBtn);
 		pnKhachHangBtn.setLayout(new BorderLayout(0, 0));
-		pnKhachHangBtn.addMouseListener(new PanelButtonMouseAdapter(pnKhachHangBtn, cardPanelThis));
+		pnKhachHangBtn.addMouseListener(new PanelButtonThongTinKhachHangMouseAdapter(pnKhachHangBtn, cardPanelThis));
 		
 		JLabel lbKhachHang = new JLabel("Khách hàng");
 		lbKhachHang.setForeground(Color.WHITE);
@@ -386,7 +386,9 @@ public class PnQuanLy extends JPanel {
 		
 		JPanel pnMenu = new PnMenu();
 		cardPanelThis.add(pnMenu, "pnMenu");
-
+		
+		JPanel pnThongTinKhachHang = new PnThongTinKhachHang();
+		cardPanelThis.add(pnThongTinKhachHang, "pnThongTinKhachHang");
 	}
 	
 	private class PanelButtonMouseAdapter extends MouseAdapter {
@@ -452,4 +454,35 @@ public class PnQuanLy extends JPanel {
 			panel.setBackground(new Color(153, 0, 0));
 		}
 	}
+	private class PanelButtonThongTinKhachHangMouseAdapter extends MouseAdapter {
+		JPanel panel;
+		JPanel cardPanel;
+		
+		public PanelButtonThongTinKhachHangMouseAdapter(JPanel panel, JPanel cardPanel) {
+			this.panel = panel;
+			this.cardPanel = cardPanel;
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			panel.setBackground(Color.CYAN);
+			cardLayoutThis.show(cardPanel, "pnThongTinKhachHang");
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			panel.setBackground(new Color(153, 0, 0));
+		}
+	}
+	
 }
