@@ -10,6 +10,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.mysql.cj.xdevapi.Table;
+
 import DAO.MonAnDAO;
 import entities.MonAn;
 
@@ -31,6 +33,7 @@ public class PnMenu extends JPanel {
 	private PnThanhToan pnThanhToan;
 
 	private BufferedImage image;
+
 	public PnMenu(PnThanhToan pnThanhToan) {
 		this.pnThanhToan = pnThanhToan;
 		try {
@@ -41,24 +44,24 @@ public class PnMenu extends JPanel {
 		setBounds(0, 0, 560, 600);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(new Color(1.0f, 1.0f, 1.0f, 0.5f));
-		
+
 		pnMonAn = new JPanel();
 		pnMonAn.setOpaque(false);
 		add(pnMonAn);
 		pnMonAn.setLayout(new GridLayout(3, 3, 5, 5));
-		
+
 		pnNuoc = new JPanel();
 		pnNuoc.setOpaque(false);
 		add(pnNuoc);
 		pnNuoc.setLayout(new GridLayout(3, 3, 5, 5));
-		
+
 		addMonAnAuto();
-		
+
 	}
-	
+
 	private void addMonAnAuto() {
 		List<MonAn> list = MonAnDAO.layDanhSachMonAn();
-		
+
 		for (MonAn monAn : list) {
 			System.out.println(monAn.getTenMA());
 			JPanel pnBtn = new JPanel();
@@ -66,33 +69,34 @@ public class PnMenu extends JPanel {
 			pnBtn.setLayout(new BorderLayout());
 			pnBtn.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 			pnBtn.setName(monAn.getMaMA() + "," + monAn.getTenMA() + "," + monAn.getLoaiMonAn().getGiaTien());
-			
+
 			pnBtn.addMouseListener(new PanelButtonMouseAdapter(pnBtn));
-			//pnBtn.setBackground(Color.cyan);
-			
+			// pnBtn.setBackground(Color.cyan);
+
 			JLabel lb = new JLabel(monAn.getTenMA());
 			lb.setForeground(Color.WHITE);
 			lb.setHorizontalAlignment(SwingConstants.CENTER);
 			lb.setFont(new Font("Tahoma", Font.BOLD, 18));
 			pnBtn.add(lb, BorderLayout.CENTER);
-			
-			if (monAn.getLoaiMonAn().getMaLoai().compareTo("nuoc") != 0 && monAn.getLoaiMonAn().getMaLoai().compareTo("nuocSuoi") != 0) {
+
+			if (monAn.getLoaiMonAn().getMaLoai().compareTo("nuoc") != 0
+					&& monAn.getLoaiMonAn().getMaLoai().compareTo("nuocSuoi") != 0) {
 				pnMonAn.add(pnBtn);
-			}
-			else {
+			} else {
 				pnNuoc.add(pnBtn);
 			}
 		}
 	}
+
 	@Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(image, 0, 0, this); // see javadoc for more info on the parameters            
-    }
-	
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(image, 0, 0, this); // see javadoc for more info on the parameters
+	}
+
 	private class PanelButtonMouseAdapter extends MouseAdapter {
-		JPanel panel; //panel nhận sự kiện click
-		
+		JPanel panel; // panel nhận sự kiện click
+
 		public PanelButtonMouseAdapter(JPanel panel) {
 			this.panel = panel;
 		}
@@ -122,9 +126,17 @@ public class PnMenu extends JPanel {
 	}
 
 	private void monAnClicked(JPanel panel) {
+		String[] monAns = panel.getName().split(",");// 1 la ma, 2 la ten, 3 la gia tien
 		DefaultTableModel model = (DefaultTableModel) pnThanhToan.table.getModel();
-		model.addRow(new Object[] {
-				panel.getName()
-		});
+		int flag = 0;
+		for (int i = 0; i < model.getRowCount(); i++) {
+			if (model.getValueAt(i, 0).toString().compareTo(monAns[1]) == 0) {
+				flag = 1;
+				int sl = Integer.parseInt(model.getValueAt(i, 1).toString()) + 1;
+				model.setValueAt(sl, i, 1);
+			}
+		}
+		if (flag == 0)
+			model.addRow(new Object[] { monAns[1], "1", monAns[2] });
 	}
 }

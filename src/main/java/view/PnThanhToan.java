@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
@@ -18,6 +19,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.JSeparator;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -110,6 +112,7 @@ public class PnThanhToan extends JPanel {
 		add(lbDateTime);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		scrollPane.setBackground(Color.WHITE);
 		scrollPane.setBounds(10, 150, 380, 325);
 		add(scrollPane);
