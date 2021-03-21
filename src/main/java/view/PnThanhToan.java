@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 
 import java.awt.Font;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JSeparator;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -29,7 +30,9 @@ public class PnThanhToan extends JPanel {
 	
 	private JPanel pnLeft;
 	private JPanel pnRight;
-	private JTable table;
+	
+	protected JTable table;
+	
 	private JTextField txtKhachHang;
 	private JTextField txtTienMat;
 	/**
@@ -62,6 +65,7 @@ public class PnThanhToan extends JPanel {
 		pnThanhToanBtn.add(lblNewLabel, BorderLayout.CENTER);
 		
 		JPanel pnHuyBtn = new JPanel();
+		pnHuyBtn.addMouseListener(new PanelButtonMouseAdapter(pnHuyBtn));
 		pnHuyBtn.setBackground(new Color(153, 0, 0));
 		pnHuyBtn.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.add(pnHuyBtn);
@@ -110,18 +114,19 @@ public class PnThanhToan extends JPanel {
 		scrollPane.setBounds(10, 150, 380, 325);
 		add(scrollPane);
 		
-		table = new JTable();
+		//table = new JTable();
+		table = new JTable(new DefaultTableModel(new Object[] {"Tên", "Số lượng", "Thành tiền"}, 0));
 		table.setBackground(Color.WHITE);
 		scrollPane.setViewportView(table);
 		
 		JLabel lblNewLabel_10_1 = new JLabel("Khách hàng:");
 		lblNewLabel_10_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_10_1.setBounds(10, 105, 78, 22);
+		lblNewLabel_10_1.setBounds(10, 105, 89, 22);
 		add(lblNewLabel_10_1);
 		
 		txtKhachHang = new JTextField();
 		txtKhachHang.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtKhachHang.setBounds(95, 105, 139, 22);
+		txtKhachHang.setBounds(114, 105, 139, 22);
 		add(txtKhachHang);
 		txtKhachHang.setColumns(10);
 		
@@ -172,5 +177,34 @@ public class PnThanhToan extends JPanel {
 	private void cardChange() {
 		cardLeft.show(pnLeft, "pnMenuKhongChucNang");
 		cardRight.show(pnRight, "panel_2");
+	}
+	
+	private class PanelButtonMouseAdapter extends MouseAdapter {
+		JPanel panel; //panel nhận sự kiện click
+		
+		public PanelButtonMouseAdapter(JPanel panel) {
+			this.panel = panel;
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			cardChange();
+			panel.setBackground(Color.CYAN);
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			panel.setBackground(new Color(153, 0, 0));
+		}
 	}
 }

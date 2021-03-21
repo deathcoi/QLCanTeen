@@ -21,4 +21,17 @@ public class MonAnDAO {
 		}
 		return list;
 	}
+	
+	public static MonAn layThongTinMonAn(String maMA){
+		MonAn monAn = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			monAn = session.get(MonAn.class, maMA);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return monAn;
+	}
 }
