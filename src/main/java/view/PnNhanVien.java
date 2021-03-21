@@ -343,7 +343,7 @@ public class PnNhanVien extends JPanel {
 		JPanel pnMenuKhongChucNang = new PnMenuKhongChucNang();
 		cardPanelThis.add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
 		
-		JPanel pnMenu = new PnMenu();
+		JPanel pnMenu = new PnMenu((PnThanhToan) pnThanhToan);
 		cardPanelThis.add(pnMenu, "pnMenu");
 
 	}

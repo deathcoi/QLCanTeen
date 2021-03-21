@@ -27,14 +27,14 @@ public class PnQuanLy extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	private CardLayout cardLayout;
-	private JPanel cardPanel;	 
+	private CardLayout cardLayout; //card để đăng nhập/ đăng xuất
+	private JPanel cardPanel; //pn đăng nhập/đăng xuất
 	
-	private CardLayout cardLayoutThis;
-	private JPanel cardPanelThis;
+	private CardLayout cardLeft; //card ở giữa
+	private JPanel pnCardLeft; //pn ở giữa
 	
-	private JPanel pnSwitch;
-	private CardLayout cardSwitch;
+	private JPanel pnCardRight; //pn bên phải
+	private CardLayout cardRight; //card bên phải
 	private JTextField txtTimKiem;
 	public PnQuanLy(CardLayout cardLayout, JPanel cardPanel) {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -47,18 +47,18 @@ public class PnQuanLy extends JPanel {
 		setLayout(null);
 		
 
-		cardPanelThis = new JPanel();
-		cardPanelThis.setBorder(new LineBorder(new Color(0, 0, 0)));
-		cardPanelThis.setBounds(64, 100, 560, 500);
-		add(cardPanelThis);
-		cardLayoutThis = new CardLayout(0, 0);
-		cardPanelThis.setLayout(cardLayoutThis);
+		pnCardLeft = new JPanel();
+		pnCardLeft.setBorder(new LineBorder(new Color(0, 0, 0)));
+		pnCardLeft.setBounds(64, 100, 560, 500);
+		add(pnCardLeft);
+		cardLeft = new CardLayout(0, 0);
+		pnCardLeft.setLayout(cardLeft);
 		
-		pnSwitch = new JPanel();
-		pnSwitch.setBounds(624, 0, 400, 600);
-		add(pnSwitch);
-		cardSwitch = new CardLayout(0, 0);
-		pnSwitch.setLayout(cardSwitch);
+		pnCardRight = new JPanel();
+		pnCardRight.setBounds(624, 0, 400, 600);
+		add(pnCardRight);
+		cardRight = new CardLayout(0, 0);
+		pnCardRight.setLayout(cardRight);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -132,7 +132,7 @@ public class PnQuanLy extends JPanel {
 		pnHoaDonBtn.setBackground(new Color(153, 0, 0));
 		panel_6.add(pnHoaDonBtn);
 		pnHoaDonBtn.setLayout(new BorderLayout(0, 0));
-		pnHoaDonBtn.addMouseListener(new PanelButtonHoaDonMouseAdapter(pnHoaDonBtn, cardPanelThis, pnSwitch));
+		pnHoaDonBtn.addMouseListener(new PanelButtonHoaDonMouseAdapter(pnHoaDonBtn));
 		
 		JLabel lbHoaDon = new JLabel("Hóa đơn");
 
@@ -161,7 +161,7 @@ public class PnQuanLy extends JPanel {
 		pnChinhSuaNhanVienBtn.setBackground(new Color(153, 0, 0));
 		panel_6.add(pnChinhSuaNhanVienBtn);
 		pnChinhSuaNhanVienBtn.setLayout(new BorderLayout(0, 0));
-		pnChinhSuaNhanVienBtn.addMouseListener(new PanelButtonMouseAdapter(pnChinhSuaNhanVienBtn, cardPanelThis));
+		pnChinhSuaNhanVienBtn.addMouseListener(new PanelButtonMouseAdapter(pnChinhSuaNhanVienBtn));
 		
 		JLabel lbChinhSuaNhanVien = new JLabel("Chỉnh sửa nhân viên");
 
@@ -186,7 +186,7 @@ public class PnQuanLy extends JPanel {
 		pnKhachHangBtn.setBackground(new Color(153, 0, 0));
 		panel_6.add(pnKhachHangBtn);
 		pnKhachHangBtn.setLayout(new BorderLayout(0, 0));
-		pnKhachHangBtn.addMouseListener(new PanelButtonMouseAdapter(pnKhachHangBtn, cardPanelThis));
+		pnKhachHangBtn.addMouseListener(new PanelButtonMouseAdapter(pnKhachHangBtn));
 		
 		JLabel lbKhachHang = new JLabel("Khách hàng");
 		lbKhachHang.setForeground(Color.WHITE);
@@ -210,7 +210,7 @@ public class PnQuanLy extends JPanel {
 		pnTinhLuongBtn.setBackground(new Color(153, 0, 0));
 		panel_6.add(pnTinhLuongBtn);
 		pnTinhLuongBtn.setLayout(new BorderLayout(0, 0));
-		pnTinhLuongBtn.addMouseListener(new PanelButtonMouseAdapter(pnTinhLuongBtn, cardPanelThis));
+		pnTinhLuongBtn.addMouseListener(new PanelButtonMouseAdapter(pnTinhLuongBtn));
 		
 		JLabel lbTinhLuong = new JLabel("Tính lương");
 
@@ -240,7 +240,7 @@ public class PnQuanLy extends JPanel {
 		pnLichSuHoaDonBtn.setBackground(new Color(153, 0, 0));
 		panel_7.add(pnLichSuHoaDonBtn);
 		pnLichSuHoaDonBtn.setLayout(new BorderLayout(0, 0));
-		pnLichSuHoaDonBtn.addMouseListener(new PanelButtonMouseAdapter(pnLichSuHoaDonBtn, cardPanelThis));
+		pnLichSuHoaDonBtn.addMouseListener(new PanelButtonMouseAdapter(pnLichSuHoaDonBtn));
 		
 		JLabel lbLichSuHoaDon = new JLabel("Lịch sử hóa đơn");
 
@@ -265,7 +265,7 @@ public class PnQuanLy extends JPanel {
 		pnChinhSuaMonAnBtn.setBackground(new Color(153, 0, 0));
 		panel_7.add(pnChinhSuaMonAnBtn);
 		pnChinhSuaMonAnBtn.setLayout(new BorderLayout(0, 0));
-		pnChinhSuaMonAnBtn.addMouseListener(new PanelButtonMouseAdapter(pnChinhSuaMonAnBtn, cardPanelThis));
+		pnChinhSuaMonAnBtn.addMouseListener(new PanelButtonMouseAdapter(pnChinhSuaMonAnBtn));
 		
 		JLabel lbChinhSuaMonAn = new JLabel("Chỉnh sửa món ăn");
 
@@ -287,7 +287,7 @@ public class PnQuanLy extends JPanel {
 		pnThongKeBtn.setBackground(new Color(153, 0, 0));
 		panel_7.add(pnThongKeBtn);
 		pnThongKeBtn.setLayout(new BorderLayout(0, 0));
-		pnThongKeBtn.addMouseListener(new PanelButtonMouseAdapter(pnThongKeBtn, cardPanelThis));
+		pnThongKeBtn.addMouseListener(new PanelButtonMouseAdapter(pnThongKeBtn));
 		
 		JLabel lbThongKe = new JLabel("Thống kê");
 
@@ -309,7 +309,7 @@ public class PnQuanLy extends JPanel {
 		pnNhapNguyenLieuBtn.setBackground(new Color(153, 0, 0));
 		panel_7.add(pnNhapNguyenLieuBtn);
 		pnNhapNguyenLieuBtn.setLayout(new BorderLayout(0, 0));
-		pnNhapNguyenLieuBtn.addMouseListener(new PanelButtonMouseAdapter(pnNhapNguyenLieuBtn, cardPanelThis));
+		pnNhapNguyenLieuBtn.addMouseListener(new PanelButtonMouseAdapter(pnNhapNguyenLieuBtn));
 		
 		JLabel lbNhapNguyenLieu = new JLabel("Nhập nguyên liệu");
 
@@ -378,26 +378,24 @@ public class PnQuanLy extends JPanel {
 		
 		
 		
-		pnSwitch.add(panel_2, "panel_2");
+		pnCardRight.add(panel_2, "panel_2");
 		
-		JPanel pnThanhToan = new PnThanhToan(cardLayoutThis, cardSwitch, cardPanelThis, pnSwitch);
-		pnSwitch.add(pnThanhToan, "pnThanhToan");
+		JPanel pnThanhToan = new PnThanhToan(cardLeft, cardRight, pnCardLeft, pnCardRight);
+		pnCardRight.add(pnThanhToan, "pnThanhToan");
 		
 		JPanel pnMenuKhongChucNang = new PnMenuKhongChucNang();
-		cardPanelThis.add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
+		pnCardLeft.add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
 		
-		JPanel pnMenu = new PnMenu();
-		cardPanelThis.add(pnMenu, "pnMenu");
+		JPanel pnMenu = new PnMenu((PnThanhToan) pnThanhToan);
+		pnCardLeft.add(pnMenu, "pnMenu");
 
 	}
 	
 	private class PanelButtonMouseAdapter extends MouseAdapter {
 		JPanel panel;
-		JPanel cardPanel;
 		
-		public PanelButtonMouseAdapter(JPanel panel, JPanel cardPanel) {
+		public PanelButtonMouseAdapter(JPanel panel) {
 			this.panel = panel;
-			this.cardPanel = cardPanel;
 		}
 
 		@Override
@@ -422,21 +420,17 @@ public class PnQuanLy extends JPanel {
 	}
 	
 	private class PanelButtonHoaDonMouseAdapter extends MouseAdapter {
-		JPanel panel;
-		JPanel cardPanel;
-		JPanel pnSwitch;
+		JPanel panel; //panel nhận sự kiện click
+
 		
-		public PanelButtonHoaDonMouseAdapter(JPanel panel, JPanel cardPanel, JPanel pnSwitch) {
+		public PanelButtonHoaDonMouseAdapter(JPanel panel) {
 			this.panel = panel;
-			this.cardPanel = cardPanel;
-			this.pnSwitch = pnSwitch;
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+			changePnWhenHoaDonIsClicked();
 			panel.setBackground(Color.CYAN);
-			cardLayoutThis.show(cardPanel, "pnMenu");
-			cardSwitch.show(pnSwitch, "pnThanhToan");
 		}
 
 		@Override
@@ -453,5 +447,10 @@ public class PnQuanLy extends JPanel {
 		public void mouseExited(MouseEvent e) {
 			panel.setBackground(new Color(153, 0, 0));
 		}
+	}
+	
+	private void changePnWhenHoaDonIsClicked() {
+		cardLeft.show(pnCardLeft, "pnMenu");
+		cardRight.show(pnCardRight, "pnThanhToan");
 	}
 }
