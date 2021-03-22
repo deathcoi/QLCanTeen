@@ -19,5 +19,6 @@
 		<mapping class="entities.TaiKhoanKH"></mapping>
 		<mapping class="entities.TaiKhoanNV"></mapping>
 		<mapping class="entities.CTHoaDon"></mapping>
+		<mapping class="entities.LoaiKhachHang"></mapping>
 	</session-factory>
 </hibernate-configuration>

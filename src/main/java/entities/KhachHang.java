@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -28,6 +30,10 @@ public class KhachHang implements Serializable{
 	
 	@OneToMany(mappedBy = "khachHang")
 	private List<HoaDon> hoaDons;
+	
+	@ManyToOne
+	@JoinColumn(name = "maLoaiKhachHang")
+	private LoaiKhachHang loaiKhachHang;
 
 	public String getMaKH() {
 		return maKH;
