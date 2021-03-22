@@ -2,6 +2,7 @@ package view;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -14,6 +15,7 @@ import com.mysql.cj.xdevapi.Table;
 
 import DAO.MonAnDAO;
 import entities.MonAn;
+import table.JTableButtonModel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -127,16 +129,14 @@ public class PnMenu extends JPanel {
 
 	private void monAnClicked(JPanel panel) {
 		String[] monAns = panel.getName().split(",");// 1 la ma, 2 la ten, 3 la gia tien
-		DefaultTableModel model = (DefaultTableModel) pnThanhToan.table.getModel();
+		JTableButtonModel model = (JTableButtonModel) pnThanhToan.table.getModel();
 		int flag = 0;
 		for (int i = 0; i < model.getRowCount(); i++) {
 			if (model.getValueAt(i, 0).toString().compareTo(monAns[1]) == 0) {
 				flag = 1;
-				int sl = Integer.parseInt(model.getValueAt(i, 1).toString()) + 1;
-				model.setValueAt(sl, i, 1);
 			}
 		}
 		if (flag == 0)
-			model.addRow(new Object[] { monAns[1], "1", monAns[2] });
+			model.addRow(new Object[] { monAns[1], "1", monAns[2], new JButton("+"), new JButton("-")});
 	}
 }
