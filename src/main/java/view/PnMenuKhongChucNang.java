@@ -1,45 +1,94 @@
 package view;
 
 import javax.swing.JPanel;
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.util.List;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
+
+import DAO.MonAnDAO;
+import entities.MonAn;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class PnMenuKhongChucNang extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
+	private JPanel pnMonAn;
+	private JPanel pnNuoc;
+
+	private BufferedImage image;
 	public PnMenuKhongChucNang() {
-		setBackground(Color.BLACK);
+		try {
+			image = ImageIO.read(new File("picture\\menu.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		setBounds(0, 0, 560, 600);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setBackground(new Color(1.0f, 1.0f, 1.0f, 0.5f));
 		
-		JPanel pnMonAn = new JPanel();
+		pnMonAn = new JPanel();
+		pnMonAn.setOpaque(false);
 		add(pnMonAn);
-		pnMonAn.setLayout(new BoxLayout(pnMonAn, BoxLayout.Y_AXIS));
+		pnMonAn.setLayout(new GridLayout(3, 3, 5, 5));
 		
-		JPanel pnMonChinh = new JPanel();
-		pnMonAn.add(pnMonChinh);
-		pnMonChinh.setLayout(new BoxLayout(pnMonChinh, BoxLayout.X_AXIS));
+		pnNuoc = new JPanel();
+		pnNuoc.setOpaque(false);
+		add(pnNuoc);
+		pnNuoc.setLayout(new GridLayout(3, 3, 5, 5));
 		
-		JPanel pnNuocNgot = new JPanel();
-		pnMonAn.add(pnNuocNgot);
-		pnNuocNgot.setLayout(new BoxLayout(pnNuocNgot, BoxLayout.X_AXIS));
-		
-		JPanel pnNuocLoc = new JPanel();
-		pnMonAn.add(pnNuocLoc);
-		pnNuocLoc.setLayout(new BoxLayout(pnNuocLoc, BoxLayout.X_AXIS));
-		
-		JPanel pnTable = new JPanel();
-		pnTable.setBackground(Color.YELLOW);
-		pnTable.setForeground(Color.WHITE);
-		add(pnTable);
-		pnTable.setLayout(null);
+		addMonAnAuto();
 	}
+	
+	private void addMonAnAuto() {
+		List<MonAn> list = MonAnDAO.layDanhSachMonAn();
+		
+		for (MonAn monAn : list) {
+			System.out.println(monAn.getTenMA());
+			JPanel pnBtn = new JPanel();
+			pnBtn.setOpaque(false);
+			pnBtn.setLayout(new BorderLayout());
+			pnBtn.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+			//pnBtn.setBackground(Color.cyan);
+			
+			JLabel lb = new JLabel(monAn.getTenMA());
+			lb.setForeground(Color.WHITE);
+			lb.setHorizontalAlignment(SwingConstants.CENTER);
+			lb.setFont(new Font("Tahoma", Font.BOLD, 18));
+			pnBtn.add(lb, BorderLayout.CENTER);
+			
+			if (monAn.getLoaiMonAn().getMaLoai().compareTo("nuoc") != 0 && monAn.getLoaiMonAn().getMaLoai().compareTo("nuocSuoi") != 0) {
+				pnMonAn.add(pnBtn);
+			}
+			else {
+				pnNuoc.add(pnBtn);
+			}
+		}
+	}
+	@Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, this); // see javadoc for more info on the parameters            
+    }
+	//monAnPn.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 }
