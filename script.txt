@@ -1,0 +1,109 @@
+create database qlcanteen;
+use qlcanteen;
+
+Create table NhanVien
+(
+	maNV Nvarchar(10) NOT NULL,
+	tenNV Nvarchar(50) NULL,
+	gioiTinh Nvarchar(10) NULL,
+	namSinh Integer NULL,
+	sdt Numeric(18,0) NULL,
+	status Integer NULL,
+Primary Key (maNV)	
+) ;
+
+Create table KhachHang
+(
+	maKH Nvarchar(10) NOT NULL,
+    maLoaiKH Nvarchar(50) NOT NULL,
+	tenKH Nvarchar(50) NULL,
+	gioiTinh Nvarchar(10) NULL,
+	namSinh Integer NULL,
+	sdt Numeric(18,0) NULL,
+	tien Numeric(18,0) NULL,
+	status Integer NULL,
+Primary Key (maKH)
+) ;
+
+Create table TaiKhoanNV
+(
+	maNV Nvarchar(10) NOT NULL,
+	MK Nvarchar(50) NULL,
+Primary Key (maNV)
+) ;
+
+Create table TaiKhoanKH
+(
+	maKH Nvarchar(10) NOT NULL,
+	MK Nvarchar(50) NULL,
+Primary Key (maKH)
+) ;
+
+Create table HoaDon
+(
+	maHD Nvarchar(10) NOT NULL,
+	maNV Nvarchar(10) NOT NULL,
+	maKH Nvarchar(10) NULL,
+	ngayLap Datetime NULL,
+Primary Key (maHD)
+) ;
+
+Create table MonAn
+(
+	maMA Nvarchar(10) NOT NULL,
+	maLoai Nvarchar(10) NOT NULL,
+	maNguyenLieu Nvarchar(10) NULL,
+	tenMA Nvarchar(50) NULL,
+	status Integer NULL,
+Primary Key (maMA)
+) ;
+
+Create table LoaiMonAn
+(
+	maLoai Nvarchar(10) NOT NULL,
+	tenLoai Nvarchar(50) NULL,
+	giaTien Numeric(18,0) NULL,
+	status Integer NULL,
+Primary Key (maLoai)
+) ;
+
+Create table CTHoaDon
+(
+	maHD Nvarchar(10) NOT NULL,
+	maMA Nvarchar(10) NOT NULL,
+	soLuong Integer NOT NULL,
+Primary Key (maHD,maMA)
+) ;
+
+Create table NguyenLieu
+(
+	maNguyenLieu Nvarchar(10) NOT NULL,
+	tenNguyenLieu Nvarchar(50) NULL,
+	soLuong Integer NULL,
+Primary Key (maNguyenLieu)
+) ;
+
+create table LoaiKhachHang
+(
+	maLoaiKH Nvarchar(10) NOT NULL,
+    tenLoaiKH Nvarchar(50) NULL,
+    Primary Key (maLoaiKH)
+);
+
+Alter table TaiKhoanNV add  foreign key(maNV) references NhanVien (maNV)  on update no action on delete no action ;
+
+Alter table HoaDon add  foreign key(maNV) references NhanVien (maNV)  on update no action on delete no action ;
+
+Alter table TaiKhoanKH add  foreign key(maKH) references KhachHang (maKH)  on update no action on delete no action ;
+
+Alter table HoaDon add  foreign key(maKH) references KhachHang (maKH)  on update no action on delete no action ;
+
+Alter table CTHoaDon add  foreign key(maHD) references HoaDon (maHD)  on update no action on delete no action ;
+
+Alter table CTHoaDon add  foreign key(maMA) references MonAn (maMA)  on update no action on delete no action ;
+
+Alter table MonAn add  foreign key(maLoai) references LoaiMonAn (maLoai)  on update no action on delete no action ;
+
+Alter table MonAn add  foreign key(maNguyenLieu) references NguyenLieu (maNguyenLieu)  on update no action on delete no action ;
+
+Alter table KhachHang add  foreign key(maLoaiKH) references LoaiKhachHang (maLoaiKH)  on update no action on delete no action ;
