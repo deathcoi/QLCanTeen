@@ -4,17 +4,22 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import javax.swing.JTable;
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PnThongTinKhachHang extends JPanel {
 	private JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtMaKH;
+	private JTextField txtTenKH;
+	private JTextField txtNamSinh;
+	private JTextField txtSDT;
 	private JTextField textField_4;
 
 	/**
@@ -74,29 +79,35 @@ public class PnThongTinKhachHang extends JPanel {
 		lblNewLabel_1_1.setBounds(10, 130, 80, 20);
 		panel.add(lblNewLabel_1_1);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField.setBounds(120, 50, 109, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtMaKH = new JTextField();
+		txtMaKH.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				timKhachHang();
+			}
+		});
+		txtMaKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtMaKH.setBounds(120, 50, 109, 20);
+		panel.add(txtMaKH);
+		txtMaKH.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_1.setColumns(10);
-		textField_1.setBounds(120, 90, 300, 20);
-		panel.add(textField_1);
+		txtTenKH = new JTextField();
+		txtTenKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtTenKH.setColumns(10);
+		txtTenKH.setBounds(120, 90, 300, 20);
+		panel.add(txtTenKH);
 		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_2.setColumns(10);
-		textField_2.setBounds(120, 170, 109, 20);
-		panel.add(textField_2);
+		txtNamSinh = new JTextField();
+		txtNamSinh.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtNamSinh.setColumns(10);
+		txtNamSinh.setBounds(120, 170, 109, 20);
+		panel.add(txtNamSinh);
 		
-		textField_3 = new JTextField();
-		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_3.setColumns(10);
-		textField_3.setBounds(120, 210, 109, 20);
-		panel.add(textField_3);
+		txtSDT = new JTextField();
+		txtSDT.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtSDT.setColumns(10);
+		txtSDT.setBounds(120, 210, 109, 20);
+		panel.add(txtSDT);
 		
 		JRadioButton rdBtnNam = new JRadioButton("Nam");
 		rdBtnNam.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -116,7 +127,7 @@ public class PnThongTinKhachHang extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		panel_1.add(scrollPane, BorderLayout.CENTER);
 		
-		table = new JTable();
+		table = new JTable(new DefaultTableModel(new Object[] {"Mã khách hàng", "Tên khách hàng", "Loại", "SĐT"}, 0));
 		scrollPane.setViewportView(table);
 		
 		JLabel lblNewLabel_1 = new JLabel("Tìm thấy:");
@@ -128,5 +139,18 @@ public class PnThongTinKhachHang extends JPanel {
 		textField_4.setBounds(478, 470, 50, 20);
 		add(textField_4);
 		textField_4.setColumns(10);
+		
+		ButtonGroup btnGroupLoai = new ButtonGroup();
+		btnGroupLoai.add(rdBtnGiangVien);
+		btnGroupLoai.add(rdBtnSinhVien);
+		btnGroupLoai.add(rbBtnNVVP);
+		
+		ButtonGroup btnGroupGioiTinh = new ButtonGroup();
+		btnGroupGioiTinh.add(rdBtnNam);
+		btnGroupGioiTinh.add(rdBtnNu);
+	}
+	
+	private void timKhachHang() {
+		
 	}
 }

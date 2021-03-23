@@ -15,9 +15,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import java.awt.Font;
 import javax.swing.border.LineBorder;
@@ -25,6 +30,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
+import DAO.KhachHangDAO;
+import entities.KhachHang;
+import entities.NhanVien;
 import table.JTableButtonRenderer;
 import table.JTableButtonModel;
 
@@ -45,6 +53,10 @@ public class PnThanhToan extends JPanel {
 
 	private JTextField txtKhachHang;
 	private JTextField txtTienMat;
+	
+	private JLabel lbNhanVien;
+	
+	private JLabel lbDateTime;
 
 	/**
 	 * Create the panel.
@@ -108,13 +120,13 @@ public class PnThanhToan extends JPanel {
 		lblNewLabel_10.setBounds(10, 80, 78, 22);
 		add(lblNewLabel_10);
 
-		JLabel lbNhanVien = new JLabel("");
+		lbNhanVien = new JLabel("");
 		lbNhanVien.setHorizontalAlignment(SwingConstants.CENTER);
 		lbNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lbNhanVien.setBounds(80, 80, 80, 20);
 		add(lbNhanVien);
 
-		JLabel lbDateTime = new JLabel("");
+		lbDateTime = new JLabel("");
 		lbDateTime.setHorizontalAlignment(SwingConstants.CENTER);
 		lbDateTime.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lbDateTime.setBounds(240, 80, 150, 20);
@@ -147,6 +159,11 @@ public class PnThanhToan extends JPanel {
 		txtKhachHang.setColumns(10);
 
 		JButton btnKiemTra = new JButton("Kiểm tra");
+		btnKiemTra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnKiemTraClicked();
+			}
+		});
 		btnKiemTra.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnKiemTra.setBounds(263, 105, 97, 22);
 		add(btnKiemTra);
@@ -188,11 +205,18 @@ public class PnThanhToan extends JPanel {
 		lbTienThua.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lbTienThua.setBounds(220, 520, 150, 22);
 		add(lbTienThua);
+		
+		setTiming();
 	}
 
 	private void cardChange() {
 		cardLeft.show(pnLeft, "pnMenuKhongChucNang");
 		cardRight.show(pnRight, "panel_2");
+		//PnThanhToan pn = (PnThanhToan) pnCardRight;
+		//JLabel lbJLabel = pn.getLbNhanVien();
+		
+		//NhanVien nhanVien = 
+		//lbJLabel.setText();
 	}
 
 	private class PanelButtonMouseAdapter extends MouseAdapter {
@@ -319,5 +343,45 @@ public class PnThanhToan extends JPanel {
 			}
 			__table.repaint();
 		}
+	}
+	
+	private void btnKiemTraClicked() {
+		try {
+			if (txtKhachHang.getText().compareTo("") == 0)
+				throw new Exception("Vui lòng nhập đầy đủ thông tin!");
+			List<KhachHang> list = KhachHangDAO.layDanhSachKhachHangTheoSDT(Long.parseLong(txtKhachHang.getText()));
+			if (list == null || list.size() == 0)
+				JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin!");
+			else {
+				String mess = "";
+				for (KhachHang k : list) {
+					mess = mess.concat(k.getMaKH() + " / " + k.getTenKH() + " / " + k.getSdt().toString() + "\n");
+				}
+				JOptionPane.showMessageDialog(this, mess);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public JLabel getLbNhanVien() {
+		return lbNhanVien;
+	}
+
+	public void setLbNhanVien(JLabel lbNhanVien) {
+		this.lbNhanVien = lbNhanVien;
+	}
+	
+	private void setTiming() {
+		Timer timer = new Timer(1000, new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				Date date = new Date();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				lbDateTime.setText(formatter.format(date));
+			}
+		});
+		timer.start();
 	}
 }
