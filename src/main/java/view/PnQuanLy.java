@@ -50,8 +50,11 @@ public class PnQuanLy extends JPanel {
 	
 	private JLabel lbDateTime;
 	
+	private NhanVien nhanVien;
+	
 	private PnThanhToan pnThanhToan;
 	public PnQuanLy(CardLayout cardLayout, JPanel cardPanel, JFrame mainFrame) {
+		setName("pnQuanLy");
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		this.cardLayout = cardLayout;
 		this.cardPanel = cardPanel;
@@ -539,4 +542,16 @@ public class PnQuanLy extends JPanel {
 		});
 		timer.start();
 	}
+
+
+	public NhanVien getNhanVien() {
+		return nhanVien;
+	}
+
+
+	public void setNhanVien(NhanVien nhanVien) {
+		this.nhanVien = nhanVien;
+	}
+	
+	
 }

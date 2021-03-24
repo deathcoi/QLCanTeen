@@ -176,24 +176,38 @@ public class PnDangNhap extends JPanel {
 				if (txtTaiKhoan.getText().compareTo("admin") == 0) {
 					JOptionPane.showMessageDialog(this, "Đăng nhập thành công, chào " + taiKhoanNV.getNhanVien().getTenNV());
 					cardLayout.show(cardPanel, "pnQuanLy");
-					//mainFrame.pnQuanLy.setNhanVien(taiKhoanNV.getNhanVien());
-					JLabel lbNhanVienQuanLy = mainFrame.pnQuanLy.getLbNhanVien();
+					
+					mainFrame.pnQuanLy.setNhanVien(taiKhoanNV.getNhanVien()); //set nhan vien
+					//JOptionPane.showMessageDialog(this, taiKhoanNV.getNhanVien().getTenNV()); 
+	
+					JLabel lbNhanVienQuanLy = mainFrame.pnQuanLy.getLbNhanVien(); // set label
 					lbNhanVienQuanLy.setText(taiKhoanNV.getNhanVien().getTenNV());
 					
 					PnThanhToan pnThanhToan = mainFrame.pnQuanLy.getPnThanhToan();
 					JLabel lbNhanVienThanhToan = pnThanhToan.getLbNhanVien();
-					lbNhanVienThanhToan.setText(taiKhoanNV.getNhanVien().getTenNV());
+					lbNhanVienThanhToan.setText(taiKhoanNV.getNhanVien().getTenNV()); //set label
+					
+					//set nhan vien cho thanh toan
+					PnThanhToan thanhToan = mainFrame.pnQuanLy.getPnThanhToan();
+					thanhToan.setNhanVien(taiKhoanNV.getNhanVien());
 				}
 				else {
 					cardLayout.show(cardPanel, "pnNhanVien");
 					JOptionPane.showMessageDialog(this, "Đăng nhập thành công, chào " + taiKhoanNV.getNhanVien().getTenNV());
+					
 					mainFrame.pnNhanVien.setNhanVien(taiKhoanNV.getNhanVien());
+					//JOptionPane.showMessageDialog(this, taiKhoanNV.getNhanVien().getTenNV());
+					
 					JLabel lbNhanVien = mainFrame.pnNhanVien.getLbNhanVien();
 					lbNhanVien.setText(taiKhoanNV.getNhanVien().getTenNV());
 					
 					PnThanhToan pnThanhToan = mainFrame.pnNhanVien.getPnThanhToan();
 					JLabel lbNhanVienThanhToan = pnThanhToan.getLbNhanVien();
 					lbNhanVienThanhToan.setText(taiKhoanNV.getNhanVien().getTenNV());
+					
+					//set nhan vien cho thanh toan
+					PnThanhToan thanhToan = mainFrame.pnNhanVien.getPnThanhToan();
+					thanhToan.setNhanVien(taiKhoanNV.getNhanVien());
 				}
 			} else {
 				if (pass.compareTo(taiKhoanKH.getMatKhau()) != 0)

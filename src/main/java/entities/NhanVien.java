@@ -27,6 +27,9 @@ public class NhanVien implements Serializable{
 	
 	@OneToOne(mappedBy = "nhanVien")
 	private TaiKhoanNV taiKhoanNV;
+	
+	@OneToMany(mappedBy = "nhanVien")
+	private List<BangChamCong> bangChamCongs;
 
 	public String getMaNV() {
 		return maNV;
@@ -90,6 +93,18 @@ public class NhanVien implements Serializable{
 
 	public void setTaiKhoanNV(TaiKhoanNV taiKhoanNV) {
 		this.taiKhoanNV = taiKhoanNV;
+	}
+
+	public List<BangChamCong> getBangChamCongs() {
+		return bangChamCongs;
+	}
+
+	public void setBangChamCongs(List<BangChamCong> bangChamCongs) {
+		this.bangChamCongs = bangChamCongs;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 	

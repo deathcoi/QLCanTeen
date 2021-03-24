@@ -61,6 +61,7 @@ public class PnNhanVien extends JPanel {
 	private PnThanhToan pnThanhToan;
 
 	public PnNhanVien(CardLayout cardLayout, JPanel cardPanel, JFrame mainFrame) {
+		setName("pnNhanVien");
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		this.cardLayout = cardLayout;
 		this.cardPanel = cardPanel;
@@ -462,6 +463,22 @@ public class PnNhanVien extends JPanel {
 
 	public void setPnThanhToan(PnThanhToan pnThanhToan) {
 		this.pnThanhToan = pnThanhToan;
+	}
+
+	public JPanel getPnSwitch() {
+		return pnSwitch;
+	}
+
+	public void setPnSwitch(JPanel pnSwitch) {
+		this.pnSwitch = pnSwitch;
+	}
+
+	public CardLayout getCardSwitch() {
+		return cardSwitch;
+	}
+
+	public void setCardSwitch(CardLayout cardSwitch) {
+		this.cardSwitch = cardSwitch;
 	}
 	
 	
