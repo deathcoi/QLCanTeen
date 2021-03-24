@@ -18,6 +18,11 @@ public class Main extends JFrame {
 
 	private JPanel contentPane;
 	private CardLayout cardLayout;
+	
+	public PnDangNhap pnDangNhap;
+	public PnQuanLy pnQuanLy;
+	public PnNhanVien pnNhanVien;
+	public PnKhachHang pnKhachHang;
 
 	/**
 	 * Launch the application.
@@ -50,16 +55,16 @@ public class Main extends JFrame {
 		cardLayout = new CardLayout(0, 0);
 		contentPane.setLayout(cardLayout);
 		
-		JPanel pnDangNhap = new PnDangNhap(cardLayout, contentPane);
+		pnDangNhap = new PnDangNhap(cardLayout, contentPane, this);
 		contentPane.add(pnDangNhap, "pnDangNhap");
 		
-		JPanel pnQuanLy = new PnQuanLy(cardLayout, contentPane);
+		pnQuanLy = new PnQuanLy(cardLayout, contentPane, this);
 		contentPane.add(pnQuanLy, "pnQuanLy");
 		
-		JPanel pnNhanVienJPanel = new PnNhanVien(cardLayout, contentPane);
-		contentPane.add(pnNhanVienJPanel, "pnNhanVien");
+		pnNhanVien = new PnNhanVien(cardLayout, contentPane, this);
+		contentPane.add(pnNhanVien, "pnNhanVien");
 		
-		JPanel pnKhachHang = new PnKhachHang(cardLayout, contentPane);
+		pnKhachHang = new PnKhachHang(cardLayout, contentPane, this);
 		contentPane.add(pnKhachHang, "pnKhachHang");
 	}
 

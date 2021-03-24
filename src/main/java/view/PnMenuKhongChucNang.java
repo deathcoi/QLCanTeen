@@ -64,7 +64,7 @@ public class PnMenuKhongChucNang extends JPanel {
 		List<MonAn> list = MonAnDAO.layDanhSachMonAn();
 		
 		for (MonAn monAn : list) {
-			System.out.println(monAn.getTenMA());
+			//System.out.println(monAn.getTenMA());
 			JPanel pnBtn = new JPanel();
 			pnBtn.setOpaque(false);
 			pnBtn.setLayout(new BorderLayout());

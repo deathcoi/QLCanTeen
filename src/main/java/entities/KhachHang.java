@@ -32,7 +32,7 @@ public class KhachHang implements Serializable{
 	private List<HoaDon> hoaDons;
 	
 	@ManyToOne
-	@JoinColumn(name = "maLoaiKhachHang")
+	@JoinColumn(name = "maLoaiKH")
 	private LoaiKhachHang loaiKhachHang;
 
 	public String getMaKH() {

@@ -65,7 +65,7 @@ public class PnMenu extends JPanel {
 		List<MonAn> list = MonAnDAO.layDanhSachMonAn();
 
 		for (MonAn monAn : list) {
-			System.out.println(monAn.getTenMA());
+			//System.out.println(monAn.getTenMA());
 			JPanel pnBtn = new JPanel();
 			pnBtn.setOpaque(false);
 			pnBtn.setLayout(new BorderLayout());
@@ -138,5 +138,18 @@ public class PnMenu extends JPanel {
 		}
 		if (flag == 0)
 			model.addRow(new Object[] { monAns[1], "1", monAns[2], new JButton("+"), new JButton("-")});
+		tinhTong();
+	}
+	
+	private void tinhTong() {
+		JTableButtonModel model = (JTableButtonModel) pnThanhToan.table.getModel();
+		Long tong = (long) 0;
+		for (int i = 0; i < model.getRowCount(); i++) {
+			Long gia = Long.parseLong(model.getValueAt(i, 2).toString());
+			Long sl = Long.parseLong(model.getValueAt(i, 1).toString());
+			tong += gia * sl;
+		}
+		JLabel lbTongCong = pnThanhToan.getLbTongCong();
+		lbTongCong.setText(tong.toString());
 	}
 }

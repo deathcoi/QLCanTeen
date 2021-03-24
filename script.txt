@@ -90,6 +90,15 @@ create table LoaiKhachHang
     Primary Key (maLoaiKH)
 );
 
+create table BangChamCong
+(
+	stt int not null auto_increment,
+    batDau datetime,
+    ketThuc datetime,
+    maNV Nvarchar(10) NOT NULL,
+    Primary Key (stt)
+);
+
 Alter table TaiKhoanNV add  foreign key(maNV) references NhanVien (maNV)  on update no action on delete no action ;
 
 Alter table HoaDon add  foreign key(maNV) references NhanVien (maNV)  on update no action on delete no action ;
@@ -107,3 +116,5 @@ Alter table MonAn add  foreign key(maLoai) references LoaiMonAn (maLoai)  on upd
 Alter table MonAn add  foreign key(maNguyenLieu) references NguyenLieu (maNguyenLieu)  on update no action on delete no action ;
 
 Alter table KhachHang add  foreign key(maLoaiKH) references LoaiKhachHang (maLoaiKH)  on update no action on delete no action ;
+
+Alter table BangChamCong add  foreign key(maNV) references NhanVien (maNV)  on update no action on delete no action ;

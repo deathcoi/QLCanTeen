@@ -9,16 +9,21 @@ import java.awt.CardLayout;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+import DAO.NhanVienDAO;
 import DAO.TaiKhoanKHDAO;
 import DAO.TaiKhoanNVDAO;
+import entities.NhanVien;
 import entities.TaiKhoanKH;
 import entities.TaiKhoanNV;
+import main.Main;
 
 import java.awt.Color;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
@@ -28,6 +33,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class PnDangNhap extends JPanel {
+	private Main mainFrame;
+	
 	private JTextField txtTaiKhoan;
 	private JPasswordField txtMatKhau;
 	private CardLayout cardLayout;
@@ -36,9 +43,10 @@ public class PnDangNhap extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PnDangNhap(CardLayout cardLayout, JPanel cardPanel) {
+	public PnDangNhap(CardLayout cardLayout, JPanel cardPanel, Main mainFrame) {
 		this.cardLayout = cardLayout;
 		this.cardPanel = cardPanel;
+		this.mainFrame = mainFrame;
 
 		setBounds(0, 0, 1024, 600);
 		setLayout(new BorderLayout(0, 0));
@@ -164,13 +172,42 @@ public class PnDangNhap extends JPanel {
 			if (taiKhoanNV != null) {
 				if (pass.compareTo(taiKhoanNV.getMatKhau()) != 0)
 					throw new Exception("Sai mật khẩu");
+				//NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(taiKhoanNV.getNhanVien().getMaNV());
 				if (txtTaiKhoan.getText().compareTo("admin") == 0) {
 					JOptionPane.showMessageDialog(this, "Đăng nhập thành công, chào " + taiKhoanNV.getNhanVien().getTenNV());
 					cardLayout.show(cardPanel, "pnQuanLy");
+					
+					mainFrame.pnQuanLy.setNhanVien(taiKhoanNV.getNhanVien()); //set nhan vien
+					//JOptionPane.showMessageDialog(this, taiKhoanNV.getNhanVien().getTenNV()); 
+	
+					JLabel lbNhanVienQuanLy = mainFrame.pnQuanLy.getLbNhanVien(); // set label
+					lbNhanVienQuanLy.setText(taiKhoanNV.getNhanVien().getTenNV());
+					
+					PnThanhToan pnThanhToan = mainFrame.pnQuanLy.getPnThanhToan();
+					JLabel lbNhanVienThanhToan = pnThanhToan.getLbNhanVien();
+					lbNhanVienThanhToan.setText(taiKhoanNV.getNhanVien().getTenNV()); //set label
+					
+					//set nhan vien cho thanh toan
+					PnThanhToan thanhToan = mainFrame.pnQuanLy.getPnThanhToan();
+					thanhToan.setNhanVien(taiKhoanNV.getNhanVien());
 				}
 				else {
 					cardLayout.show(cardPanel, "pnNhanVien");
 					JOptionPane.showMessageDialog(this, "Đăng nhập thành công, chào " + taiKhoanNV.getNhanVien().getTenNV());
+					
+					mainFrame.pnNhanVien.setNhanVien(taiKhoanNV.getNhanVien());
+					//JOptionPane.showMessageDialog(this, taiKhoanNV.getNhanVien().getTenNV());
+					
+					JLabel lbNhanVien = mainFrame.pnNhanVien.getLbNhanVien();
+					lbNhanVien.setText(taiKhoanNV.getNhanVien().getTenNV());
+					
+					PnThanhToan pnThanhToan = mainFrame.pnNhanVien.getPnThanhToan();
+					JLabel lbNhanVienThanhToan = pnThanhToan.getLbNhanVien();
+					lbNhanVienThanhToan.setText(taiKhoanNV.getNhanVien().getTenNV());
+					
+					//set nhan vien cho thanh toan
+					PnThanhToan thanhToan = mainFrame.pnNhanVien.getPnThanhToan();
+					thanhToan.setNhanVien(taiKhoanNV.getNhanVien());
 				}
 			} else {
 				if (pass.compareTo(taiKhoanKH.getMatKhau()) != 0)

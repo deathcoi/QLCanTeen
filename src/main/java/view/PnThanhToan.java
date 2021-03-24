@@ -15,9 +15,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import java.awt.Font;
 import javax.swing.border.LineBorder;
@@ -25,6 +30,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
+import DAO.HoaDonDAO;
+import DAO.KhachHangDAO;
+import entities.HoaDon;
+import entities.KhachHang;
+import entities.NhanVien;
 import table.JTableButtonRenderer;
 import table.JTableButtonModel;
 
@@ -35,6 +45,8 @@ import javax.swing.JTextField;
 
 public class PnThanhToan extends JPanel {
 
+	//private JPanel pnCall; //pn nào gọi pnthanh toán
+	
 	private CardLayout cardLeft;
 	private CardLayout cardRight;
 
@@ -45,6 +57,35 @@ public class PnThanhToan extends JPanel {
 
 	private JTextField txtKhachHang;
 	private JTextField txtTienMat;
+	
+	private JLabel lbNhanVien;
+	
+	private JLabel lbDateTime;
+	
+	private JLabel lbTongCong;
+	
+	private JLabel lbTienThua;
+	
+	private NhanVien nhanVien;
+	
+
+	public JLabel getLbTongCong() {
+		return lbTongCong;
+	}
+
+	public void setLbTongCong(JLabel lbTongCong) {
+		this.lbTongCong = lbTongCong;
+	}
+	
+	
+
+	public NhanVien getNhanVien() {
+		return nhanVien;
+	}
+
+	public void setNhanVien(NhanVien nhanVien) {
+		this.nhanVien = nhanVien;
+	}
 
 	/**
 	 * Create the panel.
@@ -55,6 +96,7 @@ public class PnThanhToan extends JPanel {
 		this.cardRight = cardRight;
 		this.pnLeft = pnLeft;
 		this.pnRight = pnRight;
+		//this.pnCall = pnCall;
 		setBackground(Color.WHITE);
 		setBounds(0, 0, 400, 600);
 		setLayout(null);
@@ -65,6 +107,8 @@ public class PnThanhToan extends JPanel {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
 		JPanel pnThanhToanBtn = new JPanel();
+		pnThanhToanBtn.addMouseListener(new PanelButtonMouseAdapter(pnThanhToanBtn));
+		pnThanhToanBtn.setName("pnThanhToanBtn");
 		pnThanhToanBtn.setBackground(new Color(153, 0, 0));
 		pnThanhToanBtn.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.add(pnThanhToanBtn);
@@ -76,6 +120,7 @@ public class PnThanhToan extends JPanel {
 		pnThanhToanBtn.add(lblNewLabel, BorderLayout.CENTER);
 
 		JPanel pnHuyBtn = new JPanel();
+		pnHuyBtn.setName("pnHuyBtn");
 		pnHuyBtn.addMouseListener(new PanelButtonMouseAdapter(pnHuyBtn));
 		pnHuyBtn.setBackground(new Color(153, 0, 0));
 		pnHuyBtn.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -105,16 +150,16 @@ public class PnThanhToan extends JPanel {
 
 		JLabel lblNewLabel_10 = new JLabel("Nhân viên:");
 		lblNewLabel_10.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_10.setBounds(10, 80, 78, 22);
+		lblNewLabel_10.setBounds(10, 80, 94, 22);
 		add(lblNewLabel_10);
 
-		JLabel lbNhanVien = new JLabel("");
+		lbNhanVien = new JLabel("");
 		lbNhanVien.setHorizontalAlignment(SwingConstants.CENTER);
 		lbNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbNhanVien.setBounds(80, 80, 80, 20);
+		lbNhanVien.setBounds(114, 80, 116, 20);
 		add(lbNhanVien);
 
-		JLabel lbDateTime = new JLabel("");
+		lbDateTime = new JLabel("");
 		lbDateTime.setHorizontalAlignment(SwingConstants.CENTER);
 		lbDateTime.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lbDateTime.setBounds(240, 80, 150, 20);
@@ -147,6 +192,11 @@ public class PnThanhToan extends JPanel {
 		txtKhachHang.setColumns(10);
 
 		JButton btnKiemTra = new JButton("Kiểm tra");
+		btnKiemTra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnKiemTraClicked();
+			}
+		});
 		btnKiemTra.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnKiemTra.setBounds(263, 105, 97, 22);
 		add(btnKiemTra);
@@ -171,28 +221,36 @@ public class PnThanhToan extends JPanel {
 		add(lblNewLabel_10_2_2);
 
 		txtTienMat = new JTextField();
+		txtTienMat.setHorizontalAlignment(SwingConstants.CENTER);
 		txtTienMat.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtTienMat.setColumns(10);
 		txtTienMat.setBounds(220, 500, 150, 22);
 		add(txtTienMat);
 		txtTienMat.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
-		JLabel lbTongCong = new JLabel("");
+		lbTongCong = new JLabel("");
 		lbTongCong.setHorizontalAlignment(SwingConstants.CENTER);
 		lbTongCong.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lbTongCong.setBounds(220, 480, 150, 22);
 		add(lbTongCong);
 
-		JLabel lbTienThua = new JLabel("");
+		lbTienThua = new JLabel("");
 		lbTienThua.setHorizontalAlignment(SwingConstants.CENTER);
 		lbTienThua.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lbTienThua.setBounds(220, 520, 150, 22);
 		add(lbTienThua);
+		
+		setTiming();
 	}
 
 	private void cardChange() {
 		cardLeft.show(pnLeft, "pnMenuKhongChucNang");
 		cardRight.show(pnRight, "panel_2");
+		//PnThanhToan pn = (PnThanhToan) pnCardRight;
+		//JLabel lbJLabel = pn.getLbNhanVien();
+		
+		//NhanVien nhanVien = 
+		//lbJLabel.setText();
 	}
 
 	private class PanelButtonMouseAdapter extends MouseAdapter {
@@ -204,7 +262,12 @@ public class PnThanhToan extends JPanel {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			cardChange();
+			if (panel.getName().compareTo("pnHuyBtn") == 0) {
+				cardChange();
+				renew();
+			}
+			if (panel.getName().compareTo("pnThanhToanBtn") == 0)
+				pnThanhToanBtnClicked();
 			panel.setBackground(Color.CYAN);
 		}
 
@@ -318,6 +381,126 @@ public class PnThanhToan extends JPanel {
 				}
 			}
 			__table.repaint();
+			tinhTong();
 		}
+		
+	}
+	
+	private void tinhTong() {
+		Long tong = (long) 0;
+		for (int i = 0; i < table.getRowCount(); i++) {
+			Long gia = Long.parseLong(table.getValueAt(i, 2).toString());
+			Long sl = Long.parseLong(table.getValueAt(i, 1).toString());
+			tong += gia * sl;
+		}
+		lbTongCong.setText(tong.toString());
+	}
+	
+	private void kiemTraTxt(JTextField txt) throws Exception {
+		try {
+			if (txt.getText().isBlank())
+				throw new Exception("Vui lòng nhập đầy đủ thông tin");
+			Double d = Double.parseDouble(txt.getText());
+		} catch (NumberFormatException nfe) {
+			throw new Exception("Vui lòng nhập số!");
+		}
+	}
+	
+	private void btnKiemTraClicked() {
+		try {
+			kiemTraTxt(txtKhachHang);
+			List<KhachHang> list = KhachHangDAO.layDanhSachKhachHangTheoSDT(Long.parseLong(txtKhachHang.getText()));
+			if (list == null || list.size() == 0) {
+				JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin!");
+				txtKhachHang.setText("");
+			}
+			else {
+				String mess = "";
+				for (KhachHang k : list) {
+					mess = mess.concat(k.getMaKH() + " / " + k.getTenKH() + " / " + k.getSdt().toString() + "\n");
+				}
+				JOptionPane.showMessageDialog(this, mess);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public JLabel getLbNhanVien() {
+		return lbNhanVien;
+	}
+
+	public void setLbNhanVien(JLabel lbNhanVien) {
+		this.lbNhanVien = lbNhanVien;
+	}
+	
+	private void setTiming() {
+		Timer timer = new Timer(1000, new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				Date date = new Date();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				lbDateTime.setText(formatter.format(date));
+			}
+		});
+		timer.start();
+	}
+	
+	private void kiemTraChu(JTextField txt) throws Exception {
+		try {
+			if (txt.getText().isBlank() == false) {
+				Double d = Double.parseDouble(txt.getText());
+			}
+		} catch (Exception e) {
+			throw new Exception("Vui lòng nhập số!");
+		}
+	}
+	
+	private void pnThanhToanBtnClicked() {
+		try {
+			kiemTraChu(txtTienMat);
+			JTableButtonModel model = (JTableButtonModel) table.getModel();
+			if (model.getRowCount() == 0)
+				throw new Exception("Vui lòng chọn món ăn!");
+			if (txtTienMat.getText().isBlank()) {
+				Long tong = Long.parseLong(lbTongCong.getText());
+				Long tien = Long.parseLong(txtTienMat.getText());
+				Long tienThua = tien - tong;
+				lbTienThua.setText(tienThua.toString());
+				
+				
+				HoaDon hoaDon = HoaDonDAO.taoHoaDonMoi();
+				hoaDon.setNhanVien(nhanVien);
+				System.out.println(hoaDon.getMaHD());
+				System.out.println(hoaDon.getNhanVien().getTenNV());
+				HoaDonDAO.themHoaDon(hoaDon);
+				
+				//khi da xong moi thu thi xoa bang
+				model.setRowCount(0);
+			} else { //ko nhập tiền thối
+				HoaDon hoaDon = HoaDonDAO.taoHoaDonMoi();
+				hoaDon.setNhanVien(nhanVien);
+				System.out.println(hoaDon.getMaHD());
+				System.out.println(hoaDon.getNhanVien().getTenNV());
+				HoaDonDAO.themHoaDon(hoaDon);
+				
+				//khi da xong moi thu thi xoa bang
+				model.setRowCount(0);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	private void renew() {
+		JTableButtonModel model = (JTableButtonModel) table.getModel();
+		model.setRowCount(0);
+		
+		lbTongCong.setText("");
+		txtTienMat.setText("");
+		lbTienThua.setText("");
+		txtKhachHang.setText("");
 	}
 }

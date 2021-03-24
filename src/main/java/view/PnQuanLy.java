@@ -7,23 +7,32 @@ import java.awt.CardLayout;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.JTextField;
 import java.awt.Color;
 
 import javax.swing.JSeparator;
 import javax.swing.border.LineBorder;
 
+import entities.NhanVien;
+
 import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 
 public class PnQuanLy extends JPanel {
 
+	private JFrame mainFrame;
 	/**
 	 * Create the panel.
 	 */
@@ -36,10 +45,20 @@ public class PnQuanLy extends JPanel {
 	private JPanel pnCardRight; //pn bên phải
 	private CardLayout cardRight; //card bên phải
 	private JTextField txtTimKiem;
-	public PnQuanLy(CardLayout cardLayout, JPanel cardPanel) {
+	
+	private JLabel lbNhanVien;
+	
+	private JLabel lbDateTime;
+	
+	private NhanVien nhanVien;
+	
+	private PnThanhToan pnThanhToan;
+	public PnQuanLy(CardLayout cardLayout, JPanel cardPanel, JFrame mainFrame) {
+		setName("pnQuanLy");
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		this.cardLayout = cardLayout;
 		this.cardPanel = cardPanel;
+		this.mainFrame = mainFrame;
 		
 		
 		setBounds(0, 0, 1024, 600);
@@ -106,13 +125,13 @@ public class PnQuanLy extends JPanel {
 		lblNewLabel_10.setBounds(10, 65, 78, 14);
 		panel_4.add(lblNewLabel_10);
 		
-		JLabel lbNhanVien = new JLabel("");
+		lbNhanVien = new JLabel("");
 		lbNhanVien.setHorizontalAlignment(SwingConstants.CENTER);
 		lbNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbNhanVien.setBounds(98, 70, 80, 20);
+		lbNhanVien.setBounds(98, 64, 118, 20);
 		panel_4.add(lbNhanVien);
 		
-		JLabel lbDateTime = new JLabel("");
+		lbDateTime = new JLabel("");
 		lbDateTime.setHorizontalAlignment(SwingConstants.CENTER);
 		lbDateTime.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lbDateTime.setBounds(226, 65, 149, 20);
@@ -384,7 +403,7 @@ public class PnQuanLy extends JPanel {
 		
 		pnCardRight.add(panel_2, "panel_2");
 		
-		JPanel pnThanhToan = new PnThanhToan(cardLeft, cardRight, pnCardLeft, pnCardRight);
+		pnThanhToan = new PnThanhToan(cardLeft, cardRight, pnCardLeft, pnCardRight);
 		pnCardRight.add(pnThanhToan, "pnThanhToan");
 		
 		JPanel pnMenuKhongChucNang = new PnMenuKhongChucNang();
@@ -396,7 +415,8 @@ public class PnQuanLy extends JPanel {
 
 		JPanel pnMenu = new PnMenu((PnThanhToan) pnThanhToan);
 		pnCardLeft.add(pnMenu, "pnMenu");
-
+		
+		setTiming();
 	}
 	
 	private class PanelButtonMouseAdapter extends MouseAdapter {
@@ -469,7 +489,7 @@ public class PnQuanLy extends JPanel {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			panel.setBackground(Color.CYAN);
-			cardLeft.show(cardPanel, "pnThongTinKhachHang");
+			cardLeft.show(cardPanel, "pnThongTinKhachHang");			
 		}
 
 		@Override
@@ -494,4 +514,44 @@ public class PnQuanLy extends JPanel {
 		cardRight.show(pnCardRight, "pnThanhToan");
 	}
 
+
+	public JLabel getLbNhanVien() {
+		return lbNhanVien;
+	}
+	
+	public void setLbNhanVien(JLabel lbNhanVien) {
+		this.lbNhanVien = lbNhanVien;
+	}
+
+	public PnThanhToan getPnThanhToan() {
+		return pnThanhToan;
+	}
+	
+	public void setPnThanhToan(PnThanhToan pnThanhToan) {
+		this.pnThanhToan = pnThanhToan;
+	}
+	
+	private void setTiming() {
+		Timer timer = new Timer(1000, new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				Date date = new Date();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				lbDateTime.setText(formatter.format(date));
+			}
+		});
+		timer.start();
+	}
+
+
+	public NhanVien getNhanVien() {
+		return nhanVien;
+	}
+
+
+	public void setNhanVien(NhanVien nhanVien) {
+		this.nhanVien = nhanVien;
+	}
+	
+	
 }
