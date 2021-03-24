@@ -2,6 +2,8 @@ package DAO;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -37,16 +39,19 @@ public class KhachHangDAO {
 		return list;
 	}
 	
-	public static List<KhachHang> layDanhSachKhachHangTheoSDT(String ma){
-		List<KhachHang> list = null;
+	public static KhachHang layThongTinKhachHangTheoSDT(Long ma){
+		KhachHang khachHang = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
-			String hql = "";
+			String hql = "from KhachHang where sdt = ?0";
+			Query query = session.createQuery(hql);
+			query.setParameter(0, ma);
+			khachHang = (KhachHang) query.uniqueResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
-		return null;
+		return khachHang;
 	}
 }

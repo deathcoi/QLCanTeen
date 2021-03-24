@@ -7,6 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -30,10 +33,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
+import DAO.CTHoaDonDAO;
 import DAO.HoaDonDAO;
 import DAO.KhachHangDAO;
+import DAO.MonAnDAO;
+import entities.CTHoaDon;
 import entities.HoaDon;
 import entities.KhachHang;
+import entities.MonAn;
 import entities.NhanVien;
 import table.JTableButtonRenderer;
 import table.JTableButtonModel;
@@ -240,6 +247,17 @@ public class PnThanhToan extends JPanel {
 		lbTienThua.setBounds(220, 520, 150, 22);
 		add(lbTienThua);
 		
+		JPanel pnRefresh = new JPanel();
+		pnRefresh.setName("pnRefresh");
+		pnRefresh.addMouseListener(new PanelButtonMouseAdapter(pnRefresh));
+		pnRefresh.setBounds(10, 485, 60, 60);
+		add(pnRefresh);
+		pnRefresh.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lbRefresh = new JLabel("");
+		lbRefresh.setIcon(new ImageIcon("picture/refresh.png"));
+		pnRefresh.add(lbRefresh, BorderLayout.CENTER);
+		
 		setTiming();
 	}
 
@@ -268,6 +286,8 @@ public class PnThanhToan extends JPanel {
 			}
 			if (panel.getName().compareTo("pnThanhToanBtn") == 0)
 				pnThanhToanBtnClicked();
+			if (panel.getName().compareTo("pnRefresh") == 0)
+				renew();
 			panel.setBackground(Color.CYAN);
 		}
 
@@ -284,6 +304,8 @@ public class PnThanhToan extends JPanel {
 		@Override
 		public void mouseExited(MouseEvent e) {
 			panel.setBackground(new Color(153, 0, 0));
+			if (panel.getName().compareTo("pnRefresh") == 0)
+				panel.setBackground(Color.WHITE);
 		}
 	}
 
@@ -390,8 +412,7 @@ public class PnThanhToan extends JPanel {
 		Long tong = (long) 0;
 		for (int i = 0; i < table.getRowCount(); i++) {
 			Long gia = Long.parseLong(table.getValueAt(i, 2).toString());
-			Long sl = Long.parseLong(table.getValueAt(i, 1).toString());
-			tong += gia * sl;
+			tong += gia;
 		}
 		lbTongCong.setText(tong.toString());
 	}
@@ -463,31 +484,38 @@ public class PnThanhToan extends JPanel {
 			JTableButtonModel model = (JTableButtonModel) table.getModel();
 			if (model.getRowCount() == 0)
 				throw new Exception("Vui lòng chọn món ăn!");
-			if (txtTienMat.getText().isBlank()) {
+			HoaDon hoaDon = HoaDonDAO.taoHoaDonMoi();
+			hoaDon.setNhanVien(nhanVien);
+			hoaDon.setNgayLap(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(lbDateTime.getText()));
+			
+			if (txtKhachHang.getText().isBlank() == false) {
+				KhachHang khachHang = KhachHangDAO.layThongTinKhachHangTheoSDT(Long.parseLong(txtKhachHang.getText()));
+				if (khachHang != null) {
+					hoaDon.setKhachHang(khachHang);
+					JOptionPane.showMessageDialog(this, "khong null");
+				}
+			}
+			
+			HoaDonDAO.themHoaDon(hoaDon);
+			
+			for (int i = 0; i < model.getRowCount(); i++) {
+				MonAn monAn = MonAnDAO.layThongTinMonAnTheoTen(model.getValueAt(i, 0).toString());
+				CTHoaDon ctHoaDon = new CTHoaDon();
+				ctHoaDon.setHoaDon(hoaDon);
+				ctHoaDon.setMonAn(monAn);
+				ctHoaDon.setSoLuong(Integer.parseInt(model.getValueAt(i, 1).toString()));
+				CTHoaDonDAO.themHoaDon(ctHoaDon);
+			}
+			if (txtTienMat.getText().isBlank() == false) {
 				Long tong = Long.parseLong(lbTongCong.getText());
 				Long tien = Long.parseLong(txtTienMat.getText());
 				Long tienThua = tien - tong;
 				lbTienThua.setText(tienThua.toString());
 				
-				
-				HoaDon hoaDon = HoaDonDAO.taoHoaDonMoi();
-				hoaDon.setNhanVien(nhanVien);
-				System.out.println(hoaDon.getMaHD());
-				System.out.println(hoaDon.getNhanVien().getTenNV());
-				HoaDonDAO.themHoaDon(hoaDon);
-				
-				//khi da xong moi thu thi xoa bang
-				model.setRowCount(0);
-			} else { //ko nhập tiền thối
-				HoaDon hoaDon = HoaDonDAO.taoHoaDonMoi();
-				hoaDon.setNhanVien(nhanVien);
-				System.out.println(hoaDon.getMaHD());
-				System.out.println(hoaDon.getNhanVien().getTenNV());
-				HoaDonDAO.themHoaDon(hoaDon);
-				
-				//khi da xong moi thu thi xoa bang
-				model.setRowCount(0);
 			}
+			model.setRowCount(0);	//khi da xong moi thu thi xoa bang
+			
+			JOptionPane.showMessageDialog(this, "Thanh toán thành công, tổng số tiền: " + lbTongCong.getText() + (lbTienThua.getText().isBlank() == false ? (" , tiền thối: " + lbTienThua.getText()) : ""));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 			e.printStackTrace();

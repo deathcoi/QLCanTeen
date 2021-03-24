@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 @Entity(name="BangChamCong")
 public class BangChamCong {
 	@Id
-	private int stt;
+	private Integer stt;
 	private Date batDau;
 	private Date ketThuc;
 	
@@ -22,7 +22,7 @@ public class BangChamCong {
 		return stt;
 	}
 
-	public void setStt(int stt) {
+	public void setStt(Integer stt) {
 		this.stt = stt;
 	}
 

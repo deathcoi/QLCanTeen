@@ -12,7 +12,7 @@ public class HoaDonDAO {
 		HoaDon hoaDon = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
-			String hql = "from HoaDon order by maHD desc";
+			String hql = "from HoaDon order by ngayLap desc";
 			Query query = session.createQuery(hql);
 			query.setMaxResults(1);
 			hoaDon = (HoaDon) query.uniqueResult();

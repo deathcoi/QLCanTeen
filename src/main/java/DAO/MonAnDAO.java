@@ -3,6 +3,7 @@ package DAO;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import Utils.HibernateUtil;
 import entities.MonAn;
@@ -27,6 +28,22 @@ public class MonAnDAO {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
 			monAn = session.get(MonAn.class, maMA);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return monAn;
+	}
+	
+	public static MonAn layThongTinMonAnTheoTen(String tenMA){
+		MonAn monAn = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			String hql = "from MonAn m where m.tenMA = ?0";
+			Query query = session.createQuery(hql);
+			query.setParameter(0, tenMA);
+			monAn = (MonAn) query.uniqueResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
