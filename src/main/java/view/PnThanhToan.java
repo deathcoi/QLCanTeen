@@ -283,6 +283,7 @@ public class PnThanhToan extends JPanel {
 		pnRefresh.add(lbRefresh, BorderLayout.CENTER);
 		
 		setTiming();
+		
 	}
 
 	private void cardChange() {
@@ -598,4 +599,5 @@ public class PnThanhToan extends JPanel {
 			}
 		}
 	}
+
 }

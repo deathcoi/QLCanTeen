@@ -136,7 +136,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="281" splitType="Stretch">
+		<band height="40" splitType="Stretch">
 			<textField>
 				<reportElement x="130" y="10" width="100" height="30" uuid="33cd0790-9b9b-412f-8e52-78f850594b63">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2f26097f-42be-4090-9819-ba594d986566"/>
@@ -164,50 +164,55 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{soLuong}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="130" y="50" width="100" height="30" uuid="ac81a2b7-8618-45c2-9801-71928fcebeee"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<text><![CDATA[Tổng tiền:]]></text>
-			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="170" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<textField>
-				<reportElement x="330" y="50" width="100" height="30" uuid="c0a4c3d6-68c6-4406-9791-9c8e86dc18b1"/>
+				<reportElement x="330" y="0" width="100" height="30" uuid="28dd349d-86ad-4f57-8769-2f10de11f9b7"/>
 				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{tongTien}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="130" y="80" width="100" height="30" uuid="c038e42c-e8d3-4c33-baa4-fba7cd85958d"/>
+				<reportElement x="130" y="30" width="100" height="30" uuid="7a4cfd74-c2ed-4ee6-87fa-06d30aa02546"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Tiền mặt:]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="130" y="0" width="100" height="30" uuid="246bc2c7-de78-4b3f-9149-a57c6f5ca97e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Tổng tiền:]]></text>
+			</staticText>
 			<textField>
-				<reportElement x="330" y="80" width="100" height="30" uuid="2874f79f-a662-4745-a620-dbde058b5434"/>
+				<reportElement x="330" y="30" width="100" height="30" uuid="6f269c77-df2e-4c9e-9741-e983eec00578"/>
 				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{tienMat}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="130" y="110" width="100" height="30" uuid="c5789c08-2901-4300-b43f-557c9a5d3302"/>
+				<reportElement x="130" y="60" width="100" height="30" uuid="4e6793a0-89c8-4dff-9fd8-b09ae6f1e15d"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Tiền thừa:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="330" y="110" width="100" height="30" uuid="5ee14e4d-cdcd-48cf-a4cf-09a42d2d8b04"/>
+				<reportElement x="330" y="60" width="100" height="30" uuid="ea9ab003-9cb8-498d-b637-b9fc07f212bb"/>
 				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{tienThua}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="140" width="555" height="47" uuid="87f50739-6bea-4a3e-b81e-7d5c8140e657">
+				<reportElement x="0" y="90" width="555" height="47" uuid="215b36ab-e91b-4037-9796-c765bb517ba0">
 					<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -217,17 +222,12 @@
 				<text><![CDATA[============================================================]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="3" y="187" width="555" height="33" uuid="066561ad-0e39-41ec-b336-6dc4247e1ffe"/>
+				<reportElement x="3" y="137" width="555" height="33" uuid="5af78112-b720-4064-898b-062697ce659a"/>
 				<textElement textAlignment="Center">
 					<font size="18" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Chúc quý khách ngon miệng!]]></text>
 			</staticText>
-		</band>
-	</detail>
-	<columnFooter>
-		<band height="69" splitType="Stretch">
-			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 		</band>
 	</columnFooter>
 	<pageFooter>
