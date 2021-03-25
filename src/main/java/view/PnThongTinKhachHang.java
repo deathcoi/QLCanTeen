@@ -13,13 +13,14 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JButton;
 
 public class PnThongTinKhachHang extends JPanel {
 	private JTable table;
 	private JTextField txtMaKH;
 	private JTextField txtTenKH;
 	private JTextField txtNamSinh;
-	private JTextField txtSDT;
+	private JTextField txtSdt;
 	private JTextField textField_4;
 
 	/**
@@ -103,11 +104,11 @@ public class PnThongTinKhachHang extends JPanel {
 		txtNamSinh.setBounds(120, 170, 109, 20);
 		panel.add(txtNamSinh);
 		
-		txtSDT = new JTextField();
-		txtSDT.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtSDT.setColumns(10);
-		txtSDT.setBounds(120, 210, 109, 20);
-		panel.add(txtSDT);
+		txtSdt = new JTextField();
+		txtSdt.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtSdt.setColumns(10);
+		txtSdt.setBounds(120, 210, 109, 20);
+		panel.add(txtSdt);
 		
 		JRadioButton rdBtnNam = new JRadioButton("Nam");
 		rdBtnNam.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -125,9 +126,11 @@ public class PnThongTinKhachHang extends JPanel {
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		panel_1.add(scrollPane, BorderLayout.CENTER);
 		
-		table = new JTable(new DefaultTableModel(new Object[] {"Mã khách hàng", "Tên khách hàng", "Loại", "SĐT"}, 0));
+		table = new JTable(new DefaultTableModel(new Object[] {"Mã", "Tên", "Loại", "Giới tính", "SĐT", "Năm sinh", "Tiền"}, 0));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		scrollPane.setViewportView(table);
 		
 		JLabel lblNewLabel_1 = new JLabel("Tìm thấy:");
@@ -136,6 +139,7 @@ public class PnThongTinKhachHang extends JPanel {
 		add(lblNewLabel_1);
 		
 		textField_4 = new JTextField();
+		textField_4.setEditable(false);
 		textField_4.setBounds(478, 470, 50, 20);
 		add(textField_4);
 		textField_4.setColumns(10);
@@ -148,6 +152,11 @@ public class PnThongTinKhachHang extends JPanel {
 		ButtonGroup btnGroupGioiTinh = new ButtonGroup();
 		btnGroupGioiTinh.add(rdBtnNam);
 		btnGroupGioiTinh.add(rdBtnNu);
+		
+		JButton btnTimKiem = new JButton("Tìm kiếm");
+		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnTimKiem.setBounds(460, 225, 89, 25);
+		panel.add(btnTimKiem);
 	}
 	
 	private void timKhachHang() {

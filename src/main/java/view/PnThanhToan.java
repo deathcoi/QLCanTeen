@@ -49,6 +49,10 @@ import javax.swing.JSeparator;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PnThanhToan extends JPanel {
 
@@ -161,13 +165,13 @@ public class PnThanhToan extends JPanel {
 		add(lblNewLabel_10);
 
 		lbNhanVien = new JLabel("");
-		lbNhanVien.setHorizontalAlignment(SwingConstants.CENTER);
+		lbNhanVien.setHorizontalAlignment(SwingConstants.LEFT);
 		lbNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbNhanVien.setBounds(114, 80, 116, 20);
+		lbNhanVien.setBounds(80, 80, 116, 20);
 		add(lbNhanVien);
 
 		lbDateTime = new JLabel("");
-		lbDateTime.setHorizontalAlignment(SwingConstants.CENTER);
+		lbDateTime.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbDateTime.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lbDateTime.setBounds(240, 80, 150, 20);
 		add(lbDateTime);
@@ -194,7 +198,7 @@ public class PnThanhToan extends JPanel {
 
 		txtKhachHang = new JTextField();
 		txtKhachHang.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtKhachHang.setBounds(114, 105, 139, 22);
+		txtKhachHang.setBounds(102, 105, 139, 22);
 		add(txtKhachHang);
 		txtKhachHang.setColumns(10);
 
@@ -228,6 +232,13 @@ public class PnThanhToan extends JPanel {
 		add(lblNewLabel_10_2_2);
 
 		txtTienMat = new JTextField();
+		txtTienMat.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				txtTienMatEnter(e);
+			}
+		});
+
 		txtTienMat.setHorizontalAlignment(SwingConstants.CENTER);
 		txtTienMat.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtTienMat.setColumns(10);
@@ -438,9 +449,8 @@ public class PnThanhToan extends JPanel {
 			else {
 				String mess = "";
 				for (KhachHang k : list) {
-					mess = mess.concat(k.getMaKH() + " / " + k.getTenKH() + " / " + k.getSdt().toString() + "\n");
+					txtKhachHang.setText(k.getTenKH());
 				}
-				JOptionPane.showMessageDialog(this, mess);
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
@@ -506,13 +516,7 @@ public class PnThanhToan extends JPanel {
 				ctHoaDon.setSoLuong(Integer.parseInt(model.getValueAt(i, 1).toString()));
 				CTHoaDonDAO.themHoaDon(ctHoaDon);
 			}
-			if (txtTienMat.getText().isBlank() == false) {
-				Long tong = Long.parseLong(lbTongCong.getText());
-				Long tien = Long.parseLong(txtTienMat.getText());
-				Long tienThua = tien - tong;
-				lbTienThua.setText(tienThua.toString());
-				
-			}
+			
 			model.setRowCount(0);	//khi da xong moi thu thi xoa bang
 			
 			JOptionPane.showMessageDialog(this, "Thanh toán thành công, tổng số tiền: " + lbTongCong.getText() + (lbTienThua.getText().isBlank() == false ? (" , tiền thối: " + lbTienThua.getText()) : ""));
@@ -530,5 +534,15 @@ public class PnThanhToan extends JPanel {
 		txtTienMat.setText("");
 		lbTienThua.setText("");
 		txtKhachHang.setText("");
+	}
+	private void txtTienMatEnter(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if (txtTienMat.getText().isBlank() == false) {
+				Long tong = Long.parseLong(lbTongCong.getText());
+				Long tien = Long.parseLong(txtTienMat.getText());
+				Long tienThua = tien - tong;
+				lbTienThua.setText(tienThua.toString());
+			}
+		}
 	}
 }
