@@ -45,11 +45,11 @@ public class PnNhanVien extends JPanel {
 	private CardLayout cardLayout; // card dang nhap
 	private JPanel cardPanel; // pn dang nhap
 
-	private CardLayout cardLayoutThis; // card left
-	private JPanel cardPanelThis; // pn left
+	private CardLayout cardLeft; // card left
+	private JPanel pnLeft; // pn left
 
 	private JPanel pnSwitch; // pn right
-	private CardLayout cardSwitch; // card right
+	private CardLayout cardRight; // card right
 	private JTextField txtTimKiem;
 
 	private NhanVien nhanVien;
@@ -72,18 +72,18 @@ public class PnNhanVien extends JPanel {
 
 		setLayout(null);
 
-		cardPanelThis = new JPanel();
-		cardPanelThis.setBorder(new LineBorder(new Color(0, 0, 0)));
-		cardPanelThis.setBounds(64, 100, 560, 500);
-		add(cardPanelThis);
-		cardLayoutThis = new CardLayout(0, 0);
-		cardPanelThis.setLayout(cardLayoutThis);
+		pnLeft = new JPanel();
+		pnLeft.setBorder(new LineBorder(new Color(0, 0, 0)));
+		pnLeft.setBounds(64, 100, 560, 500);
+		add(pnLeft);
+		cardLeft = new CardLayout(0, 0);
+		pnLeft.setLayout(cardLeft);
 
 		pnSwitch = new JPanel();
 		pnSwitch.setBounds(624, 0, 400, 600);
 		add(pnSwitch);
-		cardSwitch = new CardLayout(0, 0);
-		pnSwitch.setLayout(cardSwitch);
+		cardRight = new CardLayout(0, 0);
+		pnSwitch.setLayout(cardRight);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -153,11 +153,12 @@ public class PnNhanVien extends JPanel {
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.Y_AXIS));
 
 		JPanel pnHoaDonBtn = new JPanel();
+		pnHoaDonBtn.setName("pnHoaDonBtn");
 		pnHoaDonBtn.setForeground(Color.WHITE);
 		pnHoaDonBtn.setBackground(new Color(153, 0, 0));
 		panel_6.add(pnHoaDonBtn);
 		pnHoaDonBtn.setLayout(new BorderLayout(0, 0));
-		pnHoaDonBtn.addMouseListener(new PanelButtonHoaDonMouseAdapter(pnHoaDonBtn, cardPanelThis, pnSwitch));
+		pnHoaDonBtn.addMouseListener(new PanelButtonHoaDonMouseAdapter(pnHoaDonBtn, pnLeft, pnSwitch));
 
 		JLabel lbHoaDon = new JLabel("Hóa đơn");
 
@@ -181,11 +182,12 @@ public class PnNhanVien extends JPanel {
 		pnHoaDonBtn.add(separator_21, BorderLayout.NORTH);
 
 		JPanel pnKhachHangBtn = new JPanel();
+		pnKhachHangBtn.setName("pnKhachHangBtn");
 		pnKhachHangBtn.setForeground(Color.WHITE);
 		pnKhachHangBtn.setBackground(new Color(153, 0, 0));
 		panel_6.add(pnKhachHangBtn);
 		pnKhachHangBtn.setLayout(new BorderLayout(0, 0));
-		pnKhachHangBtn.addMouseListener(new PanelButtonMouseAdapter(pnKhachHangBtn, cardPanelThis));
+		pnKhachHangBtn.addMouseListener(new PanelButtonMouseAdapter(pnKhachHangBtn));
 
 		JLabel lbKhachHang = new JLabel("Khách hàng");
 		lbKhachHang.setForeground(Color.WHITE);
@@ -205,11 +207,12 @@ public class PnNhanVien extends JPanel {
 		pnKhachHangBtn.add(separator_18, BorderLayout.WEST);
 
 		JPanel pnTinhLuongBtn = new JPanel();
+		pnTinhLuongBtn.setName("pnTinhLuongBtn");
 		pnTinhLuongBtn.setForeground(Color.WHITE);
 		pnTinhLuongBtn.setBackground(new Color(153, 0, 0));
 		panel_6.add(pnTinhLuongBtn);
 		pnTinhLuongBtn.setLayout(new BorderLayout(0, 0));
-		pnTinhLuongBtn.addMouseListener(new PanelButtonMouseAdapter(pnTinhLuongBtn, cardPanelThis));
+		pnTinhLuongBtn.addMouseListener(new PanelButtonMouseAdapter(pnTinhLuongBtn));
 
 		JLabel lbTinhLuong = new JLabel("    Chấm công    ");
 
@@ -234,12 +237,12 @@ public class PnNhanVien extends JPanel {
 		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.Y_AXIS));
 
 		JPanel pnLichSuHoaDonBtn = new JPanel();
-
+		pnLichSuHoaDonBtn.setName("pnLichSuHoaDonBtn");
 		pnLichSuHoaDonBtn.setForeground(Color.WHITE);
 		pnLichSuHoaDonBtn.setBackground(new Color(153, 0, 0));
 		panel_7.add(pnLichSuHoaDonBtn);
 		pnLichSuHoaDonBtn.setLayout(new BorderLayout(0, 0));
-		pnLichSuHoaDonBtn.addMouseListener(new PanelButtonMouseAdapter(pnLichSuHoaDonBtn, cardPanelThis));
+		pnLichSuHoaDonBtn.addMouseListener(new PanelButtonMouseAdapter(pnLichSuHoaDonBtn));
 
 		JLabel lbLichSuHoaDon = new JLabel("Lịch sử hóa đơn");
 
@@ -259,15 +262,14 @@ public class PnNhanVien extends JPanel {
 		pnLichSuHoaDonBtn.add(separator_23, BorderLayout.EAST);
 
 		JPanel pnThongKeBtn = new JPanel();
-
+		pnThongKeBtn.setName("pnThongKeBtn");
 		pnThongKeBtn.setForeground(Color.WHITE);
 		pnThongKeBtn.setBackground(new Color(153, 0, 0));
 		panel_7.add(pnThongKeBtn);
 		pnThongKeBtn.setLayout(new BorderLayout(0, 0));
-		pnThongKeBtn.addMouseListener(new PanelButtonMouseAdapter(pnThongKeBtn, cardPanelThis));
+		pnThongKeBtn.addMouseListener(new PanelButtonMouseAdapter(pnThongKeBtn));
 
 		JLabel lbThongKe = new JLabel("Thống kê");
-
 		lbThongKe.setForeground(Color.WHITE);
 		lbThongKe.setHorizontalAlignment(SwingConstants.CENTER);
 		lbThongKe.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -281,12 +283,12 @@ public class PnNhanVien extends JPanel {
 		pnThongKeBtn.add(separator_25, BorderLayout.EAST);
 
 		JPanel pnNhapNguyenLieuBtn = new JPanel();
-
+		pnNhapNguyenLieuBtn.setName("pnNhapNguyenLieuBtn");
 		pnNhapNguyenLieuBtn.setForeground(Color.WHITE);
 		pnNhapNguyenLieuBtn.setBackground(new Color(153, 0, 0));
 		panel_7.add(pnNhapNguyenLieuBtn);
 		pnNhapNguyenLieuBtn.setLayout(new BorderLayout(0, 0));
-		pnNhapNguyenLieuBtn.addMouseListener(new PanelButtonMouseAdapter(pnNhapNguyenLieuBtn, cardPanelThis));
+		pnNhapNguyenLieuBtn.addMouseListener(new PanelButtonMouseAdapter(pnNhapNguyenLieuBtn));
 
 		JLabel lbNhapNguyenLieu = new JLabel("Nhập nguyên liệu");
 
@@ -353,30 +355,34 @@ public class PnNhanVien extends JPanel {
 
 		pnSwitch.add(panel_2, "panel_2");
 
-		pnThanhToan = new PnThanhToan(cardLayoutThis, cardSwitch, cardPanelThis, pnSwitch);
+		pnThanhToan = new PnThanhToan(cardLeft, cardRight, pnLeft, pnSwitch);
 		pnSwitch.add(pnThanhToan, "pnThanhToan");
 
 		JPanel pnMenuKhongChucNang = new PnMenuKhongChucNang();
-		cardPanelThis.add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
+		pnLeft.add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
 
 		JPanel pnMenu = new PnMenu((PnThanhToan) pnThanhToan);
-		cardPanelThis.add(pnMenu, "pnMenu");
+		pnLeft.add(pnMenu, "pnMenu");
+		
+		JPanel pnLichSuHoaDon = new PnLichSuHoaDon();
+		pnLeft.add(pnLichSuHoaDon, "pnLichSuHoaDon");
 
 		setTiming();
 	}
 
 	private class PanelButtonMouseAdapter extends MouseAdapter {
 		JPanel panel;
-		JPanel cardPanel;
 
-		public PanelButtonMouseAdapter(JPanel panel, JPanel cardPanel) {
+		public PanelButtonMouseAdapter(JPanel panel) {
 			this.panel = panel;
-			this.cardPanel = cardPanel;
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
 			panel.setBackground(Color.CYAN);
+			if (panel.getName().compareTo("pnLichSuHoaDonBtn") == 0) {
+				cardLeft.show(pnLeft, "pnLichSuHoaDon");
+			}
 		}
 
 		@Override
@@ -409,8 +415,8 @@ public class PnNhanVien extends JPanel {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			panel.setBackground(Color.CYAN);
-			cardLayoutThis.show(cardPanel, "pnMenu");
-			cardSwitch.show(pnSwitch, "pnThanhToan");
+			cardLeft.show(cardPanel, "pnMenu");
+			cardRight.show(pnSwitch, "pnThanhToan");
 		}
 
 		@Override
@@ -474,11 +480,11 @@ public class PnNhanVien extends JPanel {
 	}
 
 	public CardLayout getCardSwitch() {
-		return cardSwitch;
+		return cardRight;
 	}
 
-	public void setCardSwitch(CardLayout cardSwitch) {
-		this.cardSwitch = cardSwitch;
+	public void setCardSwitch(CardLayout cardRight) {
+		this.cardRight = cardRight;
 	}
 	
 	

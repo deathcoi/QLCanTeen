@@ -1,0 +1,145 @@
+CREATE DATABASE  IF NOT EXISTS `qlcanteen` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `qlcanteen`;
+-- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: qlcanteen
+-- ------------------------------------------------------
+-- Server version	8.0.22
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Dumping data for table `bangchamcong`
+--
+
+LOCK TABLES `bangchamcong` WRITE;
+/*!40000 ALTER TABLE `bangchamcong` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bangchamcong` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `cthoadon`
+--
+
+LOCK TABLES `cthoadon` WRITE;
+/*!40000 ALTER TABLE `cthoadon` DISABLE KEYS */;
+INSERT INTO `cthoadon` VALUES ('hd1','m01',1),('hd1','m02',1),('hd1','m03',1),('hd2','m03',1),('hd2','m04',3),('hd3','m05',1),('hd3','m06',1),('hd4','m05',1),('hd4','m06',1),('hd4','m07',1),('hd4','m08',3),('hd5','m01',1),('hd5','m02',1),('hd5','m03',1),('hd5','m04',1),('hd6','m01',2);
+/*!40000 ALTER TABLE `cthoadon` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `hoadon`
+--
+
+LOCK TABLES `hoadon` WRITE;
+/*!40000 ALTER TABLE `hoadon` DISABLE KEYS */;
+INSERT INTO `hoadon` VALUES ('hd1','admin','kh02','2021-03-24 20:53:24',NULL),('hd2','admin','kh01','2021-03-24 21:04:04',NULL),('hd3','admin',NULL,'2021-03-24 21:04:57',NULL),('hd4','admin',NULL,'2021-03-24 21:16:26',NULL),('hd5','admin',NULL,'2021-03-24 21:16:46',NULL),('hd6','nv01','kh01','2021-03-25 12:25:00',NULL);
+/*!40000 ALTER TABLE `hoadon` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `khachhang`
+--
+
+LOCK TABLES `khachhang` WRITE;
+/*!40000 ALTER TABLE `khachhang` DISABLE KEYS */;
+INSERT INTO `khachhang` VALUES ('kh01','sv','Quỳnh Thư','nữ',2000,931919064,200000,1),('kh02','sv','Quốc Sơn','nam',2000,704544881,200000,1),('kh03','sv','Vũ Hải','nam',2000,123123123,200000,1),('kh04','gv','Thầy Nhựt','nam',1988,98123232,2000000,1);
+/*!40000 ALTER TABLE `khachhang` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `loaikhachhang`
+--
+
+LOCK TABLES `loaikhachhang` WRITE;
+/*!40000 ALTER TABLE `loaikhachhang` DISABLE KEYS */;
+INSERT INTO `loaikhachhang` VALUES ('gv','Giáo viên'),('khac','Nhân viên văn phòng'),('sv','Sinh Viên');
+/*!40000 ALTER TABLE `loaikhachhang` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `loaimonan`
+--
+
+LOCK TABLES `loaimonan` WRITE;
+/*!40000 ALTER TABLE `loaimonan` DISABLE KEYS */;
+INSERT INTO `loaimonan` VALUES ('banhMi','Bánh mì',15000,1),('chao','Cháo',15000,1),('com','Cơm',25000,1),('nuoc','Nước ngọt',12000,1),('nuocSuoi','Nước suối',6000,1),('pho','Phở',25000,1);
+/*!40000 ALTER TABLE `loaimonan` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `monan`
+--
+
+LOCK TABLES `monan` WRITE;
+/*!40000 ALTER TABLE `monan` DISABLE KEYS */;
+INSERT INTO `monan` VALUES ('m01','com','thit1','Cơm sườn',1),('m02','com','thit2','Cơm gà',1),('m03','com','thit3','Cơm sườn heo',1),('m04','com','thit4','Cơm vịt???',1),('m05','nuoc','nuoc1','Coca cola',1),('m06','nuoc','nuoc2','Pepsi',1),('m07','nuoc','nuoc3','7 up',1),('m08','nuocSuoi','nuocSuoi1','Aquafina',1);
+/*!40000 ALTER TABLE `monan` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `nguyenlieu`
+--
+
+LOCK TABLES `nguyenlieu` WRITE;
+/*!40000 ALTER TABLE `nguyenlieu` DISABLE KEYS */;
+INSERT INTO `nguyenlieu` VALUES ('nuoc1','coca',100),('nuoc2','pepsi',100),('nuoc3','7 up',100),('nuocSuoi1','aquafina',100),('thit1','Thịt bò',100),('thit2','Thịt gà',100),('thit3','Thịt heo',100),('thit4','Thịt vịt',100),('trung','Trứng',100);
+/*!40000 ALTER TABLE `nguyenlieu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `nhanvien`
+--
+
+LOCK TABLES `nhanvien` WRITE;
+/*!40000 ALTER TABLE `nhanvien` DISABLE KEYS */;
+INSERT INTO `nhanvien` VALUES ('admin','admin',NULL,NULL,NULL,NULL),('nv01','Thư','nữ',2000,9319191064,1);
+/*!40000 ALTER TABLE `nhanvien` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `taikhoankh`
+--
+
+LOCK TABLES `taikhoankh` WRITE;
+/*!40000 ALTER TABLE `taikhoankh` DISABLE KEYS */;
+/*!40000 ALTER TABLE `taikhoankh` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `taikhoannv`
+--
+
+LOCK TABLES `taikhoannv` WRITE;
+/*!40000 ALTER TABLE `taikhoannv` DISABLE KEYS */;
+INSERT INTO `taikhoannv` VALUES ('admin','admin'),('nv01','nv01');
+/*!40000 ALTER TABLE `taikhoannv` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping events for database 'qlcanteen'
+--
+
+--
+-- Dumping routines for database 'qlcanteen'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2021-03-25 14:58:45

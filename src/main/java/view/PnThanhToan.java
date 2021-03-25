@@ -497,12 +497,13 @@ public class PnThanhToan extends JPanel {
 			HoaDon hoaDon = HoaDonDAO.taoHoaDonMoi();
 			hoaDon.setNhanVien(nhanVien);
 			hoaDon.setNgayLap(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(lbDateTime.getText()));
+			hoaDon.setTongTien(Long.parseLong(lbTongCong.getText()));
 			
 			if (txtKhachHang.getText().isBlank() == false) {
 				KhachHang khachHang = KhachHangDAO.layThongTinKhachHangTheoSDT(Long.parseLong(txtKhachHang.getText()));
 				if (khachHang != null) {
 					hoaDon.setKhachHang(khachHang);
-					JOptionPane.showMessageDialog(this, "khong null");
+					//JOptionPane.showMessageDialog(this, "khong null");
 				}
 			}
 			

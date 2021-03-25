@@ -17,6 +17,7 @@ public class HoaDon implements Serializable{
 	@Id
 	private String maHD;
 	private Date ngayLap;
+	private Long tongTien;
 	
 	@ManyToOne
 	@JoinColumn(name = "maNV")
@@ -56,6 +57,18 @@ public class HoaDon implements Serializable{
 
 	public void setKhachHang(KhachHang khachHang) {
 		this.khachHang = khachHang;
+	}
+
+	public Long getTongTien() {
+		return tongTien;
+	}
+
+	public void setTongTien(Long tongTien) {
+		this.tongTien = tongTien;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 	
