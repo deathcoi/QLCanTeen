@@ -35,7 +35,7 @@ public class PnLoaiMonAn extends JPanel {
 	 * Create the panel.
 	 */
 	public PnLoaiMonAn() {
-		setBounds(0, 0, 560, 600);
+		setBounds(0, 0, 560, 500);
 		setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Mã loại");
@@ -69,7 +69,7 @@ public class PnLoaiMonAn extends JPanel {
 		add(txtGiaTien);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 170, 540, 420);
+		scrollPane.setBounds(10, 170, 540, 330);
 		add(scrollPane);
 		
 		table = new JTable(new DefaultTableModel(new Object[] {"Mã loại", "Tên loại", "Giá tiền"}, 0));
