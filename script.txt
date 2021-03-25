@@ -45,6 +45,7 @@ Create table HoaDon
 	maNV Nvarchar(10) NOT NULL,
 	maKH Nvarchar(10) NULL,
 	ngayLap Datetime NULL,
+    tongTien Numeric(18,0) NULL,
 Primary Key (maHD)
 ) ;
 
@@ -118,3 +119,4 @@ Alter table MonAn add  foreign key(maNguyenLieu) references NguyenLieu (maNguyen
 Alter table KhachHang add  foreign key(maLoaiKH) references LoaiKhachHang (maLoaiKH)  on update no action on delete no action ;
 
 Alter table BangChamCong add  foreign key(maNV) references NhanVien (maNV)  on update no action on delete no action ;
+

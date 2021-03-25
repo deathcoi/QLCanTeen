@@ -14,13 +14,14 @@ public class CTHoaDon implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Id
 	private Integer soLuong;
 	
+	@Id
 	@ManyToOne
 	@JoinColumn(name="maHD")
 	private HoaDon hoaDon;
 	
+	@Id
 	@ManyToOne
 	@JoinColumn(name="maMA")
 	private MonAn monAn;
@@ -49,5 +50,8 @@ public class CTHoaDon implements Serializable{
 		this.monAn = monAn;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return hoaDon.getMaHD() + " / " + monAn.getTenMA() + " / " + soLuong;
+	}
 }
