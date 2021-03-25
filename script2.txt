@@ -18,6 +18,24 @@ USE `qlcanteen`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `bangchamcong`
+--
+
+DROP TABLE IF EXISTS `bangchamcong`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bangchamcong` (
+  `stt` int NOT NULL AUTO_INCREMENT,
+  `batDau` datetime DEFAULT NULL,
+  `ketThuc` datetime DEFAULT NULL,
+  `maNV` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`stt`),
+  KEY `maNV` (`maNV`),
+  CONSTRAINT `bangchamcong_ibfk_1` FOREIGN KEY (`maNV`) REFERENCES `nhanvien` (`maNV`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `bangchamcong`
 --
 
@@ -27,14 +45,53 @@ LOCK TABLES `bangchamcong` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `cthoadon`
+--
+
+DROP TABLE IF EXISTS `cthoadon`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cthoadon` (
+  `maHD` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `maMA` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `soLuong` int NOT NULL,
+  PRIMARY KEY (`maHD`,`maMA`),
+  KEY `maMA` (`maMA`),
+  CONSTRAINT `cthoadon_ibfk_1` FOREIGN KEY (`maHD`) REFERENCES `hoadon` (`maHD`),
+  CONSTRAINT `cthoadon_ibfk_2` FOREIGN KEY (`maMA`) REFERENCES `monan` (`maMA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `cthoadon`
 --
 
 LOCK TABLES `cthoadon` WRITE;
 /*!40000 ALTER TABLE `cthoadon` DISABLE KEYS */;
-INSERT INTO `cthoadon` VALUES ('hd1','m01',1),('hd1','m02',1),('hd1','m03',1),('hd2','m03',1),('hd2','m04',3),('hd3','m05',1),('hd3','m06',1),('hd4','m05',1),('hd4','m06',1),('hd4','m07',1),('hd4','m08',3),('hd5','m01',1),('hd5','m02',1),('hd5','m03',1),('hd5','m04',1),('hd6','m01',2);
+INSERT INTO `cthoadon` VALUES ('hd1','m01',1),('hd1','m02',3),('hd1','m03',5),('hd1','m04',1),('hd2','m01',1),('hd2','m02',1),('hd2','m03',1),('hd2','m04',1),('hd3','m05',1),('hd3','m07',1),('hd3','m08',1),('hd4','m01',2),('hd4','m03',2),('hd4','m04',1),('hd5','m02',1),('hd5','m04',1),('hd6','m01',1),('hd6','m02',1),('hd6','m03',1),('hd6','m04',1),('hd7','m05',1),('hd7','m06',1),('hd7','m07',1),('hd7','m08',1),('hd8','m01',1),('hd8','m03',1),('hd8','m04',2),('hd9','m04',1);
 /*!40000 ALTER TABLE `cthoadon` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `hoadon`
+--
+
+DROP TABLE IF EXISTS `hoadon`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `hoadon` (
+  `maHD` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `maNV` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `maKH` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `ngayLap` datetime DEFAULT NULL,
+  `tongTien` decimal(18,0) DEFAULT NULL,
+  PRIMARY KEY (`maHD`),
+  KEY `maNV` (`maNV`),
+  KEY `maKH` (`maKH`),
+  CONSTRAINT `hoadon_ibfk_1` FOREIGN KEY (`maNV`) REFERENCES `nhanvien` (`maNV`),
+  CONSTRAINT `hoadon_ibfk_2` FOREIGN KEY (`maKH`) REFERENCES `khachhang` (`maKH`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `hoadon`
@@ -42,9 +99,31 @@ UNLOCK TABLES;
 
 LOCK TABLES `hoadon` WRITE;
 /*!40000 ALTER TABLE `hoadon` DISABLE KEYS */;
-INSERT INTO `hoadon` VALUES ('hd1','admin','kh02','2021-03-24 20:53:24',NULL),('hd2','admin','kh01','2021-03-24 21:04:04',NULL),('hd3','admin',NULL,'2021-03-24 21:04:57',NULL),('hd4','admin',NULL,'2021-03-24 21:16:26',NULL),('hd5','admin',NULL,'2021-03-24 21:16:46',NULL),('hd6','nv01','kh01','2021-03-25 12:25:00',NULL);
+INSERT INTO `hoadon` VALUES ('hd1','nv01','kh02','2021-02-25 15:06:24',250000),('hd2','nv01',NULL,'2021-03-25 15:06:35',100000),('hd3','nv01',NULL,'2021-03-25 15:06:40',30000),('hd4','nv01',NULL,'2021-03-25 16:41:57',125000),('hd5','nv01',NULL,'2021-03-25 16:42:11',50000),('hd6','nv01',NULL,'2021-03-25 16:42:47',100000),('hd7','nv01',NULL,'2021-03-25 16:46:21',42000),('hd8','nv01',NULL,'2021-03-25 16:47:07',100000),('hd9','admin',NULL,'2021-03-25 20:28:37',25000);
 /*!40000 ALTER TABLE `hoadon` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `khachhang`
+--
+
+DROP TABLE IF EXISTS `khachhang`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `khachhang` (
+  `maKH` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `maLoaiKH` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `tenKH` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `gioiTinh` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `namSinh` int DEFAULT NULL,
+  `sdt` decimal(18,0) DEFAULT NULL,
+  `tien` decimal(18,0) DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  PRIMARY KEY (`maKH`),
+  KEY `maLoaiKH` (`maLoaiKH`),
+  CONSTRAINT `khachhang_ibfk_1` FOREIGN KEY (`maLoaiKH`) REFERENCES `loaikhachhang` (`maLoaiKH`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `khachhang`
@@ -57,6 +136,20 @@ INSERT INTO `khachhang` VALUES ('kh01','sv','Quỳnh Thư','nữ',2000,931919064
 UNLOCK TABLES;
 
 --
+-- Table structure for table `loaikhachhang`
+--
+
+DROP TABLE IF EXISTS `loaikhachhang`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `loaikhachhang` (
+  `maLoaiKH` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `tenLoaiKH` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`maLoaiKH`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `loaikhachhang`
 --
 
@@ -65,6 +158,22 @@ LOCK TABLES `loaikhachhang` WRITE;
 INSERT INTO `loaikhachhang` VALUES ('gv','Giáo viên'),('khac','Nhân viên văn phòng'),('sv','Sinh Viên');
 /*!40000 ALTER TABLE `loaikhachhang` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `loaimonan`
+--
+
+DROP TABLE IF EXISTS `loaimonan`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `loaimonan` (
+  `maLoai` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `tenLoai` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `giaTien` decimal(18,0) DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  PRIMARY KEY (`maLoai`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `loaimonan`
@@ -77,6 +186,27 @@ INSERT INTO `loaimonan` VALUES ('banhMi','Bánh mì',15000,1),('chao','Cháo',15
 UNLOCK TABLES;
 
 --
+-- Table structure for table `monan`
+--
+
+DROP TABLE IF EXISTS `monan`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `monan` (
+  `maMA` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `maLoai` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `maNguyenLieu` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `tenMA` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  PRIMARY KEY (`maMA`),
+  KEY `maLoai` (`maLoai`),
+  KEY `maNguyenLieu` (`maNguyenLieu`),
+  CONSTRAINT `monan_ibfk_1` FOREIGN KEY (`maLoai`) REFERENCES `loaimonan` (`maLoai`),
+  CONSTRAINT `monan_ibfk_2` FOREIGN KEY (`maNguyenLieu`) REFERENCES `nguyenlieu` (`maNguyenLieu`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `monan`
 --
 
@@ -85,6 +215,21 @@ LOCK TABLES `monan` WRITE;
 INSERT INTO `monan` VALUES ('m01','com','thit1','Cơm sườn',1),('m02','com','thit2','Cơm gà',1),('m03','com','thit3','Cơm sườn heo',1),('m04','com','thit4','Cơm vịt???',1),('m05','nuoc','nuoc1','Coca cola',1),('m06','nuoc','nuoc2','Pepsi',1),('m07','nuoc','nuoc3','7 up',1),('m08','nuocSuoi','nuocSuoi1','Aquafina',1);
 /*!40000 ALTER TABLE `monan` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `nguyenlieu`
+--
+
+DROP TABLE IF EXISTS `nguyenlieu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `nguyenlieu` (
+  `maNguyenLieu` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `tenNguyenLieu` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `soLuong` int DEFAULT NULL,
+  PRIMARY KEY (`maNguyenLieu`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `nguyenlieu`
@@ -97,6 +242,24 @@ INSERT INTO `nguyenlieu` VALUES ('nuoc1','coca',100),('nuoc2','pepsi',100),('nuo
 UNLOCK TABLES;
 
 --
+-- Table structure for table `nhanvien`
+--
+
+DROP TABLE IF EXISTS `nhanvien`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `nhanvien` (
+  `maNV` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `tenNV` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `gioiTinh` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `namSinh` int DEFAULT NULL,
+  `sdt` decimal(18,0) DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  PRIMARY KEY (`maNV`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `nhanvien`
 --
 
@@ -105,6 +268,21 @@ LOCK TABLES `nhanvien` WRITE;
 INSERT INTO `nhanvien` VALUES ('admin','admin',NULL,NULL,NULL,NULL),('nv01','Thư','nữ',2000,9319191064,1);
 /*!40000 ALTER TABLE `nhanvien` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `taikhoankh`
+--
+
+DROP TABLE IF EXISTS `taikhoankh`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `taikhoankh` (
+  `maKH` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `MK` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`maKH`),
+  CONSTRAINT `taikhoankh_ibfk_1` FOREIGN KEY (`maKH`) REFERENCES `khachhang` (`maKH`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `taikhoankh`
@@ -116,6 +294,21 @@ LOCK TABLES `taikhoankh` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `taikhoannv`
+--
+
+DROP TABLE IF EXISTS `taikhoannv`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `taikhoannv` (
+  `maNV` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `MK` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`maNV`),
+  CONSTRAINT `taikhoannv_ibfk_1` FOREIGN KEY (`maNV`) REFERENCES `nhanvien` (`maNV`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `taikhoannv`
 --
 
@@ -124,14 +317,6 @@ LOCK TABLES `taikhoannv` WRITE;
 INSERT INTO `taikhoannv` VALUES ('admin','admin'),('nv01','nv01');
 /*!40000 ALTER TABLE `taikhoannv` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'qlcanteen'
---
-
---
--- Dumping routines for database 'qlcanteen'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -142,4 +327,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-25 14:58:45
+-- Dump completed on 2021-03-25 20:35:12
