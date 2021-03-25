@@ -19,9 +19,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -42,6 +45,16 @@ import entities.HoaDon;
 import entities.KhachHang;
 import entities.MonAn;
 import entities.NhanVien;
+import javassist.expr.NewArray;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JRViewer;
+import net.sf.jasperreports.view.JasperViewer;
 import table.JTableButtonRenderer;
 import table.JTableButtonModel;
 
@@ -499,8 +512,9 @@ public class PnThanhToan extends JPanel {
 			hoaDon.setNgayLap(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(lbDateTime.getText()));
 			hoaDon.setTongTien(Long.parseLong(lbTongCong.getText()));
 			
+			KhachHang khachHang = null;
 			if (txtKhachHang.getText().isBlank() == false) {
-				KhachHang khachHang = KhachHangDAO.layThongTinKhachHangTheoSDT(Long.parseLong(txtKhachHang.getText()));
+				khachHang = KhachHangDAO.layThongTinKhachHangTheoSDT(Long.parseLong(txtKhachHang.getText()));
 				if (khachHang != null) {
 					hoaDon.setKhachHang(khachHang);
 					//JOptionPane.showMessageDialog(this, "khong null");
@@ -508,6 +522,7 @@ public class PnThanhToan extends JPanel {
 			}
 			
 			HoaDonDAO.themHoaDon(hoaDon);
+			List<Map<String, ?>> dataSource = new ArrayList<Map<String, ?>>();
 			
 			for (int i = 0; i < model.getRowCount(); i++) {
 				MonAn monAn = MonAnDAO.layThongTinMonAnTheoTen(model.getValueAt(i, 0).toString());
@@ -516,11 +531,48 @@ public class PnThanhToan extends JPanel {
 				ctHoaDon.setMonAn(monAn);
 				ctHoaDon.setSoLuong(Integer.parseInt(model.getValueAt(i, 1).toString()));
 				CTHoaDonDAO.themHoaDon(ctHoaDon);
+				
+				Map<String, Object> field = new HashMap<String, Object>();
+				
+				field.put("monAn", ctHoaDon.getMonAn().getTenMA());
+				field.put("soTien", ctHoaDon.getMonAn().getLoaiMonAn().getGiaTien());
+				field.put("soLuong", ctHoaDon.getSoLuong());
+				
+				dataSource.add(field);
 			}
+			Map<String, Object> param = new HashMap<String, Object>();
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			Date date = formatter.parse(lbDateTime.getText());
+			
+			Long l = (long) 1000;
+			param.put("maHD", hoaDon.getMaHD());
+			param.put("nhanVien", nhanVien.getTenNV());
+			param.put("khachHang", (khachHang == null ? "" : khachHang.getTenKH()));
+			param.put("ngay", date);
+			param.put("tongTien", Long.parseLong(lbTongCong.getText()));
+			param.put("tienMat", (txtTienMat.getText().isBlank() == false ? Long.parseLong(txtTienMat.getText()) : null));
+			param.put("tienThua", (lbTienThua.getText().isBlank() == false ? Long.parseLong(lbTienThua.getText()) : null));	
 			
 			model.setRowCount(0);	//khi da xong moi thu thi xoa bang
 			
 			JOptionPane.showMessageDialog(this, "Thanh toán thành công, tổng số tiền: " + lbTongCong.getText() + (lbTienThua.getText().isBlank() == false ? (" , tiền thối: " + lbTienThua.getText()) : ""));
+			
+			JRDataSource jrDataSource = new JRBeanCollectionDataSource(dataSource);
+			String sourceName = "src/main/java/view/RpThanhToan.jrxml";
+			JasperReport report = JasperCompileManager.compileReport(sourceName);
+			JasperPrint filledReport = JasperFillManager.fillReport(report, param, jrDataSource);
+			
+			/*FrameThanhToan frameThanhToan = new FrameThanhToan();
+			JPanel pnRp = frameThanhToan.getContentPane();
+			
+			pnRp.add(new JRViewer(filledReport));
+			frameThanhToan.setContentPane(pnRp);
+			frameThanhToan.setVisible(true);
+			frameThanhToan.pack();*/
+			JasperViewer jViewer = new JasperViewer(filledReport, false);
+			jViewer.setVisible(true);
+			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 			e.printStackTrace();
