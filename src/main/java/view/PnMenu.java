@@ -39,6 +39,7 @@ public class PnMenu extends JPanel {
 	private Image scaledImage;
 
 	public PnMenu(PnThanhToan pnThanhToan) {
+		this.pnThanhToan = pnThanhToan;
 		setBounds(0, 0, 560, 500);
 		try {
 			image = ImageIO.read(new File("picture\\menu.jpg"));
