@@ -22,6 +22,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -35,26 +36,27 @@ public class PnMenu extends JPanel {
 	private PnThanhToan pnThanhToan;
 
 	private BufferedImage image;
+	private Image scaledImage;
 
 	public PnMenu(PnThanhToan pnThanhToan) {
-		this.pnThanhToan = pnThanhToan;
+		setBounds(0, 0, 560, 500);
 		try {
 			image = ImageIO.read(new File("picture\\menu.jpg"));
+			scaledImage = image.getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_SMOOTH);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		setBounds(0, 0, 560, 600);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		setBackground(new Color(1.0f, 1.0f, 1.0f, 0.5f));
-
+		
 		pnMonAn = new JPanel();
 		pnMonAn.setOpaque(false);
 		add(pnMonAn);
 		pnMonAn.setLayout(new GridLayout(3, 3, 5, 5));
-
+		
 		pnNuoc = new JPanel();
 		pnNuoc.setOpaque(false);
 		add(pnNuoc);
+		pnNuoc.setLayout(new GridLayout(3, 3, 5, 5));
 
 		addMonAnAuto();
 
@@ -92,7 +94,7 @@ public class PnMenu extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(image, 0, 0, this); // see javadoc for more info on the parameters
+		g.drawImage(scaledImage, 0, 0, this); // see javadoc for more info on the parameters
 	}
 
 	private class PanelButtonMouseAdapter extends MouseAdapter {

@@ -258,7 +258,7 @@ public class PnQuanLy extends JPanel {
 		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.Y_AXIS));
 		
 		JPanel pnLichSuHoaDonBtn = new JPanel();
-
+		pnLichSuHoaDonBtn.setName("pnLichSuHoaDonBtn");
 		pnLichSuHoaDonBtn.setForeground(Color.WHITE);
 		pnLichSuHoaDonBtn.setBackground(new Color(153, 0, 0));
 		panel_7.add(pnLichSuHoaDonBtn);
@@ -283,7 +283,7 @@ public class PnQuanLy extends JPanel {
 		pnLichSuHoaDonBtn.add(separator_23, BorderLayout.EAST);
 		
 		JPanel pnChinhSuaMonAnBtn = new JPanel();
-
+		pnChinhSuaMonAnBtn.setName("pnChinhSuaMonAnBtn");
 		pnChinhSuaMonAnBtn.setForeground(Color.WHITE);
 		pnChinhSuaMonAnBtn.setBackground(new Color(153, 0, 0));
 		panel_7.add(pnChinhSuaMonAnBtn);
@@ -305,7 +305,7 @@ public class PnQuanLy extends JPanel {
 		pnChinhSuaMonAnBtn.add(separator_24, BorderLayout.EAST);
 		
 		JPanel pnThongKeBtn = new JPanel();
-
+		pnThongKeBtn.setName("pnThongKeBtn");
 		pnThongKeBtn.setForeground(Color.WHITE);
 		pnThongKeBtn.setBackground(new Color(153, 0, 0));
 		panel_7.add(pnThongKeBtn);
@@ -327,7 +327,7 @@ public class PnQuanLy extends JPanel {
 		pnThongKeBtn.add(separator_25, BorderLayout.EAST);
 		
 		JPanel pnNhapNguyenLieuBtn = new JPanel();
-
+		pnNhapNguyenLieuBtn.setName("pnNhapNguyenLieuBtn");
 		pnNhapNguyenLieuBtn.setForeground(Color.WHITE);
 		pnNhapNguyenLieuBtn.setBackground(new Color(153, 0, 0));
 		panel_7.add(pnNhapNguyenLieuBtn);
@@ -425,6 +425,9 @@ public class PnQuanLy extends JPanel {
 		JPanel pnChinhSuaMonAn = new PnChinhSuaMonAn();
 		pnCardLeft.add(pnChinhSuaMonAn, "pnChinhSuaMonAn");
 		
+		JPanel pnLichSuHoaDon = new PnLichSuHoaDon();
+		pnCardLeft.add(pnLichSuHoaDon, "pnLichSuHoaDon");
+		
 		setTiming();
 	}
 	
@@ -438,6 +441,9 @@ public class PnQuanLy extends JPanel {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			panel.setBackground(Color.CYAN);
+			if (panel.getName().compareTo("pnLichSuHoaDonBtn") == 0) {
+				cardLeft.show(pnCardLeft, "pnLichSuHoaDon");
+			}
 		}
 
 		@Override

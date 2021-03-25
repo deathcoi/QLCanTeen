@@ -366,6 +366,9 @@ public class PnNhanVien extends JPanel {
 		
 		JPanel pnLichSuHoaDon = new PnLichSuHoaDon();
 		pnLeft.add(pnLichSuHoaDon, "pnLichSuHoaDon");
+		
+		JPanel pnThongTinKhachHang = new PnThongTinKhachHang();
+		pnLeft.add(pnThongTinKhachHang, "pnThongTinKhachHang");
 
 		setTiming();
 	}
@@ -382,6 +385,9 @@ public class PnNhanVien extends JPanel {
 			panel.setBackground(Color.CYAN);
 			if (panel.getName().compareTo("pnLichSuHoaDonBtn") == 0) {
 				cardLeft.show(pnLeft, "pnLichSuHoaDon");
+			}
+			if (panel.getName().compareTo("pnKhachHangBtn") == 0) {
+				cardLeft.show(pnLeft, "pnThongTinKhachHang");
 			}
 		}
 
