@@ -55,7 +55,6 @@ public class PnMenu extends JPanel {
 		pnNuoc = new JPanel();
 		pnNuoc.setOpaque(false);
 		add(pnNuoc);
-		pnNuoc.setLayout(new GridLayout(3, 3, 5, 5));
 
 		addMonAnAuto();
 

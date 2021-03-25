@@ -126,15 +126,15 @@ public class PnQuanLy extends JPanel {
 		panel_4.add(lblNewLabel_10);
 		
 		lbNhanVien = new JLabel("");
-		lbNhanVien.setHorizontalAlignment(SwingConstants.CENTER);
+		lbNhanVien.setHorizontalAlignment(SwingConstants.LEFT);
 		lbNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbNhanVien.setBounds(98, 64, 118, 20);
+		lbNhanVien.setBounds(80, 61, 58, 20);
 		panel_4.add(lbNhanVien);
 		
 		lbDateTime = new JLabel("");
-		lbDateTime.setHorizontalAlignment(SwingConstants.CENTER);
+		lbDateTime.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbDateTime.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbDateTime.setBounds(226, 65, 149, 20);
+		lbDateTime.setBounds(226, 61, 149, 20);
 		panel_4.add(lbDateTime);
 		
 		JPanel panel_5 = new JPanel();
@@ -180,7 +180,7 @@ public class PnQuanLy extends JPanel {
 		pnChinhSuaNhanVienBtn.setBackground(new Color(153, 0, 0));
 		panel_6.add(pnChinhSuaNhanVienBtn);
 		pnChinhSuaNhanVienBtn.setLayout(new BorderLayout(0, 0));
-		pnChinhSuaNhanVienBtn.addMouseListener(new PanelButtonMouseAdapter(pnChinhSuaNhanVienBtn));
+		pnChinhSuaNhanVienBtn.addMouseListener(new PanelButtonChinhSuaNhanVienMouseAdapter(pnChinhSuaNhanVienBtn, pnCardLeft));
 		
 		JLabel lbChinhSuaNhanVien = new JLabel("Chỉnh sửa nhân viên");
 
@@ -288,7 +288,7 @@ public class PnQuanLy extends JPanel {
 		pnChinhSuaMonAnBtn.setBackground(new Color(153, 0, 0));
 		panel_7.add(pnChinhSuaMonAnBtn);
 		pnChinhSuaMonAnBtn.setLayout(new BorderLayout(0, 0));
-		pnChinhSuaMonAnBtn.addMouseListener(new PanelButtonMouseAdapter(pnChinhSuaMonAnBtn));
+		pnChinhSuaMonAnBtn.addMouseListener(new PanelButtonChinhSuaMonAnMouseAdapter(pnChinhSuaMonAnBtn, pnCardLeft));
 		
 		JLabel lbChinhSuaMonAn = new JLabel("Chỉnh sửa món ăn");
 
@@ -332,7 +332,7 @@ public class PnQuanLy extends JPanel {
 		pnNhapNguyenLieuBtn.setBackground(new Color(153, 0, 0));
 		panel_7.add(pnNhapNguyenLieuBtn);
 		pnNhapNguyenLieuBtn.setLayout(new BorderLayout(0, 0));
-		pnNhapNguyenLieuBtn.addMouseListener(new PanelButtonMouseAdapter(pnNhapNguyenLieuBtn));
+		pnNhapNguyenLieuBtn.addMouseListener(new PanelButtonNhapNguyenLieuMouseAdapter(pnNhapNguyenLieuBtn, pnCardLeft));
 		
 		JLabel lbNhapNguyenLieu = new JLabel("Nhập nguyên liệu");
 
@@ -415,6 +415,15 @@ public class PnQuanLy extends JPanel {
 
 		JPanel pnMenu = new PnMenu((PnThanhToan) pnThanhToan);
 		pnCardLeft.add(pnMenu, "pnMenu");
+		
+		JPanel pnChinhSuaNhanVien = new PnChinhSuaNhanVien();
+		pnCardLeft.add(pnChinhSuaNhanVien, "pnChinhSuaNhanVien");
+		
+		JPanel pnNhapNguyenLieu = new PnNhapNguyenLieu();
+		pnCardLeft.add(pnNhapNguyenLieu, "pnNhapNguyenLieu");
+		
+		JPanel pnChinhSuaMonAn = new PnChinhSuaMonAn();
+		pnCardLeft.add(pnChinhSuaMonAn, "pnChinhSuaMonAn");
 		
 		setTiming();
 	}
@@ -553,5 +562,96 @@ public class PnQuanLy extends JPanel {
 		this.nhanVien = nhanVien;
 	}
 	
+	private class PanelButtonChinhSuaNhanVienMouseAdapter extends MouseAdapter {
+		JPanel panel;
+		JPanel cardPanel;
+		
+		public PanelButtonChinhSuaNhanVienMouseAdapter(JPanel panel, JPanel cardPanel) {
+			this.panel = panel;
+			this.cardPanel = cardPanel;
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			panel.setBackground(Color.CYAN);
+			cardLeft.show(cardPanel, "pnChinhSuaNhanVien");			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			panel.setBackground(new Color(153, 0, 0));
+		}
+	}
 	
+	private class PanelButtonChinhSuaMonAnMouseAdapter extends MouseAdapter {
+		JPanel panel;
+		JPanel cardPanel;
+		
+		public PanelButtonChinhSuaMonAnMouseAdapter(JPanel panel, JPanel cardPanel) {
+			this.panel = panel;
+			this.cardPanel = cardPanel;
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			panel.setBackground(Color.CYAN);
+			cardLeft.show(cardPanel, "pnChinhSuaMonAn");			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			panel.setBackground(new Color(153, 0, 0));
+		}
+	}
+	
+	private class PanelButtonNhapNguyenLieuMouseAdapter extends MouseAdapter {
+		JPanel panel;
+		JPanel cardPanel;
+		
+		public PanelButtonNhapNguyenLieuMouseAdapter(JPanel panel, JPanel cardPanel) {
+			this.panel = panel;
+			this.cardPanel = cardPanel;
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			panel.setBackground(Color.CYAN);
+			cardLeft.show(cardPanel, "pnNhapNguyenLieu");			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			panel.setBackground(Color.BLUE);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			panel.setBackground(new Color(153, 0, 0));
+		}
+	}
 }
