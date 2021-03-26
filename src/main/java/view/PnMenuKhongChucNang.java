@@ -37,12 +37,12 @@ public class PnMenuKhongChucNang extends JPanel {
 	private JPanel pnMonAn;
 	private JPanel pnNuoc;
 
-	private BufferedImage image;
+	private Image image;
 	private Image scaledImage;
 	public PnMenuKhongChucNang() {
 		setBounds(0, 0, 560, 500);
 		try {
-			image = ImageIO.read(new File("picture\\menu.jpg"));
+			image = ImageIO.read(new File("picture/menu.jpg"));
 			scaledImage = image.getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_SMOOTH);
 		} catch (IOException e) {
 			e.printStackTrace();

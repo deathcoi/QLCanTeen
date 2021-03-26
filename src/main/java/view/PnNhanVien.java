@@ -320,7 +320,7 @@ public class PnNhanVien extends JPanel {
 
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblNewLabel.setIcon(new ImageIcon("D:\\Hoctap\\java_save_2\\QLCanTeen\\picture\\setting.png"));
+		lblNewLabel.setIcon(new ImageIcon("picture/setting.png"));
 		panel_3.add(lblNewLabel);
 
 		JPanel panel_8 = new JPanel();
@@ -332,7 +332,7 @@ public class PnNhanVien extends JPanel {
 		panel_9.setLayout(new BorderLayout(0, 0));
 
 		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon("D:\\Hoctap\\java_save_2\\QLCanTeen\\picture\\help.png"));
+		lblNewLabel_2.setIcon(new ImageIcon("picture/help.png"));
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_9.add(lblNewLabel_2, BorderLayout.CENTER);
 
@@ -346,7 +346,7 @@ public class PnNhanVien extends JPanel {
 
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setIcon(new ImageIcon("D:\\Hoctap\\java_save_2\\QLCanTeen\\picture\\Calculator.png"));
+		lblNewLabel_3.setIcon(new ImageIcon("picture/Calculator.png"));
 		panel_11.add(lblNewLabel_3, BorderLayout.CENTER);
 
 		JPanel panel_12 = new JPanel();
