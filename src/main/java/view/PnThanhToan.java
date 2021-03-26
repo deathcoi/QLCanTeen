@@ -92,7 +92,8 @@ public class PnThanhToan extends JPanel {
 	
 	private NhanVien nhanVien;
 	
-
+	private KhachHang khachHang;
+	
 	public JLabel getLbTongCong() {
 		return lbTongCong;
 	}
@@ -461,8 +462,8 @@ public class PnThanhToan extends JPanel {
 				txtKhachHang.setText("");
 			}
 			else {
-				String mess = "";
 				for (KhachHang k : list) {
+					khachHang = k;
 					txtKhachHang.setText(k.getTenKH());
 				}
 			}
@@ -513,13 +514,18 @@ public class PnThanhToan extends JPanel {
 			hoaDon.setNgayLap(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(lbDateTime.getText()));
 			hoaDon.setTongTien(Long.parseLong(lbTongCong.getText()));
 			
-			KhachHang khachHang = null;
+			
 			if (txtKhachHang.getText().isBlank() == false) {
-				khachHang = KhachHangDAO.layThongTinKhachHangTheoSDT(Long.parseLong(txtKhachHang.getText()));
-				if (khachHang != null) {
+				if (khachHang == null) {
+					khachHang = KhachHangDAO.layThongTinKhachHangTheoSDT(Long.parseLong(txtKhachHang.getText()));
+					if (khachHang != null) {
+						hoaDon.setKhachHang(khachHang);
+						//JOptionPane.showMessageDialog(this, "khong null");
+					}
+				} else {
 					hoaDon.setKhachHang(khachHang);
-					//JOptionPane.showMessageDialog(this, "khong null");
 				}
+				
 			}
 			
 			HoaDonDAO.themHoaDon(hoaDon);
@@ -549,7 +555,7 @@ public class PnThanhToan extends JPanel {
 			Long l = (long) 1000;
 			param.put("maHD", hoaDon.getMaHD());
 			param.put("nhanVien", nhanVien.getTenNV());
-			param.put("khachHang", (khachHang == null ? "" : khachHang.getTenKH()));
+			param.put("khachHang", (txtKhachHang == null ? "" : khachHang.getTenKH()));
 			param.put("ngay", date);
 			param.put("tongTien", Long.parseLong(lbTongCong.getText()));
 			param.put("tienMat", (txtTienMat.getText().isBlank() == false ? Long.parseLong(txtTienMat.getText()) : null));
@@ -574,6 +580,9 @@ public class PnThanhToan extends JPanel {
 			JasperViewer jViewer = new JasperViewer(filledReport, false);
 			jViewer.setVisible(true);
 			
+			khachHang = null; //reset khach hang
+			txtKhachHang.setText("");
+			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 			e.printStackTrace();
@@ -588,6 +597,8 @@ public class PnThanhToan extends JPanel {
 		txtTienMat.setText("");
 		lbTienThua.setText("");
 		txtKhachHang.setText("");
+		
+		khachHang = null;
 	}
 	private void txtTienMatEnter(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
