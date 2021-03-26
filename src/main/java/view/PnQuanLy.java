@@ -229,6 +229,7 @@ public class PnQuanLy extends JPanel {
 		pnKhachHangBtn.add(separator_18, BorderLayout.WEST);
 		
 		JPanel pnTinhLuongBtn = new JPanel();
+		pnTinhLuongBtn.setName("pnTinhLuongBtn");
 		pnTinhLuongBtn.setForeground(Color.WHITE);
 		pnTinhLuongBtn.setBackground(new Color(153, 0, 0));
 		panel_6.add(pnTinhLuongBtn);
