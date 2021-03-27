@@ -40,10 +40,12 @@ import DAO.CTHoaDonDAO;
 import DAO.HoaDonDAO;
 import DAO.KhachHangDAO;
 import DAO.MonAnDAO;
+import DAO.NguyenLieuDAO;
 import entities.CTHoaDon;
 import entities.HoaDon;
 import entities.KhachHang;
 import entities.MonAn;
+import entities.NguyenLieu;
 import entities.NhanVien;
 import javassist.expr.NewArray;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -94,6 +96,8 @@ public class PnThanhToan extends JPanel {
 	
 	private KhachHang khachHang;
 	
+	private JPanel pnQLOrNV;
+	
 	public JLabel getLbTongCong() {
 		return lbTongCong;
 	}
@@ -115,7 +119,8 @@ public class PnThanhToan extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PnThanhToan(CardLayout cardLeft, CardLayout cardRight, JPanel pnLeft, JPanel pnRight) {
+	public PnThanhToan(CardLayout cardLeft, CardLayout cardRight, JPanel pnLeft, JPanel pnRight, JPanel pnQLOrNV) {
+		this.pnQLOrNV = pnQLOrNV;
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		this.cardLeft = cardLeft;
 		this.cardRight = cardRight;
@@ -533,19 +538,29 @@ public class PnThanhToan extends JPanel {
 			
 			for (int i = 0; i < model.getRowCount(); i++) {
 				MonAn monAn = MonAnDAO.layThongTinMonAnTheoTen(model.getValueAt(i, 0).toString());
+				
+				NguyenLieu nguyenLieu = monAn.getNguyenLieu();
+				if (nguyenLieu.getSoLuong() - Integer.parseInt(model.getValueAt(i, 1).toString()) < 0)
+					throw new Exception("Món " + monAn.getTenMA() + " đã hết!");
+				
+				nguyenLieu.setSoLuong(nguyenLieu.getSoLuong() - Integer.parseInt(model.getValueAt(i, 1).toString()));
+				NguyenLieuDAO.updateNguyenLieu(nguyenLieu);
+				
 				CTHoaDon ctHoaDon = new CTHoaDon();
 				ctHoaDon.setHoaDon(hoaDon);
 				ctHoaDon.setMonAn(monAn);
 				ctHoaDon.setSoLuong(Integer.parseInt(model.getValueAt(i, 1).toString()));
 				CTHoaDonDAO.themHoaDon(ctHoaDon);
 				
-				Map<String, Object> field = new HashMap<String, Object>();
+				Map<String, Object> field = new HashMap<String, Object>(); // xu li report
 				
 				field.put("monAn", ctHoaDon.getMonAn().getTenMA());
 				field.put("soTien", ctHoaDon.getMonAn().getLoaiMonAn().getGiaTien());
 				field.put("soLuong", ctHoaDon.getSoLuong());
 				
 				dataSource.add(field);
+				
+				
 			}
 			Map<String, Object> param = new HashMap<String, Object>();
 			
@@ -555,7 +570,7 @@ public class PnThanhToan extends JPanel {
 			Long l = (long) 1000;
 			param.put("maHD", hoaDon.getMaHD());
 			param.put("nhanVien", nhanVien.getTenNV());
-			param.put("khachHang", (txtKhachHang == null ? "" : khachHang.getTenKH()));
+			param.put("khachHang", (khachHang == null ? "" : khachHang.getTenKH()));
 			param.put("ngay", date);
 			param.put("tongTien", Long.parseLong(lbTongCong.getText()));
 			param.put("tienMat", (txtTienMat.getText().isBlank() == false ? Long.parseLong(txtTienMat.getText()) : null));
@@ -563,7 +578,7 @@ public class PnThanhToan extends JPanel {
 			
 			model.setRowCount(0);	//khi da xong moi thu thi xoa bang
 			
-			JOptionPane.showMessageDialog(this, "Thanh toán thành công, tổng số tiền: " + lbTongCong.getText() + (lbTienThua.getText().isBlank() == false ? (" , tiền thối: " + lbTienThua.getText()) : ""));
+			
 			
 			JRDataSource jrDataSource = new JRBeanCollectionDataSource(dataSource);
 			String sourceName = "src/main/java/view/RpThanhToan.jrxml";
@@ -582,6 +597,18 @@ public class PnThanhToan extends JPanel {
 			
 			khachHang = null; //reset khach hang
 			txtKhachHang.setText("");
+			
+			PnMenu mn = new PnMenu(this);
+			if (pnQLOrNV instanceof PnNhanVien) {
+				PnNhanVien pn = (PnNhanVien) pnQLOrNV;
+			} else {
+				PnQuanLy pn = (PnQuanLy) pnQLOrNV;
+				JPanel pnLeftFromTheOutside = pn.getPnCardLeft();
+				pnLeftFromTheOutside.add(mn, "pnMenu");
+				CardLayout cl = pn.getCardLeft();
+				cl.show(pnLeftFromTheOutside, "pnMenu");
+			}
+			
 			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());

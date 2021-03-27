@@ -355,7 +355,7 @@ public class PnNhanVien extends JPanel {
 
 		pnSwitch.add(panel_2, "panel_2");
 
-		pnThanhToan = new PnThanhToan(cardLeft, cardRight, pnLeft, pnSwitch);
+		pnThanhToan = new PnThanhToan(cardLeft, cardRight, pnLeft, pnSwitch, this);
 		pnSwitch.add(pnThanhToan, "pnThanhToan");
 
 		JPanel pnMenuKhongChucNang = new PnMenuKhongChucNang();

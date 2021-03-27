@@ -68,26 +68,28 @@ public class PnMenu extends JPanel {
 
 		for (MonAn monAn : list) {
 			//System.out.println(monAn.getTenMA());
-			JPanel pnBtn = new JPanel();
-			pnBtn.setOpaque(false);
-			pnBtn.setLayout(new BorderLayout());
-			pnBtn.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-			pnBtn.setName(monAn.getMaMA() + "," + monAn.getTenMA() + "," + monAn.getLoaiMonAn().getGiaTien());
+			if (monAn.getNguyenLieu().getSoLuong() != 0) {
+				JPanel pnBtn = new JPanel();
+				pnBtn.setOpaque(false);
+				pnBtn.setLayout(new BorderLayout());
+				pnBtn.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+				pnBtn.setName(monAn.getMaMA() + "," + monAn.getTenMA() + "," + monAn.getLoaiMonAn().getGiaTien());
 
-			pnBtn.addMouseListener(new PanelButtonMouseAdapter(pnBtn));
-			// pnBtn.setBackground(Color.cyan);
+				pnBtn.addMouseListener(new PanelButtonMouseAdapter(pnBtn));
+				// pnBtn.setBackground(Color.cyan);
 
-			JLabel lb = new JLabel(monAn.getTenMA());
-			lb.setForeground(Color.WHITE);
-			lb.setHorizontalAlignment(SwingConstants.CENTER);
-			lb.setFont(new Font("Tahoma", Font.BOLD, 18));
-			pnBtn.add(lb, BorderLayout.CENTER);
+				JLabel lb = new JLabel(monAn.getTenMA() + " : " + monAn.getNguyenLieu().getSoLuong());
+				lb.setForeground(Color.WHITE);
+				lb.setHorizontalAlignment(SwingConstants.CENTER);
+				lb.setFont(new Font("Tahoma", Font.BOLD, 18));
+				pnBtn.add(lb, BorderLayout.CENTER);
 
-			if (monAn.getLoaiMonAn().getMaLoai().compareTo("nuoc") != 0
-					&& monAn.getLoaiMonAn().getMaLoai().compareTo("nuocSuoi") != 0) {
-				pnMonAn.add(pnBtn);
-			} else {
-				pnNuoc.add(pnBtn);
+				if (monAn.getLoaiMonAn().getMaLoai().compareTo("nuoc") != 0
+						&& monAn.getLoaiMonAn().getMaLoai().compareTo("nuocSuoi") != 0) {
+					pnMonAn.add(pnBtn);
+				} else {
+					pnNuoc.add(pnBtn);
+				}
 			}
 		}
 	}
