@@ -6,6 +6,7 @@ import java.awt.Font;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -13,14 +14,28 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import DAO.LoaiMonAnDAO;
+import DAO.MonAnDAO;
+import DAO.NguyenLieuDAO;
+import DAO.NhanVienDAO;
+import entities.LoaiMonAn;
+import entities.MonAn;
+import entities.NguyenLieu;
+import entities.NhanVien;
+
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+
 public class PnChinhSuaMonAn extends JPanel {
 
+	private static final String MonAn = null;
 	private JTable table_1;
 	private JTextField txtMaMA;
-	private JTextField txtML;
-	private JTextField txtMNL;
 	private JTextField txtTenMA;
-	
+	private JComboBox cmbMaLoai;
+	private JComboBox cmbMaNL;
 	public PnChinhSuaMonAn() {
 		setBounds(0, 0, 560, 500);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -59,26 +74,22 @@ public class PnChinhSuaMonAn extends JPanel {
 		lblSLng.setBounds(10, 80, 110, 20);
 		panel_1.add(lblSLng);
 		
-		txtML = new JTextField();
-		txtML.setHorizontalAlignment(SwingConstants.LEFT);
-		txtML.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtML.setColumns(10);
-		txtML.setBounds(120, 45, 100, 20);
-		panel_1.add(txtML);
-		
-		txtMNL = new JTextField();
-		txtMNL.setHorizontalAlignment(SwingConstants.LEFT);
-		txtMNL.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtMNL.setColumns(10);
-		txtMNL.setBounds(120, 80, 100, 20);
-		panel_1.add(txtMNL);
-		
 		JButton btnThem = new JButton("Thêm");
+		btnThem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnThemClicked();
+			}
+		});
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnThem.setBounds(390, 25, 90, 25);
 		panel_1.add(btnThem);
 		
 		JButton btnSua = new JButton("Sửa");
+		btnSua.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnSuaClicked();
+			}
+		});
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnSua.setBounds(390, 95, 90, 25);
 		panel_1.add(btnSua);
@@ -97,9 +108,24 @@ public class PnChinhSuaMonAn extends JPanel {
 		panel_1.add(txtTenMA);
 		
 		JButton btnXoa = new JButton("Xóa");
+		btnXoa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnXoaClicked();
+			}
+		});
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnXoa.setBounds(390, 60, 90, 25);
 		panel_1.add(btnXoa);
+		
+		String[] maLoais = getCmbMaLoai();
+		cmbMaLoai = new JComboBox(maLoais);
+		cmbMaLoai.setBounds(120, 42, 204, 27);
+		panel_1.add(cmbMaLoai);
+		
+		String[] maNguyenLieus = getCmbMaNL();
+		cmbMaNL = new JComboBox(maNguyenLieus);
+		cmbMaNL.setBounds(120, 79, 200, 27);
+		panel_1.add(cmbMaNL);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(0, 150, 560, 350);
@@ -109,9 +135,94 @@ public class PnChinhSuaMonAn extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		panel_2.add(scrollPane, BorderLayout.CENTER);
 		
-		table_1 = new JTable(new DefaultTableModel(new Object[] {"Mã nguyên liệu", "Tên nguyên liệu", "Số lượng"}, 0));
+		table_1 = new JTable(new DefaultTableModel(new Object[] {"Mã món ăn ","Mã loại" ,"Mã nguyên liệu", "Tên món ăn "}, 0));
 		scrollPane.setViewportView(table_1);
 		table_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		loadTable();
 	}
-
+	private void btnThemClicked() {
+		try {
+			MonAn monan = new MonAn();
+			monan.setMaMA(txtMaMA.getText());
+			String mlma = cmbMaLoai.getSelectedItem().toString().split("-")[0];	
+			LoaiMonAn l = LoaiMonAnDAO.layThongTin(mlma);
+			monan.setLoaiMonAn(l);
+			String mlnl = cmbMaNL.getSelectedItem().toString().split("-")[0];
+			NguyenLieu n = NguyenLieuDAO.layThongTinNguyenLieu(mlnl);
+			monan.setNguyenLieu(n);
+			monan.setTenMA(txtTenMA.getText());
+			MonAnDAO.themMonAn(monan);
+			loadTable();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	private void loadTable() {
+		DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+		model.setRowCount(0);
+		List<MonAn> list =MonAnDAO.layDanhSachMonAn();
+		for (MonAn n : list) {
+			model.addRow(new Object[] {
+				n.getMaMA(),
+				n.getLoaiMonAn().getMaLoai(),
+				n.getNguyenLieu().getMaNguyenLieu(),
+				n.getTenMA()
+				
+			});
+		}
+	}
+	private String[] getCmbMaLoai() {
+		List<LoaiMonAn> monAn = LoaiMonAnDAO.layDanhSachLoaiMonAn();
+		String[] list = new String[monAn.size()];
+		for(int i = 0 ; i<list.length; i++)
+		{
+			list[i]= monAn.get(i).getMaLoai() + "-" + monAn.get(i).getTenLoai();
+			
+		}
+		return list;
+	}
+	private String[] getCmbMaNL() {
+		List<NguyenLieu> nguyenLieu = NguyenLieuDAO.layDanhSachNguyenLieu();
+		String[] list = new String[nguyenLieu.size()];
+		for(int i = 0 ; i<list.length; i++)
+		{
+			list[i]= nguyenLieu.get(i).getMaNguyenLieu() + "-" + nguyenLieu.get(i).getTenNguyenLieu();
+		}
+		return list;
+	}
+	private void btnXoaClicked() {
+		try {
+			MonAn monan = MonAnDAO.layThongTinMonAn(txtMaMA.getText());
+			if(monan == null)
+				throw new Exception("khong tim thay mon an");
+			MonAnDAO.xoaMonAn(monan);
+			loadTable();
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, e.getMessage());
+			
+		}
+	}
+	private void btnSuaClicked() {
+		try {
+			MonAn monan = MonAnDAO.layThongTinMonAn(txtMaMA.getText());
+			if(monan == null)
+				throw new Exception("khong tim thay mon an");
+			String mlma = cmbMaLoai.getSelectedItem().toString().split("-")[0];	
+			LoaiMonAn l = LoaiMonAnDAO.layThongTin(mlma);
+			monan.setLoaiMonAn(l);
+			String mlnl = cmbMaNL.getSelectedItem().toString().split("-")[0];
+			NguyenLieu n = NguyenLieuDAO.layThongTinNguyenLieu(mlnl);
+			monan.setNguyenLieu(n);
+			monan.setTenMA(txtTenMA.getText());
+			MonAnDAO.suaMonAn(monan);
+			loadTable();
+			JOptionPane.showMessageDialog(this,"sua thanh cong");
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, e.getMessage());
+			
+		}
+	}
+	
 }
