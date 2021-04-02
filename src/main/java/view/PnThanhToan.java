@@ -97,6 +97,7 @@ public class PnThanhToan extends JPanel {
 	private KhachHang khachHang;
 	
 	private JPanel pnQLOrNV;
+
 	
 	public JLabel getLbTongCong() {
 		return lbTongCong;
@@ -601,6 +602,10 @@ public class PnThanhToan extends JPanel {
 			PnMenu mn = new PnMenu(this);
 			if (pnQLOrNV instanceof PnNhanVien) {
 				PnNhanVien pn = (PnNhanVien) pnQLOrNV;
+				JPanel pnLeftFromTheOutside = pn.getPnLeft();
+				pnLeftFromTheOutside.add(mn, "pnMenu");
+				CardLayout cl = pn.getCardLeft();
+				cl.show(pnLeftFromTheOutside, "pnMenu");
 			} else {
 				PnQuanLy pn = (PnQuanLy) pnQLOrNV;
 				JPanel pnLeftFromTheOutside = pn.getPnCardLeft();

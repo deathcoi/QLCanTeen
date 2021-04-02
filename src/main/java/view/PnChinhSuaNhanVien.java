@@ -11,10 +11,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import DAO.NhanVienDAO;
+import entities.NhanVien;
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 
@@ -72,6 +76,11 @@ public class PnChinhSuaNhanVien extends JPanel {
 		panel_1.add(txtTenNV);
 		
 		JButton btnThem = new JButton("Thêm");
+		btnThem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnThemClicked();
+			}
+		});
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnThem.setBounds(390, 25, 90, 25);
 		panel_1.add(btnThem);
@@ -133,11 +142,41 @@ public class PnChinhSuaNhanVien extends JPanel {
 		panel_2.add(scrollPane, BorderLayout.CENTER);
 		
 		table_1 = new JTable(new DefaultTableModel(new Object[] {"Mã nhân viên", "Tên nhân viên", "Giới tính", "Năm sinh", "SĐT"}, 0));
+		loadTable();
 		scrollPane.setViewportView(table_1);
 		table_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		ButtonGroup btnGroupGioiTinh = new ButtonGroup();
 		btnGroupGioiTinh.add(rdBtnNam);
 		btnGroupGioiTinh.add(rdBtnNu);
+	}
+	
+	private void btnThemClicked() {
+		try {
+			NhanVien nhanVien = new NhanVien();
+			nhanVien.setMaNV(txtMaNV.getText());
+			nhanVien.setTenNV(txtTenNV.getText());
+			
+			NhanVienDAO.themNhanVien(nhanVien);
+			
+			loadTable();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void loadTable() {
+		DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+		model.setRowCount(0);
+		List<NhanVien> list = NhanVienDAO.layDanhSachNhanVien();
+		for (NhanVien n : list) {
+			model.addRow(new Object[] {
+				n.getMaNV(),
+				n.getTenNV(),
+				n.getGioiTinh(),
+				n.getNamSinh(),
+				n.getSdt()
+			});
+		}
 	}
 }
