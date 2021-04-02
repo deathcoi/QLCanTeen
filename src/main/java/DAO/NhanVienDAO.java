@@ -50,4 +50,30 @@ public class NhanVienDAO {
 			session.close();
 		}
 	}
+	
+	public static void xoaNhanVien(NhanVien nhanVien) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.remove(nhanVien);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	
+	public static void suaNhanVien(NhanVien nhanVien) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.update(nhanVien);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
 }
