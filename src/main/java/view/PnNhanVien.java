@@ -59,6 +59,8 @@ public class PnNhanVien extends JPanel {
 	private JLabel lbNhanVien;
 	
 	private PnThanhToan pnThanhToan;
+	
+	private JPanel pnMenu;
 
 	public PnNhanVien(CardLayout cardLayout, JPanel cardPanel, JFrame mainFrame) {
 		setName("pnNhanVien");
@@ -355,7 +357,7 @@ public class PnNhanVien extends JPanel {
 
 		pnSwitch.add(panel_2, "panel_2");
 
-		pnThanhToan = new PnThanhToan(cardLeft, cardRight, pnLeft, pnSwitch);
+		pnThanhToan = new PnThanhToan(cardLeft, cardRight, pnLeft, pnSwitch, this);
 		pnSwitch.add(pnThanhToan, "pnThanhToan");
 
 		JPanel pnMenuKhongChucNang = new PnMenuKhongChucNang();
@@ -492,6 +494,32 @@ public class PnNhanVien extends JPanel {
 	public void setCardSwitch(CardLayout cardRight) {
 		this.cardRight = cardRight;
 	}
+
+	public JPanel getPnMenu() {
+		return pnMenu;
+	}
+
+	public void setPnMenu(JPanel pnMenu) {
+		this.pnMenu = pnMenu;
+	}
+
+	public CardLayout getCardLeft() {
+		return cardLeft;
+	}
+
+	public void setCardLeft(CardLayout cardLeft) {
+		this.cardLeft = cardLeft;
+	}
+
+	public JPanel getPnLeft() {
+		return pnLeft;
+	}
+
+	public void setPnLeft(JPanel pnLeft) {
+		this.pnLeft = pnLeft;
+	}
+	
+	
 	
 	
 }

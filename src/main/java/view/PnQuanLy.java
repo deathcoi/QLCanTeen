@@ -52,6 +52,8 @@ public class PnQuanLy extends JPanel {
 	
 	private NhanVien nhanVien;
 	
+	private JPanel pnMenu;
+	
 	private PnThanhToan pnThanhToan;
 	public PnQuanLy(CardLayout cardLayout, JPanel cardPanel, JFrame mainFrame) {
 		setName("pnQuanLy");
@@ -404,7 +406,7 @@ public class PnQuanLy extends JPanel {
 		
 		pnCardRight.add(panel_2, "panel_2");
 		
-		pnThanhToan = new PnThanhToan(cardLeft, cardRight, pnCardLeft, pnCardRight);
+		pnThanhToan = new PnThanhToan(cardLeft, cardRight, pnCardLeft, pnCardRight, this);
 		pnCardRight.add(pnThanhToan, "pnThanhToan");
 		
 		JPanel pnMenuKhongChucNang = new PnMenuKhongChucNang();
@@ -414,7 +416,7 @@ public class PnQuanLy extends JPanel {
 		JPanel pnThongTinKhachHang = new PnThongTinKhachHang();
 		pnCardLeft.add(pnThongTinKhachHang, "pnThongTinKhachHang");
 
-		JPanel pnMenu = new PnMenu((PnThanhToan) pnThanhToan);
+		pnMenu = new PnMenu((PnThanhToan) pnThanhToan);
 		pnCardLeft.add(pnMenu, "pnMenu");
 		
 		JPanel pnChinhSuaNhanVien = new PnChinhSuaNhanVien();
@@ -661,4 +663,37 @@ public class PnQuanLy extends JPanel {
 			panel.setBackground(new Color(153, 0, 0));
 		}
 	}
+
+
+	public JPanel getPnCardLeft() {
+		return pnCardLeft;
+	}
+
+
+	public void setPnCardLeft(JPanel pnCardLeft) {
+		this.pnCardLeft = pnCardLeft;
+	}
+
+
+	public JPanel getPnMenu() {
+		return pnMenu;
+	}
+
+
+	public void setPnMenu(JPanel pnMenu) {
+		this.pnMenu = pnMenu;
+	}
+
+
+	public CardLayout getCardLeft() {
+		return cardLeft;
+	}
+
+
+	public void setCardLeft(CardLayout cardLeft) {
+		this.cardLeft = cardLeft;
+	}
+	
+	
+	
 }
