@@ -6,36 +6,28 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import DAO.KhachHangDAO;
+import entities.KhachHang;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class PnNapTien extends JFrame {
+public class FrameNapTien extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtSeri;
 	private JTextField txtMaThe;
 	private JTextField txtSoTien;
-	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PnNapTien frame = new PnNapTien();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private KhachHang khachHang;
 
 	/**
 	 * Create the frame.
@@ -43,9 +35,10 @@ public class PnNapTien extends JFrame {
 	/**
 	 * 
 	 */
-	public PnNapTien() {
+	public FrameNapTien(KhachHang khachHang) {
+		this.khachHang = khachHang;
 		setBackground(new Color(30, 144, 255));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 670, 464);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(230, 230, 250));
@@ -128,8 +121,36 @@ public class PnNapTien extends JFrame {
 		panel_1.add(cmbNganHangThuHuong);
 		
 		JButton btnNapTien = new JButton("Nạp tiền");
+		btnNapTien.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnNapTienClicked();
+				
+			}
+		});
 		btnNapTien.setBounds(226, 130, 117, 57);
 		panel_1.add(btnNapTien);
 	}
+	 private void btnNapTienClicked() {
+		 try {
+			 if (!isNumber(txtSoTien))
+				 throw new Exception("Vui long nhap so tien");
+			 Long tien = khachHang.getTien();
+			 tien += Long.parseLong(txtSoTien.getText());
+			 khachHang.setTien(tien);
+			 KhachHangDAO.suaKhachHang(khachHang);
+			 JOptionPane.showMessageDialog(this, "So tien hien tai: " + tien);
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			 JOptionPane.showMessageDialog(this, e.getMessage());
+		 }
+	 }
 	 
+	 private boolean isNumber(JTextField txt) {
+		 try {
+			 Double d = Double.parseDouble(txt.getText());
+			 return true;
+		 } catch (Exception e) {
+			 return false;
+		 }
+	 }
 }
