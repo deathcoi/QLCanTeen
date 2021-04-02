@@ -61,6 +61,7 @@ public class LoaiMonAn implements Serializable{
 	public void setMonAns(List<MonAn> monAns) {
 		this.monAns = monAns;
 	}
+
 	
 	
 }

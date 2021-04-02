@@ -3,13 +3,15 @@ package DAO;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import Utils.HibernateUtil;
 import entities.MonAn;
+import entities.NhanVien;
 
 public class MonAnDAO {
-	public static List<MonAn> layDanhSachMonAn(){
+	public static List<MonAn> layDanhSachMonAn() {
 		List<MonAn> list = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
@@ -22,8 +24,8 @@ public class MonAnDAO {
 		}
 		return list;
 	}
-	
-	public static MonAn layThongTinMonAn(String maMA){
+
+	public static MonAn layThongTinMonAn(String maMA) {
 		MonAn monAn = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
@@ -35,8 +37,8 @@ public class MonAnDAO {
 		}
 		return monAn;
 	}
-	
-	public static MonAn layThongTinMonAnTheoTen(String tenMA){
+
+	public static MonAn layThongTinMonAnTheoTen(String tenMA) {
 		MonAn monAn = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
@@ -50,5 +52,43 @@ public class MonAnDAO {
 			session.close();
 		}
 		return monAn;
+	}
+
+	public static void themMonAn(MonAn monan) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.save(monan);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	
+	public static void xoaMonAn(MonAn monan) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.remove(monan);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	public static void suaMonAn(MonAn monan) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.update(monan);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 	}
 }
