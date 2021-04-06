@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RpThongKe" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7b831344-b931-4226-bce6-f40e503fcef7">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RpThongKe" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="7b831344-b931-4226-bce6-f40e503fcef7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="nhanVien" class="java.lang.String"/>
 	<parameter name="ngayLapBangThongKe" class="java.util.Date"/>
@@ -13,7 +13,10 @@
 	<field name="maHD" class="java.lang.String"/>
 	<field name="ngayLap" class="java.util.Date"/>
 	<field name="tongTien" class="java.lang.Long"/>
-	<variable name="tongDoanhThu" class="java.lang.String"/>
+	<variable name="tongDoanhThu" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{tongTien}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{tongTien}]]></initialValueExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -58,13 +61,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{nhanVien}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="80" y="20" width="200" height="20" uuid="44fd1ec1-9132-440b-bc60-336b7de7c92d"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{ngayLapBangThongKe}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="0" y="40" width="80" height="20" uuid="fa7eed52-e7c0-4a65-9895-3f3d631a1e2b"/>
 				<textElement>
@@ -79,14 +75,14 @@
 				</textElement>
 				<text><![CDATA[Đến:]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="dd/MM/yyyy">
 				<reportElement x="80" y="40" width="130" height="21" uuid="14cbea37-2519-4966-946c-2e21319246f2"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{tuNgay}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="dd/MM/yyyy">
 				<reportElement x="300" y="40" width="130" height="21" uuid="dda089ae-c85e-4651-bcbf-a5d7f8dc6128"/>
 				<textElement>
 					<font size="14"/>
@@ -98,12 +94,19 @@
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[============================================================]]></text>
 			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm:ss a">
+				<reportElement x="80" y="20" width="190" height="20" uuid="c171b2e7-a28d-4229-8e9e-abd19e4ae907"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ngayLapBangThongKe}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="61" splitType="Stretch">
 			<staticText>
-				<reportElement x="140" y="31" width="100" height="30" uuid="ba5682e6-8588-4e4c-9f42-6c767b333dcf">
+				<reportElement x="110" y="31" width="100" height="30" uuid="ba5682e6-8588-4e4c-9f42-6c767b333dcf">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f817111-5a1e-454f-aab2-4bb379cc853c"/>
 				</reportElement>
 				<textElement>
@@ -112,16 +115,16 @@
 				<text><![CDATA[Mã hóa đơn]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="240" y="31" width="100" height="30" uuid="87c1426f-d47a-4ef6-b798-eb64a1f59932">
+				<reportElement x="210" y="31" width="170" height="30" uuid="87c1426f-d47a-4ef6-b798-eb64a1f59932">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3e5dfc10-f12d-42b8-851b-87e879f43c19"/>
 				</reportElement>
-				<textElement>
+				<textElement textAlignment="Center">
 					<font size="16"/>
 				</textElement>
 				<text><![CDATA[Ngày lập]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="340" y="31" width="100" height="30" uuid="795aa3d0-cfb1-4831-b966-83663838c925">
+				<reportElement x="380" y="31" width="100" height="30" uuid="795aa3d0-cfb1-4831-b966-83663838c925">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f903b156-ecf3-40db-9ed4-8be3438b1da5"/>
 				</reportElement>
 				<textElement>
@@ -135,7 +138,7 @@
 		<band height="60" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout"/>
 			<textField>
-				<reportElement x="140" y="20" width="100" height="30" uuid="654bfc2e-3e88-4189-b87e-253632bc021f">
+				<reportElement x="110" y="20" width="100" height="30" uuid="654bfc2e-3e88-4189-b87e-253632bc021f">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f817111-5a1e-454f-aab2-4bb379cc853c"/>
 				</reportElement>
 				<textElement>
@@ -143,17 +146,17 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{maHD}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="240" y="20" width="100" height="30" uuid="cd198bb1-c7e3-40ca-bc99-5c33ba22cb5d">
+			<textField pattern="dd/MM/yyyy HH:mm:ss a">
+				<reportElement x="210" y="20" width="170" height="30" uuid="cd198bb1-c7e3-40ca-bc99-5c33ba22cb5d">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3e5dfc10-f12d-42b8-851b-87e879f43c19"/>
 				</reportElement>
-				<textElement>
+				<textElement textAlignment="Left">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ngayLap}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="340" y="20" width="100" height="30" uuid="ae43e0ff-1220-4ecc-92bf-41a6f92987d4">
+				<reportElement x="380" y="21" width="100" height="30" uuid="ae43e0ff-1220-4ecc-92bf-41a6f92987d4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f903b156-ecf3-40db-9ed4-8be3438b1da5"/>
 				</reportElement>
 				<textElement>
@@ -164,7 +167,7 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="60" splitType="Stretch">
+		<band height="61" splitType="Stretch">
 			<staticText>
 				<reportElement x="136" y="20" width="114" height="20" uuid="83904892-c4cb-43d2-abcb-7724d230fe05"/>
 				<textElement>
@@ -178,9 +181,11 @@
 				<text><![CDATA[============================================================]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="270" y="20" width="100" height="30" uuid="fa16fad1-3e67-4399-9ba5-aca001ff7381"/>
+				<reportElement x="260" y="20" width="150" height="20" uuid="bce875df-2c8e-43ef-bd1b-100f7c109052"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{tongDoanhThu}]]></textFieldExpression>
-				<patternExpression><![CDATA[$F{tongTien}.sum( $F{tongTien},$F{tongTien} )]]></patternExpression>
 			</textField>
 		</band>
 	</columnFooter>

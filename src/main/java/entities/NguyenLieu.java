@@ -48,7 +48,7 @@ public class NguyenLieu implements Serializable{
 	public List<MonAn> getMonAns() {
 		return monAns;
 	}
-
+	
 	public void setMonAns(List<MonAn> monAns) {
 		this.monAns = monAns;
 	}
