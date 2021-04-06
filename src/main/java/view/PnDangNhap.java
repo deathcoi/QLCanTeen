@@ -9,9 +9,11 @@ import java.awt.CardLayout;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+import DAO.KhachHangDAO;
 import DAO.NhanVienDAO;
 import DAO.TaiKhoanKHDAO;
 import DAO.TaiKhoanNVDAO;
+import entities.KhachHang;
 import entities.NhanVien;
 import entities.TaiKhoanKH;
 import entities.TaiKhoanNV;
@@ -213,6 +215,7 @@ public class PnDangNhap extends JPanel {
 					throw new Exception("Sai mật khẩu");
 				else {
 					cardLayout.show(cardPanel, "pnKhachHang");
+					mainFrame.pnKhachHang.setKhachHang(taiKhoanKH.getKhachHang());
 					JOptionPane.showMessageDialog(this, "Đăng nhập thành công, chào " + taiKhoanKH.getKhachHang().getTenKH());
 				}	
 			}

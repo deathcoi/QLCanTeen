@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import org.apache.lucene.analysis.fi.FinnishAnalyzer;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import Utils.HibernateUtil;
@@ -83,5 +84,19 @@ public class KhachHangDAO {
 		}
 		return list;
 	}
+	
+	public static  void  suaKhachHang(KhachHang khachHang) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.update(khachHang);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+
 }
 

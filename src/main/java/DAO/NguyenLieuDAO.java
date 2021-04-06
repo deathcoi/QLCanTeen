@@ -6,8 +6,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-
 import Utils.HibernateUtil;
+import entities.LoaiMonAn;
+import entities.MonAn;
 import entities.NguyenLieu;
 import entities.NhanVien;
 
@@ -26,10 +27,10 @@ public class NguyenLieuDAO {
 	}
 	
 	public static List<NguyenLieu> layDanhSachNguyenLieu(){
-		List<NguyenLieu> list = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<NguyenLieu> list = null;
 		try {
-			String hql = "from NguyenLieu n";
+			String hql = "from NguyenLieu ";
 			Query query = session.createQuery(hql);
 			list = query.list();
 		} catch (Exception e) {
@@ -64,5 +65,17 @@ public class NguyenLieuDAO {
 		} finally {
 			session.close();
 		}
+	}
+	public static NguyenLieu layThongTinNguyenLieu(String mlnl) {
+		NguyenLieu n = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			n = session.get(NguyenLieu.class, mlnl);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return n;
 	}
 }
