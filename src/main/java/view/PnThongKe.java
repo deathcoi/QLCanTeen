@@ -134,7 +134,6 @@ public class PnThongKe extends JPanel {
 			SimpleDateFormat formatter2 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			String tuNgayString = formatter2.format(tuNgay);
 			tuNgay = formatter2.parse(tuNgayString);
-			JOptionPane.showMessageDialog(this, tuNgayString);
 			
 			String denNgayString = formatter2.format(denNgay);
 			denNgay = formatter2.parse(denNgayString);
