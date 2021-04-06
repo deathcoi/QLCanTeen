@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import org.apache.lucene.analysis.fi.FinnishAnalyzer;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -56,6 +57,34 @@ public class KhachHangDAO {
 		return khachHang;
 	}
 	
+	public static List<KhachHang> layThongTinKhachHang() {
+		List<KhachHang> list = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			Query hql = session.createQuery("From KhachHang kh");
+			list = hql.list();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			session.close();
+		}
+		return list;
+	}
+
+	public static List<KhachHang> timKiemThongTinKhachHang(String maLoai, String maKH, String tenKH, String gioiTinh, Integer namSinh, Long sdt) {
+		List<KhachHang> list = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			Query hql = session.createQuery("From KhachHang kh");
+			list = hql.list();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			session.close();
+		}
+		return list;
+	}
+	
 	public static  void  suaKhachHang(KhachHang khachHang) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
@@ -68,5 +97,6 @@ public class KhachHangDAO {
 			session.close();
 		}
 	}
-	
+
 }
+

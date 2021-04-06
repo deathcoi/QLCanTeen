@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -106,8 +107,6 @@ public class PnThanhToan extends JPanel {
 	public void setLbTongCong(JLabel lbTongCong) {
 		this.lbTongCong = lbTongCong;
 	}
-	
-	
 
 	public NhanVien getNhanVien() {
 		return nhanVien;
@@ -567,6 +566,9 @@ public class PnThanhToan extends JPanel {
 			
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			Date date = formatter.parse(lbDateTime.getText());
+			
+			Random generator = new Random();
+
 			
 			Long l = (long) 1000;
 			param.put("maHD", hoaDon.getMaHD());
