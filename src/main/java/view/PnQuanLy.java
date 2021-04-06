@@ -424,6 +424,10 @@ public class PnQuanLy extends JPanel {
 
 		JPanel pnLichSuHoaDon = new PnLichSuHoaDon();
 		pnCardLeft.add(pnLichSuHoaDon, "pnLichSuHoaDon");
+		
+		JPanel pnTinhLuong = new PnTinhLuong();
+		pnCardLeft.add(pnTinhLuong, "pnTinhLuong");
+		
 
 		pnThongKe = new PnThongKe();
 		pnCardLeft.add(pnThongKe, "pnThongKe");
@@ -443,6 +447,9 @@ public class PnQuanLy extends JPanel {
 			panel.setBackground(Color.CYAN);
 			if (panel.getName().compareTo("pnLichSuHoaDonBtn") == 0) {
 				cardLeft.show(pnCardLeft, "pnLichSuHoaDon");
+			}
+			if (panel.getName().compareTo("pnTinhLuongBtn") == 0) {
+				cardLeft.show(pnCardLeft, "pnTinhLuong");
 			}
 		}
 

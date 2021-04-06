@@ -26,6 +26,8 @@ import DAO.CTHoaDonDAO;
 import DAO.HoaDonDAO;
 import entities.CTHoaDon;
 import entities.HoaDon;
+import table.JTableUnEdit;
+
 import java.awt.ComponentOrientation;
 
 public class PnLichSuHoaDon extends JPanel {
@@ -132,17 +134,6 @@ public class PnLichSuHoaDon extends JPanel {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-	
-	private class JTableUnEdit extends DefaultTableModel {
-		public JTableUnEdit(Object[] objects, int i) {
-			super(objects, i);
-		}
-
-		@Override
-		public boolean isCellEditable(int row, int column) {
-			return false;
 		}
 	}
 	
