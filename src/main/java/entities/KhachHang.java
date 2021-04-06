@@ -50,7 +50,15 @@ public class KhachHang implements Serializable{
 	public void setTenKH(String tenKH) {
 		this.tenKH = tenKH;
 	}
-
+	
+	public LoaiKhachHang getLoaiKhachHang() {
+		return loaiKhachHang;
+	}
+	
+	public void setLoaiKhachHang(LoaiKhachHang loaiKhachHang) {
+		this.loaiKhachHang = loaiKhachHang;
+	}
+	
 	public String getGioiTinh() {
 		return gioiTinh;
 	}

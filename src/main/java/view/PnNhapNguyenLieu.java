@@ -3,17 +3,30 @@ package view;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import com.bea.xml.stream.samples.Parse;
+
+import DAO.NguyenLieuDAO;
+import DAO.NhanVienDAO;
+import entities.NguyenLieu;
+import entities.NhanVien;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PnNhapNguyenLieu extends JPanel {
 
@@ -78,11 +91,21 @@ public class PnNhapNguyenLieu extends JPanel {
 		panel_1.add(txtSL);
 		
 		JButton btnThem = new JButton("Thêm");
+		btnThem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnThemClicked();
+			}
+		});
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnThem.setBounds(390, 25, 90, 25);
 		panel_1.add(btnThem);
 		
 		JButton btnSua = new JButton("Sửa");
+		btnSua.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnSuaClicked();
+			}
+		});
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnSua.setBounds(390, 60, 90, 25);
 		panel_1.add(btnSua);
@@ -96,7 +119,76 @@ public class PnNhapNguyenLieu extends JPanel {
 		panel_2.add(scrollPane, BorderLayout.CENTER);
 		
 		table_1 = new JTable(new DefaultTableModel(new Object[] {"Mã nguyên liệu", "Tên nguyên liệu", "Số lượng"}, 0));
+		table_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				tableMouseClicked();
+			}
+		});
 		scrollPane.setViewportView(table_1);
 		table_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		loadTable();
+	}
+
+	private void loadTable() {
+		DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+		model.setRowCount(0);
+		List<NguyenLieu> list = NguyenLieuDAO.layDanhSachNguyenLieu();
+		for (NguyenLieu n : list) {
+			model.addRow(new Object[] {
+				n.getMaNguyenLieu(),
+				n.getTenNguyenLieu(),
+				n.getSoLuong()
+			});
+		}
+	}
+	
+	 private void tableMouseClicked() {                                     
+	     
+	        int index = table_1.getSelectedRow();
+	        txtMNL.setText((String) table_1.getValueAt(index, 0));
+	        txtTenNL.setText((String) table_1.getValueAt(index, 1));
+	        txtSL.setText((String) table_1.getValueAt(index, 2).toString());
+	    }
+	
+	private void btnThemClicked() {
+		try {
+			NguyenLieu nguyenLieu = new NguyenLieu();
+			nguyenLieu.setMaNguyenLieu(txtMNL.getText());
+			nguyenLieu.setTenNguyenLieu(txtTenNL.getText());
+			nguyenLieu.setSoLuong(Integer.parseInt(txtSL.getText()));
+			
+			NguyenLieuDAO.themNguyenLieu(nguyenLieu);
+			
+			loadTable();
+			
+			loadText();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void btnSuaClicked() {
+		try {
+			NguyenLieu nguyenLieu = new NguyenLieu();
+			
+			nguyenLieu.setMaNguyenLieu(txtMNL.getText());
+			nguyenLieu.setTenNguyenLieu(txtTenNL.getText());
+			nguyenLieu.setSoLuong(Integer.parseInt(txtSL.getText()));
+			
+			NguyenLieuDAO.suaNguyenLieu(nguyenLieu);
+			
+			loadTable();
+			
+			loadText();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void loadText() {
+		txtMNL.setText("");
+		txtTenNL.setText("");
+		txtSL.setText("");
 	}
 }

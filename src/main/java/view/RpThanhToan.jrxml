@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RpThanhToan" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6a469e2d-e3b2-4b16-afe3-913841079c43">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RpThanhToan" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="6a469e2d-e3b2-4b16-afe3-913841079c43">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
 	<parameter name="maHD" class="java.lang.String"/>
 	<parameter name="nhanVien" class="java.lang.String"/>
 	<parameter name="khachHang" class="java.lang.String"/>
@@ -10,7 +11,6 @@
 	<parameter name="tongTien" class="java.lang.Long"/>
 	<parameter name="tienMat" class="java.lang.Long"/>
 	<parameter name="tienThua" class="java.lang.Long"/>
-	<parameter name="barcodeNumber" class="java.lang.Long"/>
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
@@ -230,22 +230,11 @@
 				<text><![CDATA[Chúc quý khách ngon miệng!]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement x="180" y="170" width="200" height="40" uuid="ea0e3332-ebde-4e57-bb47-a1ce2b1fd5a6">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.barWidth" value="px"/>
-				</reportElement>
-				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="2of7" drawText="false" checksumRequired="false">
-					<jr:codeExpression><![CDATA[$P{barcodeNumber}]]></jr:codeExpression>
-				</jr:barbecue>
+				<reportElement x="190" y="170" width="173" height="100" uuid="ba8c90c2-0cd3-4364-bbce-9a23158c8231"/>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA["Khách Hàng: " + $P{khachHang}]]></jr:codeExpression>
+				</jr:QRCode>
 			</componentElement>
-			<textField>
-				<reportElement x="180" y="210" width="200" height="20" uuid="102dbbe7-115b-4512-bc26-8a854e55fed8"/>
-				<textElement textAlignment="Center">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{barcodeNumber}]]></textFieldExpression>
-			</textField>
 		</band>
 	</columnFooter>
 	<pageFooter>

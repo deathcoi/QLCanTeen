@@ -196,7 +196,6 @@ public class PnDangNhap extends JPanel {
 				else {
 					cardLayout.show(cardPanel, "pnNhanVien");
 					JOptionPane.showMessageDialog(this, "Đăng nhập thành công, chào " + taiKhoanNV.getNhanVien().getTenNV());
-					
 					mainFrame.pnNhanVien.setNhanVien(taiKhoanNV.getNhanVien());
 					//JOptionPane.showMessageDialog(this, taiKhoanNV.getNhanVien().getTenNV());
 					
