@@ -6,38 +6,25 @@ import java.awt.CardLayout;
 import java.awt.Color;
 
 import javax.swing.JLabel;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.FlowLayout;
-import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
-import javax.swing.GroupLayout.Alignment;
-
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
-
 import entities.NhanVien;
-
-import java.awt.Component;
 
 public class PnNhanVien extends JPanel {
 	private JFrame mainFrame;
@@ -371,6 +358,15 @@ public class PnNhanVien extends JPanel {
 		
 		JPanel pnThongTinKhachHang = new PnThongTinKhachHang();
 		pnLeft.add(pnThongTinKhachHang, "pnThongTinKhachHang");
+		
+		JPanel pnNhapNguyenLieu = new PnNhapNguyenLieu();
+		pnLeft.add(pnNhapNguyenLieu, "pnNhapNguyenLieu");
+		
+		JPanel pnThongKe = new PnThongKe();
+		pnLeft.add(pnThongKe, "pnThongKe");
+		
+		JPanel pnChamCong = new PnChamCong();
+		pnLeft.add(pnChamCong, "pnChamCong");
 
 		setTiming();
 	}
@@ -390,6 +386,15 @@ public class PnNhanVien extends JPanel {
 			}
 			if (panel.getName().compareTo("pnKhachHangBtn") == 0) {
 				cardLeft.show(pnLeft, "pnThongTinKhachHang");
+			}
+			if (panel.getName().compareTo("pnNhapNguyenLieuBtn") == 0) {
+				cardLeft.show(pnLeft, "pnNhapNguyenLieu");
+			}
+			if (panel.getName().compareTo("pnThongKeBtn") == 0) {
+				cardLeft.show(pnLeft, "pnThongKe");
+			}
+			if (panel.getName().compareTo("pnTinhLuongBtn") == 0) {
+				cardLeft.show(pnLeft, "pnChamCong");
 			}
 		}
 
