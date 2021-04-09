@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.Font;
@@ -381,9 +382,16 @@ public class PnQuanLy extends JPanel {
 		panel_10.setLayout(new BorderLayout(0, 0));
 
 		JPanel panel_11 = new JPanel();
+		panel_11.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnClicked();
+			}
+			
+		});
 		panel_13.add(panel_11);
 		panel_11.setLayout(new BorderLayout(0, 0));
-
+//
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setIcon(new ImageIcon("picture/Calculator.png"));
@@ -724,6 +732,17 @@ public class PnQuanLy extends JPanel {
 	public void setPnMenuKhongChucNang(PnMenuKhongChucNang pnMenuKhongChucNang) {
 		this.pnMenuKhongChucNang = pnMenuKhongChucNang;
 	}
-
-	
+	private void btnClicked() { 
+		Runtime rTime = Runtime.getRuntime();
+		try {
+			rTime.exec("open -a Calculator");		
+		}catch(Exception e) {
+			try {
+				rTime.exec("calc");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}	
 }
