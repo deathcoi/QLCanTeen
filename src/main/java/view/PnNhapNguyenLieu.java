@@ -27,6 +27,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class PnNhapNguyenLieu extends JPanel {
 
@@ -144,7 +146,6 @@ public class PnNhapNguyenLieu extends JPanel {
 	}
 	
 	 private void tableMouseClicked() {                                     
-	     
 	        int index = table_1.getSelectedRow();
 	        txtMNL.setText((String) table_1.getValueAt(index, 0));
 	        txtTenNL.setText((String) table_1.getValueAt(index, 1));
