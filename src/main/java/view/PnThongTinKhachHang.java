@@ -138,7 +138,7 @@ public class PnThongTinKhachHang extends JPanel {
 		panel.add(rdBtnNu);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 260, 560, 280);
+		panel_1.setBounds(0, 260, 560, 290);
 		add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
@@ -152,12 +152,12 @@ public class PnThongTinKhachHang extends JPanel {
 		
 		JLabel lblNewLabel_1 = new JLabel("Tìm thấy:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.ITALIC, 14));
-		lblNewLabel_1.setBounds(407, 555, 66, 20);
+		lblNewLabel_1.setBounds(400, 560, 66, 20);
 		add(lblNewLabel_1);
 		
 		txtTimThay = new JTextField();
 		txtTimThay.setEditable(false);
-		txtTimThay.setBounds(483, 555, 50, 20);
+		txtTimThay.setBounds(470, 560, 50, 20);
 		add(txtTimThay);
 		txtTimThay.setColumns(10);
 		
