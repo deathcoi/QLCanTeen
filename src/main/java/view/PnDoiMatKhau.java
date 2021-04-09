@@ -2,10 +2,24 @@ package view;
 
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
+
+import DAO.LoaiMonAnDAO;
+import DAO.MonAnDAO;
+import DAO.NguyenLieuDAO;
+import DAO.TaiKhoanKHDAO;
+import entities.LoaiMonAn;
+import entities.MonAn;
+import entities.NguyenLieu;
+import entities.TaiKhoanKH;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PnDoiMatKhau extends JPanel {
 	private JTextField txtMKHT;
@@ -55,13 +69,35 @@ public class PnDoiMatKhau extends JPanel {
 		add(txtNLMK);
 		
 		JButton btnXacNhan = new JButton("Xác nhận");
+		btnXacNhan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnXacNhanClicked();
+			}
+		});
 		btnXacNhan.setBounds(234, 252, 117, 49);
 		add(btnXacNhan);
 		
 		JButton btnThoat = new JButton("Thoát");
+		btnThoat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		btnThoat.setBounds(362, 252, 117, 49);
 		add(btnThoat);
 		
+	}
+	private void btnXacNhanClicked() {
 		
+			try {
+				TaiKhoanKH khachhang = TaiKhoanKHDAO.layThongTinTK(txtMKHT.getText());
+				if(khachhang == null)
+					throw  new Exception(" sai mat khau");
+				JOptionPane.showMessageDialog(this,"sua thanh cong");
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(this, e.getMessage());
+			}
 	}
 }

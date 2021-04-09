@@ -129,6 +129,15 @@ public class FrameNapTien extends JFrame {
 		});
 		btnNapTien.setBounds(226, 130, 117, 57);
 		panel_1.add(btnNapTien);
+		
+		JButton btnThoat = new JButton("Thoát");
+		btnThoat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnThoatClicked();
+			}
+		});
+		btnThoat.setBounds(389, 130, 117, 57);
+		panel_1.add(btnThoat);
 	}
 	 private void btnNapTienClicked() {
 		 try {
@@ -152,5 +161,8 @@ public class FrameNapTien extends JFrame {
 		 } catch (Exception e) {
 			 return false;
 		 }
+	 }
+	 private void btnThoatClicked() {
+		 dispose();
 	 }
 }

@@ -6,11 +6,13 @@ import java.awt.CardLayout;
 import java.awt.Color;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
@@ -332,6 +334,12 @@ public class PnNhanVien extends JPanel {
 		panel_10.setLayout(new BorderLayout(0, 0));
 
 		JPanel panel_11 = new JPanel();
+		panel_11.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnClicked();
+			}
+		});
 		panel_13.add(panel_11);
 		panel_11.setLayout(new BorderLayout(0, 0));
 
@@ -339,6 +347,8 @@ public class PnNhanVien extends JPanel {
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setIcon(new ImageIcon("picture/Calculator.png"));
 		panel_11.add(lblNewLabel_3, BorderLayout.CENTER);
+		
+		
 
 		JPanel panel_12 = new JPanel();
 		panel_13.add(panel_12);
@@ -519,6 +529,21 @@ public class PnNhanVien extends JPanel {
 	public void setPnLeft(JPanel pnLeft) {
 		this.pnLeft = pnLeft;
 	}
+	private void btnClicked() { 
+		Runtime rTime = Runtime.getRuntime();
+		try {
+			rTime.exec("open -a Calculator");		
+		}catch(Exception e) {
+			try {
+				rTime.exec("calc");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+	}
+	
 
 	public PnMenu getPnMenu() {
 		return pnMenu;
