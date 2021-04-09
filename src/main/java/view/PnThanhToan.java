@@ -56,6 +56,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import table.JTableButtonModel;
 import table.JTableButtonRenderer;
+import javax.swing.JCheckBox;
 
 public class PnThanhToan extends JPanel {
 
@@ -224,17 +225,17 @@ public class PnThanhToan extends JPanel {
 
 		JLabel lblNewLabel_10_2 = new JLabel("Tổng cộng");
 		lblNewLabel_10_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_10_2.setBounds(120, 480, 78, 22);
+		lblNewLabel_10_2.setBounds(80, 483, 78, 22);
 		add(lblNewLabel_10_2);
 
 		JLabel lblNewLabel_10_2_1 = new JLabel("Tiền mặt:");
 		lblNewLabel_10_2_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_10_2_1.setBounds(120, 500, 89, 22);
+		lblNewLabel_10_2_1.setBounds(80, 503, 78, 22);
 		add(lblNewLabel_10_2_1);
 
 		JLabel lblNewLabel_10_2_2 = new JLabel("Tiền thừa:");
 		lblNewLabel_10_2_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_10_2_2.setBounds(120, 520, 97, 22);
+		lblNewLabel_10_2_2.setBounds(80, 523, 78, 22);
 		add(lblNewLabel_10_2_2);
 
 		txtTienMat = new JTextField();
@@ -245,23 +246,23 @@ public class PnThanhToan extends JPanel {
 			}
 		});
 
-		txtTienMat.setHorizontalAlignment(SwingConstants.CENTER);
+		txtTienMat.setHorizontalAlignment(SwingConstants.LEFT);
 		txtTienMat.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtTienMat.setColumns(10);
-		txtTienMat.setBounds(220, 500, 150, 22);
+		txtTienMat.setBounds(168, 505, 150, 22);
 		add(txtTienMat);
 		txtTienMat.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
 		lbTongCong = new JLabel("");
-		lbTongCong.setHorizontalAlignment(SwingConstants.CENTER);
+		lbTongCong.setHorizontalAlignment(SwingConstants.LEFT);
 		lbTongCong.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbTongCong.setBounds(220, 480, 150, 22);
+		lbTongCong.setBounds(168, 485, 150, 22);
 		add(lbTongCong);
 
 		lbTienThua = new JLabel("");
-		lbTienThua.setHorizontalAlignment(SwingConstants.CENTER);
+		lbTienThua.setHorizontalAlignment(SwingConstants.LEFT);
 		lbTienThua.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbTienThua.setBounds(220, 520, 150, 22);
+		lbTienThua.setBounds(168, 525, 150, 22);
 		add(lbTienThua);
 		
 		JPanel pnRefresh = new JPanel();
@@ -501,23 +502,37 @@ public class PnThanhToan extends JPanel {
 			JTableButtonModel model = (JTableButtonModel) table.getModel();
 			if (model.getRowCount() == 0)
 				throw new Exception("Vui lòng chọn món ăn!");
+
 			HoaDon hoaDon = HoaDonDAO.taoHoaDonMoi();
 			hoaDon.setNhanVien(nhanVien);
 			hoaDon.setNgayLap(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(lbDateTime.getText()));
 			hoaDon.setTongTien(Long.parseLong(lbTongCong.getText()));
 			
-			
+			//nếu không có khách hàng thì tính tiền mặt, nếu có text khách hàng thì làm
 			if (txtKhachHang.getText().isBlank() == false) {
 				if (khachHang == null) {
+					//nếu khách hàng ban đầu chưa có thì set khách hàng
 					khachHang = KhachHangDAO.layThongTinKhachHangTheoSDT(Long.parseLong(txtKhachHang.getText()));
 					if (khachHang != null) {
+						//nếu đã có khách hàng thì set khách hàng
 						hoaDon.setKhachHang(khachHang);
-						//JOptionPane.showMessageDialog(this, "khong null");
 					}
 				} else {
+					//nếu đã có khách hàng thì set khách hàng
 					hoaDon.setKhachHang(khachHang);
 				}
-				
+			}
+			
+			//nếu khách hàng dùng acc
+			if (khachHang != null) {
+				Long tien = Long.parseLong(lbTongCong.getText());
+				if (khachHang.getTien() <= tien){
+					throw new Exception("Tài khoản của khách hàng " + khachHang.getTenKH() + " không đủ tiền");
+				} else {
+					Long tien2 = khachHang.getTien() - tien;
+					khachHang.setTien(tien2);
+					KhachHangDAO.suaKhachHang(khachHang);
+				}
 			}
 			
 			HoaDonDAO.themHoaDon(hoaDon);
@@ -546,8 +561,7 @@ public class PnThanhToan extends JPanel {
 				field.put("soLuong", ctHoaDon.getSoLuong());
 				
 				dataSource.add(field);
-				
-				
+
 			}
 			Map<String, Object> param = new HashMap<String, Object>();
 			
@@ -584,6 +598,7 @@ public class PnThanhToan extends JPanel {
 			frameThanhToan.pack();*/
 			JasperViewer jViewer = new JasperViewer(filledReport, false);
 			jViewer.setVisible(true);
+			
 			
 			khachHang = null; //reset khach hang
 			txtKhachHang.setText("");
@@ -633,5 +648,4 @@ public class PnThanhToan extends JPanel {
 			}
 		}
 	}
-
 }
