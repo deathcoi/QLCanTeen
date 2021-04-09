@@ -50,11 +50,13 @@ public class PnQuanLy extends JPanel {
 
 	private NhanVien nhanVien;
 
-	private JPanel pnMenu;
+	private PnMenu pnMenu;
 
 	private PnThanhToan pnThanhToan;
 
 	private PnThongKe pnThongKe;
+	
+	private PnMenuKhongChucNang pnMenuKhongChucNang;
 
 	public PnQuanLy(CardLayout cardLayout, JPanel cardPanel, JFrame mainFrame) {
 		setName("pnQuanLy");
@@ -396,7 +398,7 @@ public class PnQuanLy extends JPanel {
 		pnThanhToan = new PnThanhToan(cardLeft, cardRight, pnCardLeft, pnCardRight, this);
 		pnCardRight.add(pnThanhToan, "pnThanhToan");
 
-		JPanel pnMenuKhongChucNang = new PnMenuKhongChucNang();
+		pnMenuKhongChucNang = new PnMenuKhongChucNang();
 		pnCardLeft.add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
 
 		JPanel pnThongTinKhachHang = new PnThongTinKhachHang();
@@ -411,7 +413,7 @@ public class PnQuanLy extends JPanel {
 		JPanel pnNhapNguyenLieu = new PnNhapNguyenLieu();
 		pnCardLeft.add(pnNhapNguyenLieu, "pnNhapNguyenLieu");
 
-		JPanel pnChinhSuaMonAn = new PnChinhSuaMonAn();
+		JPanel pnChinhSuaMonAn = new PnChinhSuaMonAn(this);
 		pnCardLeft.add(pnChinhSuaMonAn, "pnChinhSuaMonAn");
 
 		JPanel pnLichSuHoaDon = new PnLichSuHoaDon();
@@ -699,11 +701,11 @@ public class PnQuanLy extends JPanel {
 		this.pnCardLeft = pnCardLeft;
 	}
 
-	public JPanel getPnMenu() {
+	public PnMenu getPnMenu() {
 		return pnMenu;
 	}
 
-	public void setPnMenu(JPanel pnMenu) {
+	public void setPnMenu(PnMenu pnMenu) {
 		this.pnMenu = pnMenu;
 	}
 
@@ -715,4 +717,13 @@ public class PnQuanLy extends JPanel {
 		this.cardLeft = cardLeft;
 	}
 
+	public PnMenuKhongChucNang getPnMenuKhongChucNang() {
+		return pnMenuKhongChucNang;
+	}
+
+	public void setPnMenuKhongChucNang(PnMenuKhongChucNang pnMenuKhongChucNang) {
+		this.pnMenuKhongChucNang = pnMenuKhongChucNang;
+	}
+
+	
 }
