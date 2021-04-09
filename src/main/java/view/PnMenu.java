@@ -123,11 +123,10 @@ public class PnMenu extends JPanel {
 			panel.setOpaque(true);
 			panel.setBackground(Color.BLUE);
 		}
-
 		@Override
 		public void mouseExited(MouseEvent e) {
 			panel.setOpaque(false);
-			panel.setBackground(new Color(153, 0, 0));
+			panel.setBackground(Color.WHITE);
 		}
 	}
 

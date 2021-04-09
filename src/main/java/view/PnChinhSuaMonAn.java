@@ -2,9 +2,13 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,26 +21,21 @@ import javax.swing.table.DefaultTableModel;
 import DAO.LoaiMonAnDAO;
 import DAO.MonAnDAO;
 import DAO.NguyenLieuDAO;
-import DAO.NhanVienDAO;
 import entities.LoaiMonAn;
 import entities.MonAn;
 import entities.NguyenLieu;
-import entities.NhanVien;
-
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
 
 public class PnChinhSuaMonAn extends JPanel {
 
-	private static final String MonAn = null;
 	private JTable table_1;
 	private JTextField txtMaMA;
 	private JTextField txtTenMA;
 	private JComboBox cmbMaLoai;
 	private JComboBox cmbMaNL;
-	public PnChinhSuaMonAn() {
+	
+	private PnQuanLy pnQuanLy;
+	public PnChinhSuaMonAn(PnQuanLy pnQuanLy) {
+		this.pnQuanLy = pnQuanLy;
 		setBounds(0, 0, 560, 500);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -153,6 +152,8 @@ public class PnChinhSuaMonAn extends JPanel {
 			monan.setTenMA(txtTenMA.getText());
 			MonAnDAO.themMonAn(monan);
 			loadTable();
+			
+			refreshPn();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -197,6 +198,8 @@ public class PnChinhSuaMonAn extends JPanel {
 				throw new Exception("khong tim thay mon an");
 			MonAnDAO.xoaMonAn(monan);
 			loadTable();
+			
+			refreshPn();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage());
@@ -218,11 +221,31 @@ public class PnChinhSuaMonAn extends JPanel {
 			MonAnDAO.suaMonAn(monan);
 			loadTable();
 			JOptionPane.showMessageDialog(this,"sua thanh cong");
+			
+			refreshPn();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage());
-			
 		}
+	}
+	
+	private void refreshPn() {
+		PnMenu pnMenu = pnQuanLy.getPnMenu();
+		PnMenuKhongChucNang pnMenuKhongChucNang = pnQuanLy.getPnMenuKhongChucNang();
+		
+		pnQuanLy.getPnCardLeft().remove(pnMenu);
+		pnQuanLy.getPnCardLeft().remove(pnMenuKhongChucNang);
+		
+		pnMenu = new PnMenu(pnQuanLy.getPnThanhToan());
+		pnMenuKhongChucNang = new PnMenuKhongChucNang();
+		
+		pnQuanLy.getPnCardLeft().add(pnMenu, "pnMenu");
+		pnQuanLy.getPnCardLeft().add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
+		
+		pnQuanLy.validate();
+		pnQuanLy.repaint();
+		pnMenu.revalidate();
+		pnMenu.repaint();
 	}
 	
 }
