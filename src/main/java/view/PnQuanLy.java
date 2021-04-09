@@ -729,7 +729,7 @@ public class PnQuanLy extends JPanel {
 	public void setPnMenuKhongChucNang(PnMenuKhongChucNang pnMenuKhongChucNang) {
 		this.pnMenuKhongChucNang = pnMenuKhongChucNang;
 	}
-<<<<<<< HEAD
+	
 	private void btnClicked() { 
 		Runtime rTime = Runtime.getRuntime();
 		try {
@@ -743,7 +743,6 @@ public class PnQuanLy extends JPanel {
 			}
 		}
 	}	
-=======
 
 	public PnChinhSuaMonAn getPnChinhSuaMonAn() {
 		return pnChinhSuaMonAn;
@@ -752,7 +751,4 @@ public class PnQuanLy extends JPanel {
 	public void setPnChinhSuaMonAn(PnChinhSuaMonAn pnChinhSuaMonAn) {
 		this.pnChinhSuaMonAn = pnChinhSuaMonAn;
 	}
-
-	
->>>>>>> 4f7d659504e8d95f5f327c769fb17c4af994b8f8
 }

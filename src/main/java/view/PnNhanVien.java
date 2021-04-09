@@ -529,7 +529,6 @@ public class PnNhanVien extends JPanel {
 	public void setPnLeft(JPanel pnLeft) {
 		this.pnLeft = pnLeft;
 	}
-<<<<<<< HEAD
 	private void btnClicked() { 
 		Runtime rTime = Runtime.getRuntime();
 		try {
@@ -545,8 +544,6 @@ public class PnNhanVien extends JPanel {
 		
 	}
 	
-	
-=======
 
 	public PnMenu getPnMenu() {
 		return pnMenu;
@@ -563,6 +560,5 @@ public class PnNhanVien extends JPanel {
 	public void setPnMenuKhongChucNang(PnMenuKhongChucNang pnMenuKhongChucNang) {
 		this.pnMenuKhongChucNang = pnMenuKhongChucNang;
 	}
->>>>>>> 4f7d659504e8d95f5f327c769fb17c4af994b8f8
 	
 }
