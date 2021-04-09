@@ -36,11 +36,13 @@ public class PnNhapNguyenLieu extends JPanel {
 	private JTextField txtMNL;
 	private JTextField txtTenNL;
 	private JTextField txtSL;
+	private PnQuanLy pnQuanLy;
 
 	/**
 	 * Create the panel.
 	 */
-	public PnNhapNguyenLieu() {
+	public PnNhapNguyenLieu(JPanel pnQuanLy) {
+		this.pnQuanLy = (PnQuanLy) pnQuanLy;
 		setBounds(0, 0, 560, 600);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -164,6 +166,8 @@ public class PnNhapNguyenLieu extends JPanel {
 			loadTable();
 			
 			loadText();
+			
+			pnQuanLy.getPnChinhSuaMonAn().refreshPn();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -182,6 +186,8 @@ public class PnNhapNguyenLieu extends JPanel {
 			loadTable();
 			
 			loadText();
+			
+			pnQuanLy.getPnChinhSuaMonAn().refreshPn();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

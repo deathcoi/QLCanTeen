@@ -1,13 +1,9 @@
 package view;
 
-import javax.swing.JPanel;
-
-import java.awt.CardLayout;
-
-import javax.swing.JLabel;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
-
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -15,20 +11,18 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.awt.Font;
+
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
-import javax.swing.JTextField;
-import java.awt.Color;
-
-import javax.swing.JSeparator;
 import javax.swing.border.LineBorder;
 
 import entities.NhanVien;
-
-import java.awt.FlowLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 
 public class PnQuanLy extends JPanel {
 
@@ -58,6 +52,9 @@ public class PnQuanLy extends JPanel {
 	private PnThongKe pnThongKe;
 	
 	private PnMenuKhongChucNang pnMenuKhongChucNang;
+	
+	private PnChinhSuaMonAn pnChinhSuaMonAn;
+	
 
 	public PnQuanLy(CardLayout cardLayout, JPanel cardPanel, JFrame mainFrame) {
 		setName("pnQuanLy");
@@ -418,10 +415,10 @@ public class PnQuanLy extends JPanel {
 		JPanel pnChinhSuaNhanVien = new PnChinhSuaNhanVien();
 		pnCardLeft.add(pnChinhSuaNhanVien, "pnChinhSuaNhanVien");
 
-		JPanel pnNhapNguyenLieu = new PnNhapNguyenLieu();
+		JPanel pnNhapNguyenLieu = new PnNhapNguyenLieu(this);
 		pnCardLeft.add(pnNhapNguyenLieu, "pnNhapNguyenLieu");
 
-		JPanel pnChinhSuaMonAn = new PnChinhSuaMonAn(this);
+		pnChinhSuaMonAn = new PnChinhSuaMonAn(this);
 		pnCardLeft.add(pnChinhSuaMonAn, "pnChinhSuaMonAn");
 
 		JPanel pnLichSuHoaDon = new PnLichSuHoaDon();
@@ -732,6 +729,7 @@ public class PnQuanLy extends JPanel {
 	public void setPnMenuKhongChucNang(PnMenuKhongChucNang pnMenuKhongChucNang) {
 		this.pnMenuKhongChucNang = pnMenuKhongChucNang;
 	}
+<<<<<<< HEAD
 	private void btnClicked() { 
 		Runtime rTime = Runtime.getRuntime();
 		try {
@@ -745,4 +743,16 @@ public class PnQuanLy extends JPanel {
 			}
 		}
 	}	
+=======
+
+	public PnChinhSuaMonAn getPnChinhSuaMonAn() {
+		return pnChinhSuaMonAn;
+	}
+
+	public void setPnChinhSuaMonAn(PnChinhSuaMonAn pnChinhSuaMonAn) {
+		this.pnChinhSuaMonAn = pnChinhSuaMonAn;
+	}
+
+	
+>>>>>>> 4f7d659504e8d95f5f327c769fb17c4af994b8f8
 }
