@@ -33,9 +33,14 @@ public class PnChinhSuaMonAn extends JPanel {
 	private JComboBox cmbMaLoai;
 	private JComboBox cmbMaNL;
 	
-	private PnQuanLy pnQuanLy;
-	public PnChinhSuaMonAn(PnQuanLy pnQuanLy) {
-		this.pnQuanLy = pnQuanLy;
+	private PnQuanLy pnQuanLy = null;
+	private PnNhanVien pnNhanVien = null;
+	public PnChinhSuaMonAn(JPanel pnQuanLy) {
+		if (pnQuanLy instanceof PnQuanLy)
+			this.pnQuanLy = (PnQuanLy) pnQuanLy;
+		else {
+			this.pnNhanVien = (PnNhanVien) pnQuanLy;
+		}
 		setBounds(0, 0, 560, 500);
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -240,27 +245,52 @@ public class PnChinhSuaMonAn extends JPanel {
 		}
 	}
 	
-	private void refreshPn() {
-		PnMenu pnMenu = pnQuanLy.getPnMenu();
-		PnMenuKhongChucNang pnMenuKhongChucNang = pnQuanLy.getPnMenuKhongChucNang();
+	void refreshPn() {
+		if (pnQuanLy != null) {
+			PnMenu pnMenu = pnQuanLy.getPnMenu();
+			PnMenuKhongChucNang pnMenuKhongChucNang = pnQuanLy.getPnMenuKhongChucNang();
+			PnChinhSuaMonAn pnChinhSuaMonAn = this;
+			
+			pnQuanLy.getPnCardLeft().remove(pnMenu);
+			pnQuanLy.getPnCardLeft().remove(pnMenuKhongChucNang);
+			pnQuanLy.getPnCardLeft().remove(pnChinhSuaMonAn);
+			
+			pnMenu = new PnMenu(pnQuanLy.getPnThanhToan());
+			pnMenuKhongChucNang = new PnMenuKhongChucNang();
+			pnChinhSuaMonAn = new PnChinhSuaMonAn(pnQuanLy);
+			
+			pnQuanLy.getPnCardLeft().add(pnMenu, "pnMenu");
+			pnQuanLy.getPnCardLeft().add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
+			pnQuanLy.getPnCardLeft().add(pnChinhSuaMonAn, "pnChinhSuaMonAn");
+			
+			pnQuanLy.validate();
+			pnQuanLy.repaint();
+		} else {
+			PnMenu pnMenu = pnNhanVien.getPnMenu();
+			PnMenuKhongChucNang pnMenuKhongChucNang = pnNhanVien.getPnMenuKhongChucNang();
+			PnChinhSuaMonAn pnChinhSuaMonAn = this;
+			
+			pnNhanVien.getPnLeft().remove(pnMenu);
+			pnNhanVien.getPnLeft().remove(pnMenuKhongChucNang);
+			pnNhanVien.getPnLeft().remove(pnChinhSuaMonAn);
+			
+			pnMenu = new PnMenu(pnNhanVien.getPnThanhToan());
+			pnMenuKhongChucNang = new PnMenuKhongChucNang();
+			pnChinhSuaMonAn = new PnChinhSuaMonAn(pnQuanLy);
+			
+			pnNhanVien.getPnLeft().add(pnMenu, "pnMenu");
+			pnNhanVien.getPnLeft().add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
+			pnNhanVien.getPnLeft().add(pnChinhSuaMonAn, "pnChinhSuaMonAn");
+			
+			pnNhanVien.validate();
+			pnNhanVien.repaint();
+		}
 		
-		pnQuanLy.getPnCardLeft().remove(pnMenu);
-		pnQuanLy.getPnCardLeft().remove(pnMenuKhongChucNang);
-		
-		pnMenu = new PnMenu(pnQuanLy.getPnThanhToan());
-		pnMenuKhongChucNang = new PnMenuKhongChucNang();
-		
-		pnQuanLy.getPnCardLeft().add(pnMenu, "pnMenu");
-		pnQuanLy.getPnCardLeft().add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
-		
-		pnQuanLy.validate();
-		pnQuanLy.repaint();
-		pnMenu.revalidate();
-		pnMenu.repaint();
+
 	}
 	
 	private void btnThemLoaiMonAnClicked() {
-		FrameLoaiMonAn frm = new FrameLoaiMonAn();
+		FrameLoaiMonAn frm = new FrameLoaiMonAn(this);
 		frm.setVisible(true);
 	}
 }
