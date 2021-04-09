@@ -7,6 +7,9 @@ import javax.swing.JOptionPane;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+
 import javax.swing.SwingConstants;
 
 import DAO.KhachHangDAO;
@@ -30,6 +33,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -41,7 +48,9 @@ public class PnDangNhap extends JPanel {
 	private JPasswordField txtMatKhau;
 	private CardLayout cardLayout;
 	private JPanel cardPanel;
-
+	
+	private Image image;
+	private Image scaledImage;
 	/**
 	 * Create the panel.
 	 */
@@ -51,10 +60,17 @@ public class PnDangNhap extends JPanel {
 		this.mainFrame = mainFrame;
 
 		setBounds(0, 0, 1024, 600);
+		try {
+			image = ImageIO.read(new File("picture/main.png"));
+			scaledImage = image.getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_SMOOTH);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		setLayout(new BorderLayout(0, 0));
 
 		JPanel panel = new JPanel();
-		add(panel, BorderLayout.CENTER);
+		panel.setOpaque(false);
+		add(panel, BorderLayout.EAST);
 
 		JLabel lblNewLabel = new JLabel("QUẢN LÝ CĂN TIN HUTECH");
 		lblNewLabel.setForeground(Color.ORANGE);
@@ -116,27 +132,27 @@ public class PnDangNhap extends JPanel {
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(10)
 							.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(209)
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(131)
 									.addComponent(btnDangNhap, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
 									.addComponent(btnThoat, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE))
-								.addGroup(Alignment.LEADING, gl_panel.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_panel.createSequentialGroup()
-										.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
-										.addGap(18)
-										.addComponent(txtTaiKhoan, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
-									.addGroup(gl_panel.createSequentialGroup()
+								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+									.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
 										.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
 										.addGap(18)
-										.addComponent(txtMatKhau, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))))
+										.addComponent(txtMatKhau))
+									.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+										.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
+										.addGap(18)
+										.addComponent(txtTaiKhoan, GroupLayout.PREFERRED_SIZE, 292, GroupLayout.PREFERRED_SIZE))))
 							.addGap(245)))
 					.addGap(10))
 		);
@@ -147,11 +163,11 @@ public class PnDangNhap extends JPanel {
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
 					.addGap(66)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtTaiKhoan, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtTaiKhoan, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
 					.addGap(49)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtMatKhau, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtMatKhau, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
 					.addGap(91)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
@@ -223,6 +239,9 @@ public class PnDangNhap extends JPanel {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
-
 	}
+	 protected void paintComponent(Graphics g) {
+	        super.paintComponent(g);
+	        g.drawImage(scaledImage, 0, 0, this); // see javadoc for more info on the parameters            
+	 }
 }

@@ -48,7 +48,7 @@ public class PnTinhLuong extends JPanel {
 	private JTextField txtMaNV;
 	private JTextField txtTienMotGio;
 	public PnTinhLuong() {
-		setBounds(0, 0, 560, 500);
+		setBounds(0, 0, 560, 600);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();

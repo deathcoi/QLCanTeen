@@ -37,9 +37,11 @@ public class PnChinhSuaMonAn extends JPanel {
 	public PnChinhSuaMonAn(PnQuanLy pnQuanLy) {
 		this.pnQuanLy = pnQuanLy;
 		setBounds(0, 0, 560, 500);
+
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 560, 600);
 		add(panel);
 		panel.setLayout(null);
 		
@@ -80,7 +82,7 @@ public class PnChinhSuaMonAn extends JPanel {
 			}
 		});
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnThem.setBounds(390, 25, 90, 25);
+		btnThem.setBounds(390, 9, 90, 25);
 		panel_1.add(btnThem);
 		
 		JButton btnSua = new JButton("Sửa");
@@ -90,7 +92,7 @@ public class PnChinhSuaMonAn extends JPanel {
 			}
 		});
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSua.setBounds(390, 95, 90, 25);
+		btnSua.setBounds(390, 114, 90, 25);
 		panel_1.add(btnSua);
 		
 		JLabel lblTnMnn = new JLabel("Tên món ăn:");
@@ -113,7 +115,7 @@ public class PnChinhSuaMonAn extends JPanel {
 			}
 		});
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnXoa.setBounds(390, 60, 90, 25);
+		btnXoa.setBounds(390, 79, 90, 25);
 		panel_1.add(btnXoa);
 		
 		String[] maLoais = getCmbMaLoai();
@@ -125,6 +127,15 @@ public class PnChinhSuaMonAn extends JPanel {
 		cmbMaNL = new JComboBox(maNguyenLieus);
 		cmbMaNL.setBounds(120, 79, 200, 27);
 		panel_1.add(cmbMaNL);
+		
+		JButton btnThemLoaiMonAn = new JButton("Thêm loại món ăn ");
+		btnThemLoaiMonAn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnThemLoaiMonAnClicked();
+			}
+		});
+		btnThemLoaiMonAn.setBounds(388, 43, 147, 29);
+		panel_1.add(btnThemLoaiMonAn);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(0, 150, 560, 350);
@@ -248,4 +259,8 @@ public class PnChinhSuaMonAn extends JPanel {
 		pnMenu.repaint();
 	}
 	
+	private void btnThemLoaiMonAnClicked() {
+		FrameLoaiMonAn frm = new FrameLoaiMonAn();
+		frm.setVisible(true);
+	}
 }

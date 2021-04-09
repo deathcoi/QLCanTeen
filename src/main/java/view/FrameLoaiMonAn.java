@@ -1,76 +1,76 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
+import DAO.LoaiMonAnDAO;
+import DAO.MonAnDAO;
+import DAO.NguyenLieuDAO;
+import entities.LoaiMonAn;
+import entities.MonAn;
+import entities.NguyenLieu;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.SwingConstants;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
-
-import DAO.LoaiMonAnDAO;
-import entities.LoaiMonAn;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JButton;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.JComboBox;
+import javax.swing.BoxLayout;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class PnLoaiMonAn extends JPanel {
-	private JTextField txtMaLoai;
-	private JTextField txtTenLoai;
-	private JTextField txtGiaTien;
-	private JTable table;
-
-	/**
-	 * Create the panel.
-	 */
-	public PnLoaiMonAn() {
-		setBounds(0, 0, 560, 600);
-		setLayout(null);
+public class FrameLoaiMonAn extends JFrame {
+	public FrameLoaiMonAn() {
+		setBounds(0, 0, 560, 500);
+		getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Mã loại");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNewLabel.setBounds(10, 10, 116, 30);
-		add(lblNewLabel);
+		getContentPane().add(lblNewLabel);
 		
 		txtMaLoai = new JTextField();
 		txtMaLoai.setBounds(136, 10, 414, 30);
-		add(txtMaLoai);
+		getContentPane().add(txtMaLoai);
 		txtMaLoai.setColumns(10);
 		
 		JLabel lblTnLoi = new JLabel("Tên loại");
 		lblTnLoi.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblTnLoi.setBounds(10, 50, 116, 30);
-		add(lblTnLoi);
+		getContentPane().add(lblTnLoi);
 		
 		txtTenLoai = new JTextField();
 		txtTenLoai.setColumns(10);
 		txtTenLoai.setBounds(136, 50, 414, 30);
-		add(txtTenLoai);
+		getContentPane().add(txtTenLoai);
 		
 		JLabel lblGiTin = new JLabel("Giá tiền");
 		lblGiTin.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblGiTin.setBounds(10, 90, 116, 30);
-		add(lblGiTin);
+		getContentPane().add(lblGiTin);
 		
 		txtGiaTien = new JTextField();
 		txtGiaTien.setColumns(10);
 		txtGiaTien.setBounds(136, 90, 414, 30);
-		add(txtGiaTien);
+		getContentPane().add(txtGiaTien);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 170, 540, 330);
-		add(scrollPane);
+		getContentPane().add(scrollPane);
 		
 		table = new JTable(new DefaultTableModel(new Object[] {"Mã loại", "Tên loại", "Giá tiền"}, 0));
 		scrollPane.setViewportView(table);
@@ -91,7 +91,7 @@ public class PnLoaiMonAn extends JPanel {
 		});
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnXoa.setBounds(465, 130, 85, 30);
-		add(btnXoa);
+		getContentPane().add(btnXoa);
 		
 		JButton btnThem = new JButton("Thêm/Sửa");
 		btnThem.addActionListener(new ActionListener() {
@@ -101,7 +101,18 @@ public class PnLoaiMonAn extends JPanel {
 		});
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnThem.setBounds(309, 130, 146, 30);
-		add(btnThem);
+		getContentPane().add(btnThem);
+	}
+	private JTextField txtMaLoai;
+	private JTextField txtTenLoai;
+	private JTextField txtGiaTien;
+	private JTable table;
+
+	/**
+	 * Create the panel.
+	 */
+	public void PnLoaiMonAn() {
+		
 	}
 	
 	private void loadTable() {
