@@ -40,7 +40,7 @@ public class PnChinhSuaNhanVien extends JPanel {
 	private JRadioButton rdBtnNu;
 
 	public PnChinhSuaNhanVien() {
-		setBounds(0, 0, 560, 500);
+		setBounds(0, 0, 560, 600);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		JPanel panel = new JPanel();
@@ -150,7 +150,7 @@ public class PnChinhSuaNhanVien extends JPanel {
 		panel_1.add(rdBtnNu);
 
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(0, 180, 560, 320);
+		panel_2.setBounds(0, 180, 560, 420);
 		panel.add(panel_2);
 		panel_2.setLayout(new BorderLayout(0, 0));
 
@@ -158,7 +158,12 @@ public class PnChinhSuaNhanVien extends JPanel {
 		panel_2.add(scrollPane, BorderLayout.CENTER);
 
 		table_1 = new JTable(new DefaultTableModel(
-				new Object[] { "Mã nhân viên", "Tên nhân viên", "Giới tính", "Năm sinh", "SĐT" }, 0));
+			new Object[][] {
+			},
+			new String[] {
+				"M\u00E3 nh\u00E2n vi\u00EAn", "T\u00EAn nh\u00E2n vi\u00EAn", "Gi\u1EDBi t\u00EDnh", "N\u0103m sinh", "S\u0110T"
+			}
+		));
 		table_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

@@ -40,7 +40,7 @@ public class PnLichSuHoaDon extends JPanel {
 	private DatePicker datePickerTuNgay;
 	private DatePicker datePickerDenNgay;
 	public PnLichSuHoaDon() {
-		setBounds(0, 0, 560, 500);
+		setBounds(0, 0, 560, 600);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();

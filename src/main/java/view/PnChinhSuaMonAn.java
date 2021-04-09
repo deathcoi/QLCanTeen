@@ -37,7 +37,7 @@ public class PnChinhSuaMonAn extends JPanel {
 	private JComboBox cmbMaLoai;
 	private JComboBox cmbMaNL;
 	public PnChinhSuaMonAn() {
-		setBounds(0, 0, 560, 500);
+		setBounds(0, 0, 560, 600);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();

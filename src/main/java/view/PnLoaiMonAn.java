@@ -35,7 +35,7 @@ public class PnLoaiMonAn extends JPanel {
 	 * Create the panel.
 	 */
 	public PnLoaiMonAn() {
-		setBounds(0, 0, 560, 500);
+		setBounds(0, 0, 560, 600);
 		setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Mã loại");
