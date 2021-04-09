@@ -1,31 +1,31 @@
 package view;
 
-import javax.swing.JPanel;
-
-import java.awt.CardLayout;
-
-import javax.swing.JLabel;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
-
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.awt.Font;
+
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
-import javax.swing.JTextField;
-import java.awt.Color;
-
-import javax.swing.JSeparator;
 import javax.swing.border.LineBorder;
 
 import entities.NhanVien;
 
+<<<<<<< HEAD
 import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -33,6 +33,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 
+=======
+>>>>>>> 7f81e2b599c01785253300170ce9534248aed73c
 public class PnQuanLy extends JPanel {
 
 	private JFrame mainFrame;
@@ -54,11 +56,16 @@ public class PnQuanLy extends JPanel {
 
 	private NhanVien nhanVien;
 
-	private JPanel pnMenu;
+	private PnMenu pnMenu;
 
 	private PnThanhToan pnThanhToan;
 
 	private PnThongKe pnThongKe;
+	
+	private PnMenuKhongChucNang pnMenuKhongChucNang;
+	
+	private PnChinhSuaMonAn pnChinhSuaMonAn;
+	
 
 	public PnQuanLy(CardLayout cardLayout, JPanel cardPanel, JFrame mainFrame) {
 		setName("pnQuanLy");
@@ -394,9 +401,16 @@ public class PnQuanLy extends JPanel {
 		panel_10.setLayout(new BorderLayout(0, 0));
 
 		JPanel panel_11 = new JPanel();
+		panel_11.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnClicked();
+			}
+			
+		});
 		panel_13.add(panel_11);
 		panel_11.setLayout(new BorderLayout(0, 0));
-
+//
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setIcon(new ImageIcon("picture/Calculator.png"));
@@ -411,7 +425,7 @@ public class PnQuanLy extends JPanel {
 		pnThanhToan = new PnThanhToan(cardLeft, cardRight, pnCardLeft, pnCardRight, this);
 		pnCardRight.add(pnThanhToan, "pnThanhToan");
 
-		JPanel pnMenuKhongChucNang = new PnMenuKhongChucNang();
+		pnMenuKhongChucNang = new PnMenuKhongChucNang();
 		pnCardLeft.add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
 
 		JPanel pnThongTinKhachHang = new PnThongTinKhachHang();
@@ -423,10 +437,10 @@ public class PnQuanLy extends JPanel {
 		JPanel pnChinhSuaNhanVien = new PnChinhSuaNhanVien();
 		pnCardLeft.add(pnChinhSuaNhanVien, "pnChinhSuaNhanVien");
 
-		JPanel pnNhapNguyenLieu = new PnNhapNguyenLieu();
+		JPanel pnNhapNguyenLieu = new PnNhapNguyenLieu(this);
 		pnCardLeft.add(pnNhapNguyenLieu, "pnNhapNguyenLieu");
 
-		JPanel pnChinhSuaMonAn = new PnChinhSuaMonAn();
+		pnChinhSuaMonAn = new PnChinhSuaMonAn(this);
 		pnCardLeft.add(pnChinhSuaMonAn, "pnChinhSuaMonAn");
 
 		JPanel pnLichSuHoaDon = new PnLichSuHoaDon();
@@ -714,11 +728,11 @@ public class PnQuanLy extends JPanel {
 		this.pnCardLeft = pnCardLeft;
 	}
 
-	public JPanel getPnMenu() {
+	public PnMenu getPnMenu() {
 		return pnMenu;
 	}
 
-	public void setPnMenu(JPanel pnMenu) {
+	public void setPnMenu(PnMenu pnMenu) {
 		this.pnMenu = pnMenu;
 	}
 
@@ -730,4 +744,33 @@ public class PnQuanLy extends JPanel {
 		this.cardLeft = cardLeft;
 	}
 
+	public PnMenuKhongChucNang getPnMenuKhongChucNang() {
+		return pnMenuKhongChucNang;
+	}
+
+	public void setPnMenuKhongChucNang(PnMenuKhongChucNang pnMenuKhongChucNang) {
+		this.pnMenuKhongChucNang = pnMenuKhongChucNang;
+	}
+	
+	private void btnClicked() { 
+		Runtime rTime = Runtime.getRuntime();
+		try {
+			rTime.exec("open -a Calculator");		
+		}catch(Exception e) {
+			try {
+				rTime.exec("calc");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}	
+
+	public PnChinhSuaMonAn getPnChinhSuaMonAn() {
+		return pnChinhSuaMonAn;
+	}
+
+	public void setPnChinhSuaMonAn(PnChinhSuaMonAn pnChinhSuaMonAn) {
+		this.pnChinhSuaMonAn = pnChinhSuaMonAn;
+	}
 }

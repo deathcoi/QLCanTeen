@@ -2,9 +2,13 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,30 +21,32 @@ import javax.swing.table.DefaultTableModel;
 import DAO.LoaiMonAnDAO;
 import DAO.MonAnDAO;
 import DAO.NguyenLieuDAO;
-import DAO.NhanVienDAO;
 import entities.LoaiMonAn;
 import entities.MonAn;
 import entities.NguyenLieu;
-import entities.NhanVien;
-
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
 
 public class PnChinhSuaMonAn extends JPanel {
 
-	private static final String MonAn = null;
 	private JTable table_1;
 	private JTextField txtMaMA;
 	private JTextField txtTenMA;
 	private JComboBox cmbMaLoai;
 	private JComboBox cmbMaNL;
-	public PnChinhSuaMonAn() {
-		setBounds(0, 0, 560, 600);
+	
+	private PnQuanLy pnQuanLy = null;
+	private PnNhanVien pnNhanVien = null;
+	public PnChinhSuaMonAn(JPanel pnQuanLy) {
+		if (pnQuanLy instanceof PnQuanLy)
+			this.pnQuanLy = (PnQuanLy) pnQuanLy;
+		else {
+			this.pnNhanVien = (PnNhanVien) pnQuanLy;
+		}
+		setBounds(0, 0, 560, 500);
+
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 560, 600);
 		add(panel);
 		panel.setLayout(null);
 		
@@ -81,7 +87,7 @@ public class PnChinhSuaMonAn extends JPanel {
 			}
 		});
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnThem.setBounds(390, 25, 90, 25);
+		btnThem.setBounds(390, 9, 90, 25);
 		panel_1.add(btnThem);
 		
 		JButton btnSua = new JButton("Sửa");
@@ -91,7 +97,7 @@ public class PnChinhSuaMonAn extends JPanel {
 			}
 		});
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSua.setBounds(390, 95, 90, 25);
+		btnSua.setBounds(390, 114, 90, 25);
 		panel_1.add(btnSua);
 		
 		JLabel lblTnMnn = new JLabel("Tên món ăn:");
@@ -114,7 +120,7 @@ public class PnChinhSuaMonAn extends JPanel {
 			}
 		});
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnXoa.setBounds(390, 60, 90, 25);
+		btnXoa.setBounds(390, 79, 90, 25);
 		panel_1.add(btnXoa);
 		
 		String[] maLoais = getCmbMaLoai();
@@ -126,6 +132,15 @@ public class PnChinhSuaMonAn extends JPanel {
 		cmbMaNL = new JComboBox(maNguyenLieus);
 		cmbMaNL.setBounds(120, 79, 200, 27);
 		panel_1.add(cmbMaNL);
+		
+		JButton btnThemLoaiMonAn = new JButton("Thêm loại món ăn ");
+		btnThemLoaiMonAn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnThemLoaiMonAnClicked();
+			}
+		});
+		btnThemLoaiMonAn.setBounds(388, 43, 147, 29);
+		panel_1.add(btnThemLoaiMonAn);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(0, 150, 560, 350);
@@ -153,6 +168,8 @@ public class PnChinhSuaMonAn extends JPanel {
 			monan.setTenMA(txtTenMA.getText());
 			MonAnDAO.themMonAn(monan);
 			loadTable();
+			
+			refreshPn();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -197,6 +214,8 @@ public class PnChinhSuaMonAn extends JPanel {
 				throw new Exception("khong tim thay mon an");
 			MonAnDAO.xoaMonAn(monan);
 			loadTable();
+			
+			refreshPn();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage());
@@ -218,11 +237,60 @@ public class PnChinhSuaMonAn extends JPanel {
 			MonAnDAO.suaMonAn(monan);
 			loadTable();
 			JOptionPane.showMessageDialog(this,"sua thanh cong");
+			
+			refreshPn();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage());
-			
 		}
 	}
 	
+	void refreshPn() {
+		if (pnQuanLy != null) {
+			PnMenu pnMenu = pnQuanLy.getPnMenu();
+			PnMenuKhongChucNang pnMenuKhongChucNang = pnQuanLy.getPnMenuKhongChucNang();
+			PnChinhSuaMonAn pnChinhSuaMonAn = this;
+			
+			pnQuanLy.getPnCardLeft().remove(pnMenu);
+			pnQuanLy.getPnCardLeft().remove(pnMenuKhongChucNang);
+			pnQuanLy.getPnCardLeft().remove(pnChinhSuaMonAn);
+			
+			pnMenu = new PnMenu(pnQuanLy.getPnThanhToan());
+			pnMenuKhongChucNang = new PnMenuKhongChucNang();
+			pnChinhSuaMonAn = new PnChinhSuaMonAn(pnQuanLy);
+			
+			pnQuanLy.getPnCardLeft().add(pnMenu, "pnMenu");
+			pnQuanLy.getPnCardLeft().add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
+			pnQuanLy.getPnCardLeft().add(pnChinhSuaMonAn, "pnChinhSuaMonAn");
+			
+			pnQuanLy.validate();
+			pnQuanLy.repaint();
+		} else {
+			PnMenu pnMenu = pnNhanVien.getPnMenu();
+			PnMenuKhongChucNang pnMenuKhongChucNang = pnNhanVien.getPnMenuKhongChucNang();
+			PnChinhSuaMonAn pnChinhSuaMonAn = this;
+			
+			pnNhanVien.getPnLeft().remove(pnMenu);
+			pnNhanVien.getPnLeft().remove(pnMenuKhongChucNang);
+			pnNhanVien.getPnLeft().remove(pnChinhSuaMonAn);
+			
+			pnMenu = new PnMenu(pnNhanVien.getPnThanhToan());
+			pnMenuKhongChucNang = new PnMenuKhongChucNang();
+			pnChinhSuaMonAn = new PnChinhSuaMonAn(pnQuanLy);
+			
+			pnNhanVien.getPnLeft().add(pnMenu, "pnMenu");
+			pnNhanVien.getPnLeft().add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
+			pnNhanVien.getPnLeft().add(pnChinhSuaMonAn, "pnChinhSuaMonAn");
+			
+			pnNhanVien.validate();
+			pnNhanVien.repaint();
+		}
+		
+
+	}
+	
+	private void btnThemLoaiMonAnClicked() {
+		FrameLoaiMonAn frm = new FrameLoaiMonAn(this);
+		frm.setVisible(true);
+	}
 }

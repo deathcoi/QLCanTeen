@@ -26,6 +26,7 @@ import javax.swing.JFrame;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
@@ -51,7 +52,7 @@ public class PnKhachHang extends JPanel {
 	private CardLayout cardRight; //card bên phải
 	private JTextField txtTimKiem;
 	
-	private JLabel lbNhanVien;
+	//private JLabel lbNhanVien;
 	
 	private JLabel lbDateTime;
 	
@@ -101,11 +102,11 @@ public class PnKhachHang extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		txtTimKiem = new JTextField();
-		txtTimKiem.setBackground(new Color(255, 255, 204));
-		txtTimKiem.setBounds(10, 60, 540, 30);
-		panel_1.add(txtTimKiem);
-		txtTimKiem.setColumns(10);
+		//txtTimKiem = new JTextField();
+		//txtTimKiem.setBackground(new Color(255, 255, 204));
+		//txtTimKiem.setBounds(10, 60, 540, 30);
+		//panel_1.add(txtTimKiem);
+		//txtTimKiem.setColumns(10);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -135,16 +136,16 @@ public class PnKhachHang extends JPanel {
 		separator_10.setBounds(40, 53, 290, 1);
 		panel_4.add(separator_10);
 		
-		JLabel lblNewLabel_10 = new JLabel("Nhân viên:");
-		lblNewLabel_10.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_10.setBounds(10, 65, 78, 14);
-		panel_4.add(lblNewLabel_10);
+		//JLabel lblNewLabel_10 = new JLabel("Nhân viên:");
+		//lblNewLabel_10.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		//lblNewLabel_10.setBounds(10, 65, 78, 14);
+		//panel_4.add(lblNewLabel_10);
 		
-		lbNhanVien = new JLabel("");
-		lbNhanVien.setHorizontalAlignment(SwingConstants.LEFT);
-		lbNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbNhanVien.setBounds(80, 61, 58, 20);
-		panel_4.add(lbNhanVien);
+		//lbNhanVien = new JLabel("");
+		//lbNhanVien.setHorizontalAlignment(SwingConstants.LEFT);
+		//lbNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		//lbNhanVien.setBounds(80, 61, 58, 20);
+		//panel_4.add(lbNhanVien);
 		
 		lbDateTime = new JLabel("");
 		lbDateTime.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -206,6 +207,12 @@ public class PnKhachHang extends JPanel {
 		panel_10.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_11 = new JPanel();
+		panel_11.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnClicked();
+			}
+		});
 		panel_13.add(panel_11);
 		panel_11.setLayout(new BorderLayout(0, 0));
 		
@@ -227,9 +234,6 @@ public class PnKhachHang extends JPanel {
 		
 		JPanel pnMenuKhongChucNang = new PnMenuKhongChucNang();
 		pnCardLeft.add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
-		
-		
-		
 		
 		setTiming();
 		
@@ -277,4 +281,18 @@ public class PnKhachHang extends JPanel {
 			panel.setBackground(new Color(153, 0, 0));
 		}
 	}
+	private void btnClicked() { 
+		Runtime rTime = Runtime.getRuntime();
+		try {
+			rTime.exec("open -a Calculator");		
+		}catch(Exception e) {
+			try {
+				rTime.exec("calc");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
+	
 }

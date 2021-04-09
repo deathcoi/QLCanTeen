@@ -1,39 +1,38 @@
 package view;
 
-import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-
-import javax.swing.BoxLayout;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.awt.event.ActionEvent;
+
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-
-import java.awt.Font;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
@@ -48,27 +47,15 @@ import entities.KhachHang;
 import entities.MonAn;
 import entities.NguyenLieu;
 import entities.NhanVien;
-import javassist.expr.NewArray;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.view.JRViewer;
 import net.sf.jasperreports.view.JasperViewer;
-import table.JTableButtonRenderer;
 import table.JTableButtonModel;
-
-import javax.swing.JSeparator;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import table.JTableButtonRenderer;
 
 public class PnThanhToan extends JPanel {
 
@@ -605,12 +592,14 @@ public class PnThanhToan extends JPanel {
 			if (pnQLOrNV instanceof PnNhanVien) {
 				PnNhanVien pn = (PnNhanVien) pnQLOrNV;
 				JPanel pnLeftFromTheOutside = pn.getPnLeft();
+				pnLeftFromTheOutside.remove(mn);
 				pnLeftFromTheOutside.add(mn, "pnMenu");
 				CardLayout cl = pn.getCardLeft();
 				cl.show(pnLeftFromTheOutside, "pnMenu");
 			} else {
 				PnQuanLy pn = (PnQuanLy) pnQLOrNV;
 				JPanel pnLeftFromTheOutside = pn.getPnCardLeft();
+				pnLeftFromTheOutside.remove(mn);
 				pnLeftFromTheOutside.add(mn, "pnMenu");
 				CardLayout cl = pn.getCardLeft();
 				cl.show(pnLeftFromTheOutside, "pnMenu");
