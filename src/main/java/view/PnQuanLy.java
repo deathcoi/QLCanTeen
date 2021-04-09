@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -24,6 +25,16 @@ import javax.swing.border.LineBorder;
 
 import entities.NhanVien;
 
+<<<<<<< HEAD
+import java.awt.FlowLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
+
+=======
+>>>>>>> 7f81e2b599c01785253300170ce9534248aed73c
 public class PnQuanLy extends JPanel {
 
 	private JFrame mainFrame;
@@ -347,20 +358,31 @@ public class PnQuanLy extends JPanel {
 		panel.setLayout(new BorderLayout(0, 0));
 
 		JPanel panel_3 = new JPanel();
-		panel_3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				settingClicked();
-			}
-		});
 		panel_13.add(panel_3);
 		panel_3.setLayout(new BorderLayout(0, 0));
-
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblNewLabel.setIcon(new ImageIcon("picture/setting.png"));
-		panel_3.add(lblNewLabel);
-
+		
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menuSetting = new JMenu();
+		menuSetting.setSelectedIcon(new ImageIcon("picture/setting.png"));
+		menuSetting.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		menuSetting.setHorizontalAlignment(SwingConstants.CENTER);
+		menuSetting.setHorizontalTextPosition(SwingConstants.CENTER);
+		menuSetting.setIcon(new ImageIcon("picture/setting.png"));
+		JMenuItem menuDoiMatKhau = new JMenuItem("Đổi mật khẩu");
+		menuDoiMatKhau.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				doiMatKhauClicked();
+			}
+		});
+		menuDoiMatKhau.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		JMenuItem menuDangXuat = new JMenuItem("Đăng xuất");
+		menuDangXuat.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		menuSetting.add(menuDoiMatKhau);
+		menuSetting.add(menuDangXuat);
+		menuBar.add(menuSetting);
+		panel_3.add(menuBar, BorderLayout.CENTER);
+		
 		JPanel panel_8 = new JPanel();
 		panel_13.add(panel_8);
 		panel_8.setLayout(new BorderLayout(0, 0));
@@ -434,8 +456,8 @@ public class PnQuanLy extends JPanel {
 		setTiming();
 	}
 	
-	private void settingClicked() {
-		
+	private void doiMatKhauClicked() {
+		cardLeft.show(cardPanel, "pn");
 	}
 
 	private class PanelButtonMouseAdapter extends MouseAdapter {
