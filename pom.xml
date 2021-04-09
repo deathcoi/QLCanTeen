@@ -23,5 +23,22 @@
 			<version>6.1.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>net.sf.barcode4j</groupId>
+			<artifactId>barcode4j</artifactId>
+			<version>2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-bridge</artifactId>
+			<version>1.11</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mapfish.print</groupId>
+			<artifactId>print-lib</artifactId>
+			<version>3.15.0</version>
+		</dependency>
 	</dependencies>
 </project>

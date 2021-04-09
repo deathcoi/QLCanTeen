@@ -34,8 +34,10 @@ import javax.swing.JComboBox;
 import javax.swing.BoxLayout;
 
 public class FrameLoaiMonAn extends JFrame {
-	public FrameLoaiMonAn() {
-		setBounds(0, 0, 560, 500);
+	private PnChinhSuaMonAn pnChinhSuaMonAn;
+	public FrameLoaiMonAn(PnChinhSuaMonAn pnChinhSuaMonAn) {
+		this.pnChinhSuaMonAn = pnChinhSuaMonAn;
+		setBounds(0, 0, 572, 543);
 		getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Mã loại");
@@ -153,6 +155,7 @@ public class FrameLoaiMonAn extends JFrame {
 				loadTable();
 			}
 			
+			pnChinhSuaMonAn.refreshPn();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage());
@@ -183,6 +186,7 @@ public class FrameLoaiMonAn extends JFrame {
 				loadTable();
 				
 				refreshTxt();
+				pnChinhSuaMonAn.refreshPn();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
