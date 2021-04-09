@@ -69,18 +69,21 @@ public class PnThongKe extends JPanel {
 	}
 	
 	public PnThongKe() {
-		setBounds(0, 0, 560, 500);
+		setBounds(0, 0, 560, 600);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel lblNewLabel = new JLabel("Thống kê");
+		lblNewLabel.setForeground(Color.ORANGE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel.add(lblNewLabel);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		datePickerTuNgay = new DatePicker();
 		datePickerTuNgay.getComponentToggleCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		datePickerTuNgay.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -108,6 +111,7 @@ public class PnThongKe extends JPanel {
 		
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 	}

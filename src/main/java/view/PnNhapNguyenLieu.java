@@ -41,7 +41,7 @@ public class PnNhapNguyenLieu extends JPanel {
 	 * Create the panel.
 	 */
 	public PnNhapNguyenLieu() {
-		setBounds(0, 0, 560, 500);
+		setBounds(0, 0, 560, 600);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
@@ -113,7 +113,7 @@ public class PnNhapNguyenLieu extends JPanel {
 		panel_1.add(btnSua);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(0, 110, 560, 390);
+		panel_2.setBounds(0, 110, 560, 490);
 		panel.add(panel_2);
 		panel_2.setLayout(new BorderLayout(0, 0));
 		

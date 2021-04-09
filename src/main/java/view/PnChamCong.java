@@ -39,7 +39,7 @@ public class PnChamCong extends JPanel {
 	private JTextField txtMaNV;
 
 	public PnChamCong() {
-		setBounds(0, 0, 560, 500);
+		setBounds(0, 0, 560, 600);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		JPanel panel = new JPanel();

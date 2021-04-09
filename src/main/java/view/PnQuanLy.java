@@ -43,7 +43,6 @@ public class PnQuanLy extends JPanel {
 
 	private JPanel pnCardRight; // pn bên phải
 	private CardLayout cardRight; // card bên phải
-	private JTextField txtTimKiem;
 
 	private JLabel lbNhanVien;
 
@@ -70,7 +69,7 @@ public class PnQuanLy extends JPanel {
 
 		pnCardLeft = new JPanel();
 		pnCardLeft.setBorder(new LineBorder(new Color(0, 0, 0)));
-		pnCardLeft.setBounds(64, 100, 560, 500);
+		pnCardLeft.setBounds(64, 0, 560, 600);
 		add(pnCardLeft);
 		cardLeft = new CardLayout(0, 0);
 		pnCardLeft.setLayout(cardLeft);
@@ -80,19 +79,6 @@ public class PnQuanLy extends JPanel {
 		add(pnCardRight);
 		cardRight = new CardLayout(0, 0);
 		pnCardRight.setLayout(cardRight);
-
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(64, 0, 560, 100);
-		add(panel_1);
-		panel_1.setLayout(null);
-
-		txtTimKiem = new JTextField();
-		txtTimKiem.setBackground(new Color(255, 255, 204));
-		txtTimKiem.setBounds(10, 60, 540, 30);
-		panel_1.add(txtTimKiem);
-		txtTimKiem.setColumns(10);
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -361,6 +347,12 @@ public class PnQuanLy extends JPanel {
 		panel.setLayout(new BorderLayout(0, 0));
 
 		JPanel panel_3 = new JPanel();
+		panel_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				settingClicked();
+			}
+		});
 		panel_13.add(panel_3);
 		panel_3.setLayout(new BorderLayout(0, 0));
 
@@ -433,6 +425,10 @@ public class PnQuanLy extends JPanel {
 		pnCardLeft.add(pnThongKe, "pnThongKe");
 
 		setTiming();
+	}
+	
+	private void settingClicked() {
+		
 	}
 
 	private class PanelButtonMouseAdapter extends MouseAdapter {

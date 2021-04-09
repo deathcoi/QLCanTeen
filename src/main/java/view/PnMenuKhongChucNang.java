@@ -40,7 +40,7 @@ public class PnMenuKhongChucNang extends JPanel {
 	private Image image;
 	private Image scaledImage;
 	public PnMenuKhongChucNang() {
-		setBounds(0, 0, 560, 500);
+		setBounds(0, 0, 560, 600);
 		try {
 			image = ImageIO.read(new File("picture/main.png"));
 			scaledImage = image.getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_SMOOTH);
