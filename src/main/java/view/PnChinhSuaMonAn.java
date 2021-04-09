@@ -234,19 +234,8 @@ public class PnChinhSuaMonAn extends JPanel {
 			
 		}
 	}
-	private void btnThemLoaiMonAnClicked()
-	{
-		try {
-			MonAn monan = new MonAn();
-			monan.setMaMA(txtMaMA.getText());
-			String mlma = cmbMaLoai.getSelectedItem().toString().split("-")[0];	
-			LoaiMonAn l = LoaiMonAnDAO.layThongTin(mlma);
-			monan.setLoaiMonAn(l);
-			MonAnDAO.themMonAn(monan);
-			loadTable();
-			JOptionPane.showMessageDialog(this,"them loai mon an thanh cong");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	private void btnThemLoaiMonAnClicked() {
+		FrameLoaiMonAn frm = new FrameLoaiMonAn();
+		frm.setVisible(true);
 	}
 }
