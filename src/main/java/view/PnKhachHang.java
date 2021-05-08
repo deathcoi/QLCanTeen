@@ -22,7 +22,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.LineBorder;
@@ -31,9 +30,9 @@ import entities.KhachHang;
 
 public class PnKhachHang extends JPanel {
 
-	/**
-	 * Create the panel.
-	 */
+	private static final long serialVersionUID = 1L;
+
+	@SuppressWarnings("unused")
 	private JFrame mainFrame;
 	
 	private KhachHang khachHang;
@@ -49,18 +48,12 @@ public class PnKhachHang extends JPanel {
 	private JPanel pnCardRight; //pn bên phải
 	private CardLayout cardRight; //card bên phải
 	private JLabel lbKhachHang;
-	
+	private PnDoiMatKhau pnDoiMatKhau;
+	private PnThongTinTaiKhoan pnThongTinTaiKhoan;
 	
 	//private JLabel lbNhanVien;
 	
 	private JLabel lbDateTime;
-	
-	private JPanel pnMenu;
-	
-	private PnThanhToan pnThanhToan;
-	
-	
-	
 	
 	public JLabel getLbKhachHang() {
 		return lbKhachHang;
@@ -99,12 +92,6 @@ public class PnKhachHang extends JPanel {
 		add(pnCardRight);
 		cardRight = new CardLayout(0, 0);
 		pnCardRight.setLayout(cardRight);
-		
-		//txtTimKiem = new JTextField();
-		//txtTimKiem.setBackground(new Color(255, 255, 204));
-		//txtTimKiem.setBounds(10, 60, 540, 30);
-		//panel_1.add(txtTimKiem);
-		//txtTimKiem.setColumns(10);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.WHITE);
@@ -161,19 +148,47 @@ public class PnKhachHang extends JPanel {
 		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(10, 110, 380, 490);
 		panel_2.add(panel_5);
-		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
+		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.Y_AXIS));
 		
 		JPanel panel_6 = new JPanel();
-		panel_6.setBorder(null);
-		panel_6.setBackground(Color.WHITE);
+		panel_6.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_6.setBackground(new Color(153, 153, 204));
 		panel_6.addMouseListener(new PanelButtonMouseAdapter(panel_6));
 		panel_5.add(panel_6);
 		panel_6.setLayout(new BorderLayout(0, 0));
+		panel_6.setName("pnNapTien");
 		
-		JLabel lblNewLabel_4 = new JLabel("Nạp Tiền");
+		JLabel lblNewLabel_4 = new JLabel("Nạp tiền");
 		lblNewLabel_4.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_6.add(lblNewLabel_4, BorderLayout.CENTER);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_1.setBackground(new Color(153, 153, 204));
+		panel_5.add(panel_1);
+		panel_1.setLayout(new BorderLayout(0, 0));
+		panel_1.addMouseListener(new PanelButtonMouseAdapter(panel_1));
+		panel_1.setName("pnMenu");
+		
+		JLabel lblNewLabel = new JLabel("Menu");
+		lblNewLabel.setBackground(Color.WHITE);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Dialog", Font.PLAIN, 30));
+		panel_1.add(lblNewLabel, BorderLayout.CENTER);
+		
+		JPanel panel_7 = new JPanel();
+		panel_7.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_5.add(panel_7);
+		panel_7.setBackground(new Color(153, 153, 204));
+		panel_7.addMouseListener(new PanelButtonMouseAdapter(panel_7));
+		panel_7.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel_2 = new JLabel("Thông tin tài khoản");
+		lblNewLabel_2.setFont(new Font("Dialog", Font.PLAIN, 30));
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_7.add(lblNewLabel_2);
+		panel_7.setName("pnThongTinTaiKhoan");
 		
 		JPanel panel_13 = new JPanel();
 		panel_13.setBackground(new Color(255, 255, 153));
@@ -271,17 +286,22 @@ public class PnKhachHang extends JPanel {
 		
 		pnCardRight.add(panel_2, "panel_2");
 		
-		pnThanhToan = new PnThanhToan(cardLeft, cardRight, pnCardLeft, pnCardRight, this);
-		pnCardRight.add(pnThanhToan, "pnThanhToan");
 		
 		JPanel pnMenuKhongChucNang = new PnMenuKhongChucNang();
 		pnCardLeft.add(pnMenuKhongChucNang, "pnMenuKhongChucNang");
+		
+		pnDoiMatKhau = new PnDoiMatKhau(khachHang);
+		pnCardLeft.add(pnDoiMatKhau, "pnDoiMatKhau");
+		
+		pnThongTinTaiKhoan = new PnThongTinTaiKhoan();
+		pnCardLeft.add(pnThongTinTaiKhoan, "pnThongTinTaiKhoan");
 		
 		setTiming();
 		
 	}
 	
 	private void doiMatKhauClicked() {
+		pnDoiMatKhau.setUser(khachHang);
 		cardLeft.show(pnCardLeft, "pnDoiMatKhau");
 	}
 	
@@ -313,8 +333,19 @@ public class PnKhachHang extends JPanel {
 			panel.setBackground(Color.CYAN);
 			if (khachHang == null)
 				JOptionPane.showMessageDialog(null, "null khachHang");
-			FrameNapTien frm = new FrameNapTien(khachHang);
-			frm.setVisible(true);
+			if (panel.getName().compareTo("pnNapTien") == 0) {
+				FrameNapTien frm = new FrameNapTien(khachHang);
+				frm.setVisible(true);
+			} else {
+				if(panel.getName().compareTo("pnMenu") == 0)
+					cardLeft.show(pnCardLeft, "pnMenuKhongChucNang");
+				else {
+					pnThongTinTaiKhoan.setKhachHang(khachHang);
+					pnThongTinTaiKhoan.dienThongTin();
+					cardLeft.show(pnCardLeft, "pnThongTinTaiKhoan");
+				}
+					
+			}
 		}
 
 		@Override
@@ -329,7 +360,7 @@ public class PnKhachHang extends JPanel {
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			panel.setBackground(Color.WHITE);
+			panel.setBackground(new Color(153, 153, 204));
 		}
 	}
 	private void btnClicked() { 

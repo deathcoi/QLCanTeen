@@ -1,35 +1,33 @@
 package view;
 
-import javax.swing.JPanel;
-import javax.swing.JTextPane;
-
-import DAO.LoaiMonAnDAO;
-import DAO.MonAnDAO;
-import DAO.NguyenLieuDAO;
-import DAO.TaiKhoanKHDAO;
-import entities.LoaiMonAn;
-import entities.MonAn;
-import entities.NguyenLieu;
-import entities.TaiKhoanKH;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
+import java.awt.CardLayout;
 import java.awt.Font;
-import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import DAO.TaiKhoanKHDAO;
+import DAO.TaiKhoanNVDAO;
+import entities.KhachHang;
+import entities.NhanVien;
+import entities.TaiKhoanKH;
+import entities.TaiKhoanNV;
 
 public class PnDoiMatKhau extends JPanel {
-	private JTextField txtMKHT;
-	private JTextField txtMKM;
-	private JTextField txtNLMK;
-	
+	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private JFrame mainFrame;
 	private JLabel lbKhachHang;
+	private  Object user;
+	private JPasswordField txtMKHT;
+	private JPasswordField txtMKM;
+	private JPasswordField txtMKNL;
 
 	public JLabel getLbKhachHang() {
 		return lbKhachHang;
@@ -37,10 +35,22 @@ public class PnDoiMatKhau extends JPanel {
 	public void setLbKhachHang(JLabel lbKhachHang) {
 		this.lbKhachHang = lbKhachHang;
 	}
+	
+	
+	public Object getUser() {
+		return user;
+	}
+	public void setUser(Object user) {
+		this.user = user;
+	}
 	/**
 	 * Create the panel.
 	 */
-	public PnDoiMatKhau() {
+	public PnDoiMatKhau(Object user) {
+		
+		this.user = user;
+		
+		
 		setBounds(0, 0, 560, 600);
 		setLayout(null);
 		
@@ -64,21 +74,6 @@ public class PnDoiMatKhau extends JPanel {
 		lblNewLabel_1_2.setBounds(80, 330, 140, 25);
 		add(lblNewLabel_1_2);
 		
-		txtMKHT = new JTextField();
-		txtMKHT.setBounds(230, 240, 176, 25);
-		add(txtMKHT);
-		txtMKHT.setColumns(10);
-		
-		txtMKM = new JTextField();
-		txtMKM.setColumns(10);
-		txtMKM.setBounds(230, 285, 176, 25);
-		add(txtMKM);
-		
-		txtNLMK = new JTextField();
-		txtNLMK.setColumns(10);
-		txtNLMK.setBounds(230, 330, 176, 25);
-		add(txtNLMK);
-		
 		JButton btnXacNhan = new JButton("Xác nhận");
 		btnXacNhan.setFont(new Font("Dialog", Font.PLAIN, 14));
 		btnXacNhan.addActionListener(new ActionListener() {
@@ -86,29 +81,77 @@ public class PnDoiMatKhau extends JPanel {
 				btnXacNhanClicked();
 			}
 		});
-		btnXacNhan.setBounds(150, 375, 100, 40);
+		btnXacNhan.setBounds(270, 376, 100, 40);
 		add(btnXacNhan);
 		
-		JButton btnThoat = new JButton("Thoát");
-		btnThoat.setFont(new Font("Dialog", Font.PLAIN, 14));
-		btnThoat.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		btnThoat.setBounds(270, 375, 100, 40);
-		add(btnThoat);
+		txtMKHT = new JPasswordField();
+		txtMKHT.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtMKHT.setBounds(210, 240, 162, 25);
+		add(txtMKHT);
+		
+		txtMKM = new JPasswordField();
+		txtMKM.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtMKM.setBounds(210, 285, 162, 25);
+		add(txtMKM);
+		
+		txtMKNL = new JPasswordField();
+		txtMKNL.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtMKNL.setBounds(210, 330, 162, 25);
+		add(txtMKNL);
 		
 	}
 	private void btnXacNhanClicked() {
 			try {
-				TaiKhoanKH khachhang = TaiKhoanKHDAO.layThongTinTK(txtMKHT.getText());
-				if(khachhang == null)
-					throw  new Exception("sai mat khau");
-				JOptionPane.showMessageDialog(this,"sua thanh cong");
+				if(txtMKHT.getPassword().length == 0 || txtMKM.getPassword().length == 0 || txtMKNL.getPassword().length == 0)
+					throw  new Exception("Không để ô trống!!!");
+				if(user instanceof KhachHang) {
+					KhachHang kh = (KhachHang) user;
+					TaiKhoanKH khachHang = TaiKhoanKHDAO.layThongTinTK(kh.getMaKH());
+					String pass = new String(txtMKHT.getPassword());
+					String passM = new String(txtMKM.getPassword());
+					String passNL = new String(txtMKNL.getPassword());
+					if(pass.compareTo(khachHang.getMatKhau()) == 0) {
+						if(passM.compareTo(pass) == 0)
+							throw new Exception("Không nhập trùng mật khẩu cũ!!!");
+						else
+							if(passNL.compareTo(passM) != 0)
+								throw new Exception("Mật khẩu nhập lại không trùng khớp!!!");
+							else
+							{
+								khachHang.setMatKhau(passM);
+								TaiKhoanKHDAO.DoiMatKhau(khachHang);
+							}
+					}
+					else
+						throw  new Exception("Sai mật khẩu!!!");
+				}
+				else {
+					NhanVien nv = (NhanVien) user;
+					TaiKhoanNV nhanVien = TaiKhoanNVDAO.layThongTinTK(nv.getMaNV());
+					String pass = new String(txtMKHT.getPassword());
+					String passM = new String(txtMKM.getPassword());
+					String passNL = new String(txtMKNL.getPassword());
+					if(pass.compareTo(nhanVien.getMatKhau()) == 0) {
+						if(passM.compareTo(pass) == 0)
+							throw new Exception("Không nhập trùng mật khẩu cũ!!!");
+						else
+							if(passNL.compareTo(passM) != 0)
+								throw new Exception("Mật khẩu nhập lại không trùng khớp!!!");
+							else
+							{
+								nhanVien.setMatKhau(passM);
+								TaiKhoanNVDAO.DoiMatKhau(nhanVien);
+							}
+					}
+					else
+						throw  new Exception("Sai mật khẩu!!!");
+				}
+					
+				JOptionPane.showMessageDialog(this,"Sửa thành công");
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(this, e.getMessage());
 			}
 	}
+	
 }

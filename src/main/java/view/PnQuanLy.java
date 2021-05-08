@@ -64,6 +64,8 @@ public class PnQuanLy extends JPanel {
 	private PnMenuKhongChucNang pnMenuKhongChucNang;
 	
 	private PnChinhSuaMonAn pnChinhSuaMonAn;
+	
+	private PnDoiMatKhau pnDoiMatKhau;
 
 	public PnQuanLy(CardLayout cardLayout, JPanel cardPanel, JFrame mainFrame) {
 		setName("pnQuanLy");
@@ -484,7 +486,7 @@ public class PnQuanLy extends JPanel {
 		pnThongKe = new PnThongKe();
 		pnCardLeft.add(pnThongKe, "pnThongKe");
 		
-		JPanel pnDoiMatKhau = new PnDoiMatKhau();
+		pnDoiMatKhau = new PnDoiMatKhau(nhanVien);
 		pnCardLeft.add(pnDoiMatKhau, "pnDoiMatKhau");
 		
 
@@ -492,6 +494,7 @@ public class PnQuanLy extends JPanel {
 	}
 	
 	private void doiMatKhauClicked() {
+		pnDoiMatKhau.setUser(nhanVien);
 		cardLeft.show(pnCardLeft, "pnDoiMatKhau");
 	}
 	
