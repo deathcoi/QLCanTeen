@@ -1,6 +1,7 @@
 package main;
 
-import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -11,9 +12,6 @@ import view.PnDangNhap;
 import view.PnKhachHang;
 import view.PnNhanVien;
 import view.PnQuanLy;
-
-import java.awt.CardLayout;
-import java.awt.Color;
 
 public class Main extends JFrame {
 

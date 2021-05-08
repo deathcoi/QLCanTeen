@@ -1,36 +1,13 @@
 package view;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-
-import javax.swing.SwingConstants;
-
-import DAO.KhachHangDAO;
-import DAO.NhanVienDAO;
-import DAO.TaiKhoanKHDAO;
-import DAO.TaiKhoanNVDAO;
-import entities.KhachHang;
-import entities.NhanVien;
-import entities.TaiKhoanKH;
-import entities.TaiKhoanNV;
-import main.Main;
-
-import java.awt.Color;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -39,7 +16,20 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+
+import DAO.TaiKhoanKHDAO;
+import DAO.TaiKhoanNVDAO;
+import entities.TaiKhoanKH;
+import entities.TaiKhoanNV;
+import main.Main;
 
 public class PnDangNhap extends JPanel {
 	private Main mainFrame;

@@ -1,34 +1,30 @@
 package view;
 
-import javax.swing.JPanel;
-
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JFrame;
-
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.awt.event.ActionEvent;
+
 import javax.swing.BoxLayout;
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
-import javax.swing.JTextField;
-import javax.swing.JSeparator;
 import javax.swing.border.LineBorder;
+
 import entities.NhanVien;
 
 public class PnNhanVien extends JPanel {
@@ -584,7 +580,6 @@ public class PnNhanVien extends JPanel {
 			try {
 				rTime.exec("calc");
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}

@@ -6,6 +6,11 @@
 	<artifactId>QLCanTeen</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<properties>
+		<json-core-databind-annotation.version>2.12.2</json-core-databind-annotation.version>
+		<json-mapper-and-core.version>1.9.13</json-mapper-and-core.version>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -39,6 +44,52 @@
 			<groupId>org.mapfish.print</groupId>
 			<artifactId>print-lib</artifactId>
 			<version>3.15.0</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>2.2.1.GA</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson-provider</artifactId>
+			<version>2.2.1.GA</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.1.1</version>
+		</dependency>
+
+		<!-- json -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${json-core-databind-annotation.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${json-core-databind-annotation.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${json-core-databind-annotation.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${json-mapper-and-core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>${json-mapper-and-core.version}</version>
 		</dependency>
 	</dependencies>
 </project>
