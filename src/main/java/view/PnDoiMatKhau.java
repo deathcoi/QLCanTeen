@@ -1,25 +1,17 @@
 package view;
 
-import javax.swing.JPanel;
-import javax.swing.JTextPane;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import DAO.LoaiMonAnDAO;
-import DAO.MonAnDAO;
-import DAO.NguyenLieuDAO;
-import DAO.TaiKhoanKHDAO;
-import entities.LoaiMonAn;
-import entities.MonAn;
-import entities.NguyenLieu;
-import entities.TaiKhoanKH;
-
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import DAO.TaiKhoanKHDAO;
+import entities.TaiKhoanKH;
 
 public class PnDoiMatKhau extends JPanel {
 	private JTextField txtMKHT;

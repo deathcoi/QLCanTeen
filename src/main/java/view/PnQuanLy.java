@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -17,6 +16,9 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -25,16 +27,6 @@ import javax.swing.border.LineBorder;
 
 import entities.NhanVien;
 
-<<<<<<< HEAD
-import java.awt.FlowLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
-
-=======
->>>>>>> 7f81e2b599c01785253300170ce9534248aed73c
 public class PnQuanLy extends JPanel {
 
 	private JFrame mainFrame;

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name="LoaiMonAn")
 public class LoaiMonAn implements Serializable{
 	/**
@@ -20,6 +22,7 @@ public class LoaiMonAn implements Serializable{
 	private Integer status;
 	
 	@OneToMany(mappedBy = "loaiMonAn")
+	@JsonIgnore
 	private List<MonAn> monAns;
 
 	public String getMaLoai() {

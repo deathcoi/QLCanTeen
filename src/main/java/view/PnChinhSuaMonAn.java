@@ -18,12 +18,19 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import DAO.LoaiMonAnDAO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import DAO.MonAnDAO;
 import DAO.NguyenLieuDAO;
+import constant.HttpConstant;
 import entities.LoaiMonAn;
 import entities.MonAn;
 import entities.NguyenLieu;
+import service.IpushMethodService;
+import service.impl.PushMethodService;
 
 public class PnChinhSuaMonAn extends JPanel {
 
@@ -157,10 +164,13 @@ public class PnChinhSuaMonAn extends JPanel {
 	}
 	private void btnThemClicked() {
 		try {
+			ObjectMapper mapper = new ObjectMapper();
+			IpushMethodService method = new PushMethodService();
+			
 			MonAn monan = new MonAn();
 			monan.setMaMA(txtMaMA.getText());
 			String mlma = cmbMaLoai.getSelectedItem().toString().split("-")[0];	
-			LoaiMonAn l = LoaiMonAnDAO.layThongTin(mlma);
+			LoaiMonAn l = getLoaiMonAn(mapper, method, mlma);
 			monan.setLoaiMonAn(l);
 			String mlnl = cmbMaNL.getSelectedItem().toString().split("-")[0];
 			NguyenLieu n = NguyenLieuDAO.layThongTinNguyenLieu(mlnl);
@@ -189,12 +199,23 @@ public class PnChinhSuaMonAn extends JPanel {
 		}
 	}
 	private String[] getCmbMaLoai() {
-		List<LoaiMonAn> monAn = LoaiMonAnDAO.layDanhSachLoaiMonAn();
-		String[] list = new String[monAn.size()];
-		for(int i = 0 ; i<list.length; i++)
-		{
-			list[i]= monAn.get(i).getMaLoai() + "-" + monAn.get(i).getTenLoai();
+		List<LoaiMonAn> monAn = null;
+		String[] list = null;
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			IpushMethodService method = new PushMethodService();
 			
+			monAn = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET,
+					"http://localhost:8080/APISpring/api/loaimonan", null), new TypeReference<List<LoaiMonAn>>() {
+					});
+			list = new String[monAn.size()];
+			for(int i = 0 ; i<list.length; i++)
+			{
+				list[i]= monAn.get(i).getMaLoai() + "-" + monAn.get(i).getTenLoai();
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return list;
 	}
@@ -224,11 +245,14 @@ public class PnChinhSuaMonAn extends JPanel {
 	}
 	private void btnSuaClicked() {
 		try {
+			ObjectMapper mapper = new ObjectMapper();
+			IpushMethodService method = new PushMethodService();
+			
 			MonAn monan = MonAnDAO.layThongTinMonAn(txtMaMA.getText());
 			if(monan == null)
 				throw new Exception("khong tim thay mon an");
 			String mlma = cmbMaLoai.getSelectedItem().toString().split("-")[0];	
-			LoaiMonAn l = LoaiMonAnDAO.layThongTin(mlma);
+			LoaiMonAn l = getLoaiMonAn(mapper, method, mlma);
 			monan.setLoaiMonAn(l);
 			String mlnl = cmbMaNL.getSelectedItem().toString().split("-")[0];
 			NguyenLieu n = NguyenLieuDAO.layThongTinNguyenLieu(mlnl);
@@ -292,5 +316,15 @@ public class PnChinhSuaMonAn extends JPanel {
 	private void btnThemLoaiMonAnClicked() {
 		FrameLoaiMonAn frm = new FrameLoaiMonAn(this);
 		frm.setVisible(true);
+	}
+	
+	
+	private LoaiMonAn getLoaiMonAn(ObjectMapper mapper, IpushMethodService method, String txt) throws JsonMappingException, JsonProcessingException {
+		String http = ("http://localhost:8080/APISpring/api/loaimonan/" + txt);
+		String str = method.pushMethod(HttpConstant.HTTPREQUESTGET, http, txt);
+		System.out.println(str);
+		if (str.equals(""))
+			return null;
+		return mapper.readValue(str, LoaiMonAn.class);
 	}
 }
