@@ -1,6 +1,7 @@
 package main;
 
-import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -11,8 +12,6 @@ import view.PnDangNhap;
 import view.PnKhachHang;
 import view.PnNhanVien;
 import view.PnQuanLy;
-
-import java.awt.CardLayout;
 
 public class Main extends JFrame {
 
@@ -44,6 +43,7 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
+		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		setBounds(100, 50, 1050, 650);

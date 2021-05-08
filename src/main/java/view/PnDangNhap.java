@@ -1,36 +1,13 @@
 package view;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-
-import javax.swing.SwingConstants;
-
-import DAO.KhachHangDAO;
-import DAO.NhanVienDAO;
-import DAO.TaiKhoanKHDAO;
-import DAO.TaiKhoanNVDAO;
-import entities.KhachHang;
-import entities.NhanVien;
-import entities.TaiKhoanKH;
-import entities.TaiKhoanNV;
-import main.Main;
-
-import java.awt.Color;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -39,7 +16,20 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+
+import DAO.TaiKhoanKHDAO;
+import DAO.TaiKhoanNVDAO;
+import entities.TaiKhoanKH;
+import entities.TaiKhoanNV;
+import main.Main;
 
 public class PnDangNhap extends JPanel {
 	private Main mainFrame;
@@ -60,6 +50,8 @@ public class PnDangNhap extends JPanel {
 		this.mainFrame = mainFrame;
 
 		setBounds(0, 0, 1024, 600);
+		
+		
 		try {
 			image = ImageIO.read(new File("picture/main.png"));
 			scaledImage = image.getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_SMOOTH);
@@ -114,6 +106,8 @@ public class PnDangNhap extends JPanel {
 		panel.add(lblNewLabel_1_1);
 
 		JButton btnThoat = new JButton("Thoát");
+		btnThoat.setOpaque(false);
+		btnThoat.setContentAreaFilled(false);
 		btnThoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -127,41 +121,50 @@ public class PnDangNhap extends JPanel {
 				btnDangNhapClicked();
 			}
 		});
+		btnDangNhap.setOpaque(false);
+		btnDangNhap.setContentAreaFilled(false);
 		btnDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		
+		JLabel lblNewLabel_2 = new JLabel("Đăng nhập");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(10)
-							.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE))
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(209)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(131)
+									.addGap(45)
 									.addComponent(btnDangNhap, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+									.addGap(56)
 									.addComponent(btnThoat, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-									.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+									.addGroup(gl_panel.createSequentialGroup()
 										.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
 										.addGap(18)
 										.addComponent(txtMatKhau))
-									.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+									.addGroup(gl_panel.createSequentialGroup()
 										.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
 										.addGap(18)
 										.addComponent(txtTaiKhoan, GroupLayout.PREFERRED_SIZE, 292, GroupLayout.PREFERRED_SIZE))))
-							.addGap(245)))
-					.addGap(10))
+							.addGap(336))
+						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(468)
+							.addComponent(lblNewLabel_2)))
+					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(10)
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-					.addGap(66)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblNewLabel_2)
+					.addGap(56)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(txtTaiKhoan, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
@@ -210,8 +213,8 @@ public class PnDangNhap extends JPanel {
 					thanhToan.setNhanVien(taiKhoanNV.getNhanVien());
 				}
 				else {
-					cardLayout.show(cardPanel, "pnNhanVien");
 					JOptionPane.showMessageDialog(this, "Đăng nhập thành công, chào " + taiKhoanNV.getNhanVien().getTenNV());
+					cardLayout.show(cardPanel, "pnNhanVien");
 					mainFrame.pnNhanVien.setNhanVien(taiKhoanNV.getNhanVien());
 					//JOptionPane.showMessageDialog(this, taiKhoanNV.getNhanVien().getTenNV());
 					
@@ -230,14 +233,20 @@ public class PnDangNhap extends JPanel {
 				if (pass.compareTo(taiKhoanKH.getMatKhau()) != 0)
 					throw new Exception("Sai mật khẩu");
 				else {
+					JOptionPane.showMessageDialog(this, "Đăng nhập thành công, chào " + taiKhoanKH.getKhachHang().getTenKH());
 					cardLayout.show(cardPanel, "pnKhachHang");
 					mainFrame.pnKhachHang.setKhachHang(taiKhoanKH.getKhachHang());
-					JOptionPane.showMessageDialog(this, "Đăng nhập thành công, chào " + taiKhoanKH.getKhachHang().getTenKH());
+					
+					JLabel lbKhachHang = mainFrame.pnKhachHang.getLbKhachHang();
+					lbKhachHang.setText("Xin chào " + taiKhoanKH.getKhachHang().getTenKH());
 				}	
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage());
+		}finally {
+			txtTaiKhoan.setText("");
+			txtMatKhau.setText("");
 		}
 	}
 	 protected void paintComponent(Graphics g) {
