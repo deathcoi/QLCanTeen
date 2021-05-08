@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.CardLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +17,7 @@ import entities.KhachHang;
 import entities.NhanVien;
 import entities.TaiKhoanKH;
 import entities.TaiKhoanNV;
+
 
 public class PnDoiMatKhau extends JPanel {
 	private static final long serialVersionUID = 1L;
