@@ -229,6 +229,12 @@
 				</textElement>
 				<text><![CDATA[Chúc quý khách ngon miệng!]]></text>
 			</staticText>
+			<componentElement>
+				<reportElement x="180" y="180" width="139" height="91" uuid="0a106892-dfcf-4b54-a8fe-2fcf1d61f2a5"/>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA["Xin chào: " + $P{khachHang}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
 		</band>
 	</columnFooter>
 	<pageFooter>

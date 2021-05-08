@@ -50,4 +50,17 @@ public class TaiKhoanNVDAO {
 			session.close();
 		}
 	}
+	
+	public static void DoiMatKhau(TaiKhoanNV nv) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.update(nv);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
 }
