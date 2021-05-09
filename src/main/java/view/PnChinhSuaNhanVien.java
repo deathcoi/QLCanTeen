@@ -1,11 +1,13 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -21,17 +23,16 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import DAO.NhanVienDAO;
 import constant.HttpConstant;
 import entities.NhanVien;
 import entities.TaiKhoanNV;
-
 import service.IpushMethodService;
 import service.impl.PushMethodService;
-
-import java.awt.Color;
 
 public class PnChinhSuaNhanVien extends JPanel {
 
@@ -193,13 +194,26 @@ public class PnChinhSuaNhanVien extends JPanel {
 
 	private void btnThemClicked() {
 		try {
-			IpushMethodService method = new PushMethodService();
+			
 
 			if (checkText(txtMaNV) || checkText(txtNamSinh) || checkText(txtTenNV) || checkText(txtSdt))
 				throw new Exception("Vui lòng nhập đầy đủ thông tin!");
 			if (!isNumber(txtNamSinh.getText()) || !isNumber(txtSdt.getText()))
 				throw new Exception("Vui lòng nhập đúng dữ liệu!");
-			if (NhanVienDAO.layThongTinNhanVien(txtMaNV.getText()) != null)
+			
+			IpushMethodService service = new PushMethodService();
+			ObjectMapper mapper = new ObjectMapper();
+			
+			String httpNV = "http://localhost:8080/APISpring/api/nhanvien/" + txtMaNV.getText();
+			NhanVien nv = null;
+			try {
+				nv = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpNV, txtMaNV.getText()), NhanVien.class);
+			} catch (Exception e) {
+				nv = null;
+			}
+				
+			
+			if (nv != null)
 				throw new Exception("Mã nhân viên đã tồn tại! Vui lòng chọn mã nhân viên khác");
 			NhanVien nhanVien = new NhanVien();
 			nhanVien.setMaNV(txtMaNV.getText());
@@ -208,15 +222,15 @@ public class PnChinhSuaNhanVien extends JPanel {
 			nhanVien.setNamSinh(Integer.parseInt(txtNamSinh.getText()));
 			nhanVien.setSdt(Long.parseLong(txtSdt.getText()));
 			nhanVien.setStatus(1);
-			NhanVienDAO.themNhanVien(nhanVien);
+			
+			service.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/nhanvien/", nhanVien);
 
 			TaiKhoanNV taiKhoanNV = new TaiKhoanNV();
 			taiKhoanNV.setMatKhau(nhanVien.getMaNV());
 			taiKhoanNV.setNhanVien(nhanVien);
 
-			method.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/taikhoannv",
+			service.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/taikhoannv",
 					taiKhoanNV);
-			// TaiKhoanNVDAO.themTaiKhoanNV(taiKhoanNV);
 
 			loadTable();
 		} catch (Exception e) {
@@ -226,9 +240,20 @@ public class PnChinhSuaNhanVien extends JPanel {
 	}
 
 	private void loadTable() {
+		IpushMethodService service = new PushMethodService();
+		ObjectMapper mapper = new ObjectMapper();
+		
 		DefaultTableModel model = (DefaultTableModel) table_1.getModel();
 		model.setRowCount(0);
-		List<NhanVien> list = NhanVienDAO.layDanhSachNhanVien();
+		List<NhanVien> list = new ArrayList<NhanVien>();
+		try {
+			list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/nhanvien", null), new TypeReference<List<NhanVien>>() {
+			});
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 		for (NhanVien n : list) {
 			model.addRow(new Object[] { n.getMaNV(), n.getTenNV(), n.getGioiTinh(), n.getNamSinh(), n.getSdt() });
 		}
@@ -254,10 +279,11 @@ public class PnChinhSuaNhanVien extends JPanel {
 		try {
 			if (checkText(txtMaNV))
 				throw new Exception("Vui lòng nhập đầy đủ thông tin!");
-			NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
-
 			ObjectMapper mapper = new ObjectMapper();
-			IpushMethodService method = new PushMethodService();
+			IpushMethodService service = new PushMethodService();
+			
+			String httpNV = "http://localhost:8080/APISpring/api/nhanvien/" + txtMaNV.getText();
+			NhanVien nhanVien = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpNV, txtMaNV.getText()), NhanVien.class);
 
 			if (nhanVien == null)
 				throw new Exception("Không tìm thấy nhân viên!");
@@ -266,14 +292,13 @@ public class PnChinhSuaNhanVien extends JPanel {
 
 				String httpStringNV = "http://localhost:8080/APISpring/api/taikhoannv/" + nhanVien.getMaNV();
 				TaiKhoanNV taiKhoanNV = mapper.readValue(
-						method.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNV, nhanVien.getMaNV()),
+						service.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNV, nhanVien.getMaNV()),
 						TaiKhoanNV.class);
 
 				if (taiKhoanNV != null) {
-					method.pushMethod(HttpConstant.HTTPREQUESTDELETE, "http://localhost:8080/APISpring/api/taikhoannv",
-							taiKhoanNV);
+					service.pushMethod(HttpConstant.HTTPREQUESTDELETE, "http://localhost:8080/APISpring/api/taikhoannv", taiKhoanNV);
 				}
-				NhanVienDAO.xoaNhanVien(nhanVien);
+				service.pushMethod(HttpConstant.HTTPREQUESTDELETE, "http://localhost:8080/APISpring/api/nhanvien", nhanVien);
 				loadTable();
 			}
 		} catch (Exception e) {
@@ -288,7 +313,12 @@ public class PnChinhSuaNhanVien extends JPanel {
 				throw new Exception("Vui lòng nhập đầy đủ thông tin!");
 			if (!isNumber(txtNamSinh.getText()) || !isNumber(txtSdt.getText()))
 				throw new Exception("Vui lòng nhập đúng dữ liệu!");
-			NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
+			
+			ObjectMapper mapper = new ObjectMapper();
+			IpushMethodService service = new PushMethodService();
+			
+			String httpNV = "http://localhost:8080/APISpring/api/nhanvien/" + txtMaNV.getText();
+			NhanVien nhanVien = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpNV, txtMaNV.getText()), NhanVien.class);
 			if (nhanVien == null)
 				throw new Exception("Không tìm thấy nhân viên!");
 
@@ -299,7 +329,8 @@ public class PnChinhSuaNhanVien extends JPanel {
 				nhanVien.setNamSinh(Integer.parseInt(txtNamSinh.getText()));
 				nhanVien.setSdt(Long.parseLong(txtSdt.getText()));
 				nhanVien.setStatus(1);
-				NhanVienDAO.suaNhanVien(nhanVien);
+				
+				service.pushMethod(HttpConstant.HTTPREQUESTPUT,  "http://localhost:8080/APISpring/api/nhanvien/", nhanVien);
 				loadTable();
 			}
 		} catch (Exception e) {
