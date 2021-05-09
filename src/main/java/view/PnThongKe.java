@@ -1,29 +1,31 @@
 package view;
 
-import javax.swing.JPanel;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
+import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import com.github.lgooddatepicker.components.DatePicker;
 
-import DAO.CTHoaDonDAO;
 import DAO.HoaDonDAO;
-import DAO.KhachHangDAO;
-import DAO.MonAnDAO;
-import DAO.NguyenLieuDAO;
-import DAO.NhanVienDAO;
-import entities.CTHoaDon;
 import entities.HoaDon;
-import entities.MonAn;
-import entities.NguyenLieu;
 import entities.NhanVien;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -32,34 +34,18 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
-import table.JTableButtonModel;
-
-import javax.swing.JRadioButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.awt.event.ActionEvent;
 
 public class PnThongKe extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+	
 	private DatePicker datePickerTuNgay;
 	private DatePicker datePickerDenNgay;
+	private Image image;
+	private Image scaledImage;
 
 	private NhanVien nhanVien;
-	private DateFormat formatter;
-	
-	/**
-	 * Create the panel.
-	 */
+
 	public NhanVien getNhanVien() {
 		return nhanVien;
 	}
@@ -70,20 +56,28 @@ public class PnThongKe extends JPanel {
 	
 	public PnThongKe() {
 		setBounds(0, 0, 560, 600);
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(null);
+		try {
+			image = ImageIO.read(new File("picture\\main.png"));
+			scaledImage = image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBounds(0, 0, 560, 43);
+		panel.setBackground(new Color(51, 204, 204));
 		add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel lblNewLabel = new JLabel("Thống kê");
-		lblNewLabel.setForeground(Color.ORANGE);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblNewLabel.setForeground(Color.YELLOW);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		panel.add(lblNewLabel);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_2.setBounds(0, 43, 560, 43);
+		panel_2.setBackground(new Color(51, 204, 204));
 		datePickerTuNgay = new DatePicker();
 		datePickerTuNgay.getComponentToggleCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		datePickerTuNgay.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -109,11 +103,11 @@ public class PnThongKe extends JPanel {
 		btnXacNhan.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel_2.add(btnXacNhan);
 		
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		add(panel_1);
-		panel_1.setLayout(new BorderLayout(0, 0));
+	}
+	
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(scaledImage, 0, 0, this);
 	}
 
 	private void btnXacNhanClicked() {

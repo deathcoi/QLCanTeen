@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -56,10 +55,10 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import table.JTableButtonModel;
 import table.JTableButtonRenderer;
-import javax.swing.JCheckBox;
 
 public class PnThanhToan extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	//private JPanel pnCall; //pn nào gọi pnthanh toán
 	
 	private CardLayout cardLeft;
@@ -127,7 +126,7 @@ public class PnThanhToan extends JPanel {
 		JPanel pnThanhToanBtn = new JPanel();
 		pnThanhToanBtn.addMouseListener(new PanelButtonMouseAdapter(pnThanhToanBtn));
 		pnThanhToanBtn.setName("pnThanhToanBtn");
-		pnThanhToanBtn.setBackground(new Color(153, 0, 0));
+		pnThanhToanBtn.setBackground(new Color(153, 153, 204));
 		pnThanhToanBtn.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.add(pnThanhToanBtn);
 		pnThanhToanBtn.setLayout(new BorderLayout(0, 0));
@@ -140,7 +139,7 @@ public class PnThanhToan extends JPanel {
 		JPanel pnHuyBtn = new JPanel();
 		pnHuyBtn.setName("pnHuyBtn");
 		pnHuyBtn.addMouseListener(new PanelButtonMouseAdapter(pnHuyBtn));
-		pnHuyBtn.setBackground(new Color(153, 0, 0));
+		pnHuyBtn.setBackground(new Color(153, 153, 204));
 		pnHuyBtn.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.add(pnHuyBtn);
 		pnHuyBtn.setLayout(new BorderLayout(0, 0));
@@ -152,8 +151,8 @@ public class PnThanhToan extends JPanel {
 
 		JLabel lblNewLabel_2 = new JLabel("Canteen Hutech");
 		lblNewLabel_2.setForeground(Color.RED);
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_2.setBounds(130, 10, 149, 33);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblNewLabel_2.setBounds(120, 10, 168, 33);
 		add(lblNewLabel_2);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Khu Công Nghệ Cao, Long Mỹ Thạnh, Quận 9, TP.Hồ Chí Minh");
@@ -322,7 +321,7 @@ public class PnThanhToan extends JPanel {
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			panel.setBackground(new Color(153, 0, 0));
+			panel.setBackground(new Color(153, 153, 204));
 			if (panel.getName().compareTo("pnRefresh") == 0)
 				panel.setBackground(Color.WHITE);
 		}
@@ -436,6 +435,7 @@ public class PnThanhToan extends JPanel {
 		lbTongCong.setText(tong.toString());
 	}
 	
+	@SuppressWarnings("unused")
 	private void kiemTraTxt(JTextField txt) throws Exception {
 		try {
 			if (txt.getText().isBlank())
@@ -486,6 +486,7 @@ public class PnThanhToan extends JPanel {
 		timer.start();
 	}
 	
+	@SuppressWarnings("unused")
 	private void kiemTraChu(JTextField txt) throws Exception {
 		try {
 			if (txt.getText().isBlank() == false) {
@@ -568,10 +569,6 @@ public class PnThanhToan extends JPanel {
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			Date date = formatter.parse(lbDateTime.getText());
 			
-			Random generator = new Random();
-
-			
-			Long l = (long) 1000;
 			param.put("maHD", hoaDon.getMaHD());
 			param.put("nhanVien", nhanVien.getTenNV());
 			param.put("khachHang", (khachHang == null ? "" : khachHang.getTenKH()));
@@ -581,8 +578,6 @@ public class PnThanhToan extends JPanel {
 			param.put("tienThua", (lbTienThua.getText().isBlank() == false ? Long.parseLong(lbTienThua.getText()) : null));	
 			
 			model.setRowCount(0);	//khi da xong moi thu thi xoa bang
-			
-			
 			
 			JRDataSource jrDataSource = new JRBeanCollectionDataSource(dataSource);
 			String sourceName = "src/main/java/view/RpThanhToan.jrxml";
@@ -598,7 +593,6 @@ public class PnThanhToan extends JPanel {
 			frameThanhToan.pack();*/
 			JasperViewer jViewer = new JasperViewer(filledReport, false);
 			jViewer.setVisible(true);
-			
 			
 			khachHang = null; //reset khach hang
 			txtKhachHang.setText("");
@@ -620,7 +614,6 @@ public class PnThanhToan extends JPanel {
 				cl.show(pnLeftFromTheOutside, "pnMenu");
 			}
 			
-			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 			e.printStackTrace();
@@ -638,6 +631,7 @@ public class PnThanhToan extends JPanel {
 		
 		khachHang = null;
 	}
+	
 	private void txtTienMatEnter(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (txtTienMat.getText().isBlank() == false) {

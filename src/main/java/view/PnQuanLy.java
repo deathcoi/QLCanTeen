@@ -29,10 +29,10 @@ import entities.NhanVien;
 
 public class PnQuanLy extends JPanel {
 
+	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private JFrame mainFrame;
-	/**
-	 * Create the panel.
-	 */
+	
 	private CardLayout cardLayout; // card để đăng nhập/ đăng xuất
 	private JPanel cardPanel; // pn đăng nhập/đăng xuất
 
