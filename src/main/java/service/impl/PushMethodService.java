@@ -32,7 +32,7 @@ public class PushMethodService implements IpushMethodService{
 			
 			ObjectMapper mapper = new ObjectMapper();
 			String json = mapper.writeValueAsString(obj);
-			StringEntity stringEntity = new StringEntity(json);
+			StringEntity stringEntity = new StringEntity(json, "UTF-8");
 			
 			HttpResponse response = null;
 			
