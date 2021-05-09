@@ -27,6 +27,10 @@ import service.IpushMethodService;
 import service.impl.PushMethodService;
 
 public class FrameLoaiMonAn extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private PnChinhSuaMonAn pnChinhSuaMonAn;
 
 	public FrameLoaiMonAn(PnChinhSuaMonAn pnChinhSuaMonAn) {
@@ -143,7 +147,6 @@ public class FrameLoaiMonAn extends JFrame {
 				throw new Exception("Vui lòng nhập đầy đủ thông tin!");
 
 			IpushMethodService method = new PushMethodService();
-			String http = ("http://localhost:8080/APISpring/api/loaimonan/" + txtMaLoai.getText());
 			LoaiMonAn loaiMonAn = getLoaiMonAn(mapper, method, txtMaLoai.getText());
 			if (loaiMonAn == null) {
 				loaiMonAn = new LoaiMonAn();

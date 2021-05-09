@@ -56,12 +56,15 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import table.JTableButtonModel;
 import table.JTableButtonRenderer;
-import javax.swing.JCheckBox;
 
 public class PnThanhToan extends JPanel {
 
 	//private JPanel pnCall; //pn nào gọi pnthanh toán
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private CardLayout cardLeft;
 	private CardLayout cardRight;
 
@@ -440,6 +443,7 @@ public class PnThanhToan extends JPanel {
 		try {
 			if (txt.getText().isBlank())
 				throw new Exception("Vui lòng nhập đầy đủ thông tin");
+			@SuppressWarnings("unused")
 			Double d = Double.parseDouble(txt.getText());
 		} catch (NumberFormatException nfe) {
 			throw new Exception("Vui lòng nhập số!");
@@ -486,6 +490,7 @@ public class PnThanhToan extends JPanel {
 		timer.start();
 	}
 	
+	@SuppressWarnings("unused")
 	private void kiemTraChu(JTextField txt) throws Exception {
 		try {
 			if (txt.getText().isBlank() == false) {
@@ -496,6 +501,7 @@ public class PnThanhToan extends JPanel {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void pnThanhToanBtnClicked() {
 		try {
 			kiemTraChu(txtTienMat);

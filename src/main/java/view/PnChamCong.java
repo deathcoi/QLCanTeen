@@ -17,23 +17,22 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.Timer;
-import javax.swing.table.DefaultTableModel;
 
-import com.github.lgooddatepicker.components.DatePicker;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import DAO.BangChamCongDAO;
 import DAO.NhanVienDAO;
+import constant.HttpConstant;
 import entities.BangChamCong;
 import entities.NhanVien;
+import service.IpushMethodService;
+import service.impl.PushMethodService;
 import table.JTableUnEdit;
-import javax.swing.JTextField;
 
 public class PnChamCong extends JPanel {
-
-	/**
-	 * Create the panel.
-	 */
+	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private JLabel lbDateTime;
 	private JTextField txtMaNV;
@@ -53,7 +52,7 @@ public class PnChamCong extends JPanel {
 
 		JPanel panel_3 = new JPanel();
 		add(panel_3);
-		
+
 		lbDateTime = new JLabel("");
 		panel_3.add(lbDateTime);
 
@@ -78,11 +77,11 @@ public class PnChamCong extends JPanel {
 				btnKetThucClicked();
 			}
 		});
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Mã nhân viên");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel_2.add(lblNewLabel_1);
-		
+
 		txtMaNV = new JTextField();
 		txtMaNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel_2.add(txtMaNV);
@@ -98,46 +97,53 @@ public class PnChamCong extends JPanel {
 		panel_2.add(btnBatDau);
 		btnKetThuc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel_2.add(btnKetThuc);
-		
+
 		loadTable();
-		
+
 		setTiming();
 	}
 
-	
 	private void btnBatDauClicked() {
 		try {
+			ObjectMapper mapper = new ObjectMapper();
+			IpushMethodService service = new PushMethodService();
+			
+			
 			if (txtMaNV.getText().compareTo("") == 0)
 				throw new Exception("Vui lòng nhập mã nhân viên để chấm công!");
 			NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
 			if (nhanVien == null)
 				throw new Exception("Không tìm thấy mã nhân viên");
-			BangChamCong bcc = BangChamCongDAO.layThongTinBCCTheoMaNV(txtMaNV.getText());
+			String httpString = "http://localhost:8080/APISpring/api/bangchamcong/" + txtMaNV.getText();
+			BangChamCong bcc = null;
+			try {
+				bcc = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpString, txtMaNV.getText()), BangChamCong.class);
+			} catch (Exception e) {
+				//do nothing because it's null
+			}
 			if (bcc != null)
 				if (bcc.getKetThuc() == null)
 					throw new Exception("Nhân viên này chưa kết thúc ca làm!");
 			SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			Date batDau = format.parse(lbDateTime.getText());
 			BangChamCong bangChamCong = new BangChamCong();
+			bangChamCong.setStt(1);
 			bangChamCong.setBatDau(batDau);
 			bangChamCong.setNhanVien(nhanVien);
-			BangChamCongDAO.themBCC(bangChamCong);
 			
+			service.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/bangchamcong", bangChamCong);
+
 			JTableUnEdit model = (JTableUnEdit) table.getModel();
-			model.addRow(new Object[] {
-				nhanVien.getMaNV(),
-				nhanVien.getTenNV(),
-				bangChamCong.getBatDau(),
-			});
+			model.addRow(new Object[] { nhanVien.getMaNV(), nhanVien.getTenNV(), bangChamCong.getBatDau(), });
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 	}
-	
+
 	private void setTiming() {
 		Timer timer = new Timer(1000, new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				Date date = new Date();
 				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -146,28 +152,50 @@ public class PnChamCong extends JPanel {
 		});
 		timer.start();
 	}
-	
+
 	private void loadTable() {
-		JTableUnEdit model = (JTableUnEdit) table.getModel();
-		model.setRowCount(0);
-		List<BangChamCong> list = BangChamCongDAO.layDanhSachBangChamCong();
-		for (BangChamCong bcc : list) {
-			model.addRow(new Object[] {
-				bcc.getNhanVien().getMaNV(),
-				bcc.getNhanVien().getTenNV(),
-				bcc.getBatDau(),
-				bcc.getKetThuc()
-			});
+		try {
+			IpushMethodService service = new PushMethodService();
+
+			ObjectMapper mapper = new ObjectMapper();
+			List<BangChamCong> list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET,
+					"http://localhost:8080/APISpring/api/bangchamcong", null), new TypeReference<List<BangChamCong>>() {
+					});
+
+			System.out.println(list.size());
+
+			JTableUnEdit model = (JTableUnEdit) table.getModel();
+			model.setRowCount(0);
+
+			for (BangChamCong bcc : list) {
+				model.addRow(new Object[] {
+						bcc.getNhanVien().getMaNV(),
+						bcc.getNhanVien().getTenNV(),
+						bcc.getBatDau(),
+						bcc.getKetThuc() });
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
+
 	}
+
 	private void btnKetThucClicked() {
 		try {
+			ObjectMapper mapper = new ObjectMapper();
+			IpushMethodService service = new PushMethodService();
+			
+			
 			if (txtMaNV.getText().compareTo("") == 0)
 				throw new Exception("Vui lòng nhập mã nhân viên để chấm công!");
 			NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
+			//NhanVien nhanVien = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/bangchamcong", txtMaNV.getText()), )
 			if (nhanVien == null)
 				throw new Exception("Không tìm thấy mã nhân viên");
-			BangChamCong bcc = BangChamCongDAO.layThongTinBCCTheoMaNV(txtMaNV.getText());
+			
+			String httpString = "http://localhost:8080/APISpring/api/bangchamcong/" + txtMaNV.getText();
+			BangChamCong bcc = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpString , txtMaNV.getText()), BangChamCong.class);
+			
 			if (bcc != null)
 				if (bcc.getBatDau() == null)
 					throw new Exception("Nhân viên này chưa bắt đầu ca làm!");
@@ -176,10 +204,12 @@ public class PnChamCong extends JPanel {
 			SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			Date ketThuc = format.parse(lbDateTime.getText());
 			bcc.setKetThuc(ketThuc);
-			BangChamCongDAO.suaBCC(bcc);
 			
+			//api update
+			service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/bangchamcong/", bcc);
+
 			loadTable();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage());

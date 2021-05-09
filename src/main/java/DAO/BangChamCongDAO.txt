@@ -11,6 +11,7 @@ import Utils.HibernateUtil;
 import entities.BangChamCong;
 
 public class BangChamCongDAO {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List<BangChamCong> layDanhSachBangChamCong(){
 		List<BangChamCong> list = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -26,6 +27,7 @@ public class BangChamCongDAO {
 		return list;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List<BangChamCong> layDanhSachBangChamCongTheoNgay(Date tuNgay, Date denNgay) {
 		List<BangChamCong> list = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -44,6 +46,7 @@ public class BangChamCongDAO {
 		return list;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List<BangChamCong> layDanhSachBangChamCongTheoNgayVaMa(Date tuNgay, Date denNgay, String maNV) {
 		List<BangChamCong> list = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -64,6 +67,7 @@ public class BangChamCongDAO {
 		return list;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static BangChamCong layThongTinBCCTheoMaNV(String maNV) {
 		BangChamCong bangChamCong = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();

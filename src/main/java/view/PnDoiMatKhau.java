@@ -15,10 +15,15 @@ import DAO.TaiKhoanKHDAO;
 import entities.TaiKhoanKH;
 
 public class PnDoiMatKhau extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtMKHT;
 	private JTextField txtMKM;
 	private JTextField txtNLMK;
 	
+	@SuppressWarnings("unused")
 	private JFrame mainFrame;
 	private JLabel lbKhachHang;
 
