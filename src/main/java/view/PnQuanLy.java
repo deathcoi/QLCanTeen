@@ -29,10 +29,10 @@ import entities.NhanVien;
 
 public class PnQuanLy extends JPanel {
 
+	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private JFrame mainFrame;
-	/**
-	 * Create the panel.
-	 */
+	
 	private CardLayout cardLayout; // card để đăng nhập/ đăng xuất
 	private JPanel cardPanel; // pn đăng nhập/đăng xuất
 
@@ -57,6 +57,8 @@ public class PnQuanLy extends JPanel {
 	private PnMenuKhongChucNang pnMenuKhongChucNang;
 	
 	private PnChinhSuaMonAn pnChinhSuaMonAn;
+	
+	private PnDoiMatKhau pnDoiMatKhau;
 
 	public PnQuanLy(CardLayout cardLayout, JPanel cardPanel, JFrame mainFrame) {
 		setName("pnQuanLy");
@@ -477,7 +479,7 @@ public class PnQuanLy extends JPanel {
 		pnThongKe = new PnThongKe();
 		pnCardLeft.add(pnThongKe, "pnThongKe");
 		
-		JPanel pnDoiMatKhau = new PnDoiMatKhau();
+		pnDoiMatKhau = new PnDoiMatKhau(nhanVien);
 		pnCardLeft.add(pnDoiMatKhau, "pnDoiMatKhau");
 		
 
@@ -485,6 +487,7 @@ public class PnQuanLy extends JPanel {
 	}
 	
 	private void doiMatKhauClicked() {
+		pnDoiMatKhau.setUser(nhanVien);
 		cardLeft.show(pnCardLeft, "pnDoiMatKhau");
 	}
 	

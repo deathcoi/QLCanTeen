@@ -1,36 +1,32 @@
 package view;
 
-import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
-import java.awt.BorderLayout;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JLabel;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.util.List;
-import java.awt.Color;
-import javax.swing.border.LineBorder;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
 
 import DAO.MonAnDAO;
 import entities.MonAn;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-import java.awt.Font;
 
 public class PnMenuKhongChucNang extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Create the panel.
 	 */
@@ -39,6 +35,7 @@ public class PnMenuKhongChucNang extends JPanel {
 
 	private Image image;
 	private Image scaledImage;
+	
 	public PnMenuKhongChucNang() {
 		setBounds(0, 0, 560, 600);
 		try {
@@ -75,7 +72,7 @@ public class PnMenuKhongChucNang extends JPanel {
 			//pnBtn.setBackground(Color.cyan);
 			
 			JLabel lb = new JLabel(monAn.getTenMA());
-			lb.setForeground(Color.WHITE);
+			lb.setForeground(Color.BLACK);
 			lb.setHorizontalAlignment(SwingConstants.CENTER);
 			lb.setFont(new Font("Tahoma", Font.BOLD, 18));
 			pnBtn.add(lb, BorderLayout.CENTER);

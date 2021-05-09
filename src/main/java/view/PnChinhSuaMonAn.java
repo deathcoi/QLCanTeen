@@ -31,17 +31,22 @@ import entities.MonAn;
 import entities.NguyenLieu;
 import service.IpushMethodService;
 import service.impl.PushMethodService;
+import java.awt.Color;
 
 public class PnChinhSuaMonAn extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private JTable table_1;
 	private JTextField txtMaMA;
 	private JTextField txtTenMA;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cmbMaLoai;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cmbMaNL;
 	
 	private PnQuanLy pnQuanLy = null;
 	private PnNhanVien pnNhanVien = null;
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public PnChinhSuaMonAn(JPanel pnQuanLy) {
 		if (pnQuanLy instanceof PnQuanLy)
 			this.pnQuanLy = (PnQuanLy) pnQuanLy;
@@ -58,33 +63,34 @@ public class PnChinhSuaMonAn extends JPanel {
 		panel.setLayout(null);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(51, 204, 204));
 		panel_1.setBounds(0, 0, 560, 150);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Mã món ăn:");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel.setBounds(10, 10, 110, 20);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(10, 10, 130, 25);
 		panel_1.add(lblNewLabel);
 		
 		txtMaMA = new JTextField();
 		txtMaMA.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtMaMA.setHorizontalAlignment(SwingConstants.LEFT);
-		txtMaMA.setBounds(120, 10, 100, 20);
+		txtMaMA.setBounds(140, 10, 200, 25);
 		panel_1.add(txtMaMA);
 		txtMaMA.setColumns(10);
 		
 		JLabel lblTnNguynLiu = new JLabel("Mã loại:");
 		lblTnNguynLiu.setHorizontalAlignment(SwingConstants.LEFT);
-		lblTnNguynLiu.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblTnNguynLiu.setBounds(10, 45, 110, 20);
+		lblTnNguynLiu.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTnNguynLiu.setBounds(10, 45, 130, 25);
 		panel_1.add(lblTnNguynLiu);
 		
 		JLabel lblSLng = new JLabel("Mã nguyên liệu:");
 		lblSLng.setHorizontalAlignment(SwingConstants.LEFT);
-		lblSLng.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblSLng.setBounds(10, 80, 110, 20);
+		lblSLng.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblSLng.setBounds(10, 80, 130, 25);
 		panel_1.add(lblSLng);
 		
 		JButton btnThem = new JButton("Thêm");
@@ -93,8 +99,8 @@ public class PnChinhSuaMonAn extends JPanel {
 				btnThemClicked();
 			}
 		});
-		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnThem.setBounds(390, 9, 90, 25);
+		btnThem.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnThem.setBounds(360, 5, 90, 30);
 		panel_1.add(btnThem);
 		
 		JButton btnSua = new JButton("Sửa");
@@ -103,21 +109,21 @@ public class PnChinhSuaMonAn extends JPanel {
 				btnSuaClicked();
 			}
 		});
-		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSua.setBounds(390, 114, 90, 25);
+		btnSua.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnSua.setBounds(360, 110, 90, 30);
 		panel_1.add(btnSua);
 		
 		JLabel lblTnMnn = new JLabel("Tên món ăn:");
 		lblTnMnn.setHorizontalAlignment(SwingConstants.LEFT);
-		lblTnMnn.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblTnMnn.setBounds(10, 115, 110, 20);
+		lblTnMnn.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTnMnn.setBounds(10, 115, 130, 25);
 		panel_1.add(lblTnMnn);
 		
 		txtTenMA = new JTextField();
 		txtTenMA.setHorizontalAlignment(SwingConstants.LEFT);
 		txtTenMA.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtTenMA.setColumns(10);
-		txtTenMA.setBounds(120, 115, 200, 20);
+		txtTenMA.setBounds(140, 115, 200, 25);
 		panel_1.add(txtTenMA);
 		
 		JButton btnXoa = new JButton("Xóa");
@@ -126,27 +132,30 @@ public class PnChinhSuaMonAn extends JPanel {
 				btnXoaClicked();
 			}
 		});
-		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnXoa.setBounds(390, 79, 90, 25);
+		btnXoa.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnXoa.setBounds(360, 75, 90, 30);
 		panel_1.add(btnXoa);
 		
 		String[] maLoais = getCmbMaLoai();
 		cmbMaLoai = new JComboBox(maLoais);
-		cmbMaLoai.setBounds(120, 42, 204, 27);
+		cmbMaLoai.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cmbMaLoai.setBounds(140, 45, 200, 25);
 		panel_1.add(cmbMaLoai);
 		
 		String[] maNguyenLieus = getCmbMaNL();
 		cmbMaNL = new JComboBox(maNguyenLieus);
-		cmbMaNL.setBounds(120, 79, 200, 27);
+		cmbMaNL.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cmbMaNL.setBounds(140, 80, 200, 25);
 		panel_1.add(cmbMaNL);
 		
 		JButton btnThemLoaiMonAn = new JButton("Thêm loại món ăn ");
+		btnThemLoaiMonAn.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnThemLoaiMonAn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnThemLoaiMonAnClicked();
 			}
 		});
-		btnThemLoaiMonAn.setBounds(388, 43, 147, 29);
+		btnThemLoaiMonAn.setBounds(360, 40, 190, 30);
 		panel_1.add(btnThemLoaiMonAn);
 		
 		JPanel panel_2 = new JPanel();
@@ -228,6 +237,7 @@ public class PnChinhSuaMonAn extends JPanel {
 		}
 		return list;
 	}
+	
 	private void btnXoaClicked() {
 		try {
 			MonAn monan = MonAnDAO.layThongTinMonAn(txtMaMA.getText());
@@ -235,14 +245,13 @@ public class PnChinhSuaMonAn extends JPanel {
 				throw new Exception("khong tim thay mon an");
 			MonAnDAO.xoaMonAn(monan);
 			loadTable();
-			
 			refreshPn();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage());
-			
 		}
 	}
+	
 	private void btnSuaClicked() {
 		try {
 			ObjectMapper mapper = new ObjectMapper();

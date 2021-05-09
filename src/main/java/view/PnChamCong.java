@@ -33,6 +33,7 @@ import table.JTableUnEdit;
 
 public class PnChamCong extends JPanel {
 	private static final long serialVersionUID = 1L;
+	
 	private JTable table;
 	private JLabel lbDateTime;
 	private JTextField txtMaNV;
@@ -42,15 +43,17 @@ public class PnChamCong extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(51, 204, 204));
 		add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		JLabel lblNewLabel = new JLabel("Chấm công");
-		lblNewLabel.setForeground(Color.ORANGE);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblNewLabel.setForeground(Color.YELLOW);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		panel.add(lblNewLabel);
 
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(51, 204, 204));
 		add(panel_3);
 
 		lbDateTime = new JLabel("");
@@ -67,6 +70,7 @@ public class PnChamCong extends JPanel {
 		scrollPane.setViewportView(table);
 
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(51, 204, 204));
 		FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		add(panel_2);
@@ -79,11 +83,11 @@ public class PnChamCong extends JPanel {
 		});
 
 		JLabel lblNewLabel_1 = new JLabel("Mã nhân viên");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2.add(lblNewLabel_1);
 
 		txtMaNV = new JTextField();
-		txtMaNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtMaNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel_2.add(txtMaNV);
 		txtMaNV.setColumns(10);
 
@@ -93,9 +97,9 @@ public class PnChamCong extends JPanel {
 				btnBatDauClicked();
 			}
 		});
-		btnBatDau.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnBatDau.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2.add(btnBatDau);
-		btnKetThuc.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnKetThuc.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2.add(btnKetThuc);
 
 		loadTable();

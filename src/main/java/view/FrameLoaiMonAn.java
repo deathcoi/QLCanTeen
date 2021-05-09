@@ -25,54 +25,58 @@ import constant.HttpConstant;
 import entities.LoaiMonAn;
 import service.IpushMethodService;
 import service.impl.PushMethodService;
+import java.awt.Color;
 
 public class FrameLoaiMonAn extends JFrame {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private PnChinhSuaMonAn pnChinhSuaMonAn;
 
 	public FrameLoaiMonAn(PnChinhSuaMonAn pnChinhSuaMonAn) {
+		getContentPane().setBackground(new Color(51, 204, 204));
 		this.pnChinhSuaMonAn = pnChinhSuaMonAn;
 		setBounds(0, 0, 572, 543);
 		getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Mã loại");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel.setBounds(10, 10, 116, 30);
 		getContentPane().add(lblNewLabel);
 
 		txtMaLoai = new JTextField();
+		txtMaLoai.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMaLoai.setBounds(136, 10, 414, 30);
 		getContentPane().add(txtMaLoai);
 		txtMaLoai.setColumns(10);
 
 		JLabel lblTnLoi = new JLabel("Tên loại");
-		lblTnLoi.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblTnLoi.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblTnLoi.setBounds(10, 50, 116, 30);
 		getContentPane().add(lblTnLoi);
 
 		txtTenLoai = new JTextField();
+		txtTenLoai.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtTenLoai.setColumns(10);
 		txtTenLoai.setBounds(136, 50, 414, 30);
 		getContentPane().add(txtTenLoai);
 
 		JLabel lblGiTin = new JLabel("Giá tiền");
-		lblGiTin.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblGiTin.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblGiTin.setBounds(10, 90, 116, 30);
 		getContentPane().add(lblGiTin);
 
 		txtGiaTien = new JTextField();
+		txtGiaTien.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtGiaTien.setColumns(10);
 		txtGiaTien.setBounds(136, 90, 414, 30);
 		getContentPane().add(txtGiaTien);
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		scrollPane.setBounds(10, 170, 540, 330);
 		getContentPane().add(scrollPane);
 
 		table = new JTable(new DefaultTableModel(new Object[] { "Mã loại", "Tên loại", "Giá tiền" }, 0));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		scrollPane.setViewportView(table);
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent event) {
@@ -139,6 +143,7 @@ public class FrameLoaiMonAn extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void btnThemClicked() {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
@@ -227,4 +232,5 @@ public class FrameLoaiMonAn extends JFrame {
 			return null;
 		return mapper.readValue(str, LoaiMonAn.class);
 	}
+	
 }

@@ -1,40 +1,37 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import DAO.KhachHangDAO;
 import entities.KhachHang;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.Color;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.BoxLayout;
+import javax.swing.border.LineBorder;
 
 public class FrameNapTien extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtMaThe;
 	private JTextField txtSoTien;
 	private KhachHang khachHang;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cmbLoaiThe;
+	@SuppressWarnings("rawtypes")
+	private JComboBox cmbNganHangThuHuong;
 
-	/**
-	 * Create the frame.
-	 */
-	/**
-	 * 
-	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public FrameNapTien(KhachHang khachHang) {
 		this.khachHang = khachHang;
 		setBackground(new Color(30, 144, 255));
@@ -44,80 +41,89 @@ public class FrameNapTien extends JFrame {
 		contentPane.setBackground(new Color(230, 230, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(135, 206, 250));
-		panel.setBounds(50, 29, 562, 158);
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBackground(new Color(51, 204, 204));
 		contentPane.add(panel);
 		panel.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("1.Nạp tiền qua thẻ cào");
-		lblNewLabel.setForeground(Color.RED);
-		lblNewLabel.setFont(new Font("Lucida Grande", Font.ITALIC, 15));
-		lblNewLabel.setBounds(6, 6, 181, 16);
+		lblNewLabel.setForeground(Color.YELLOW);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(10, 10, 200, 25);
 		panel.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Loại thẻ :");
-		lblNewLabel_1.setBounds(6, 29, 61, 16);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1.setBounds(10, 76, 100, 25);
 		panel.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Mã thẻ :");
-		lblNewLabel_2.setBounds(6, 86, 61, 16);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_2.setBounds(10, 116, 100, 25);
 		panel.add(lblNewLabel_2);
 
-		String LoaiThe[] = {" ", "Viettel", "Mobifone", "Vinaphone" };
+		String LoaiThe[] = {"Viettel", "Mobifone", "Vinaphone" };
 		cmbLoaiThe = new JComboBox(LoaiThe);
+		cmbLoaiThe.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cmbLoaiThe.addActionListener (new ActionListener () {
 		    public void actionPerformed(ActionEvent e) {
 		        indexchange();
 		    }
 		});
-		cmbLoaiThe.setBounds(79, 25, 232, 27);
+		cmbLoaiThe.setBounds(195, 76, 250, 25);
 		panel.add(cmbLoaiThe);
 
 		txtMaThe = new JTextField();
-		txtMaThe.setBounds(81, 81, 269, 26);
+		txtMaThe.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtMaThe.setBounds(195, 116, 250, 25);
 		panel.add(txtMaThe);
 		txtMaThe.setColumns(10);
 
 		JButton btnNapThe = new JButton("Nạp thẻ");
+		btnNapThe.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnNapThe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnNapTheClicked();
 			}
 		});
-		btnNapThe.setBounds(400, 67, 117, 57);
+		btnNapThe.setBounds(480, 80, 117, 57);
 		panel.add(btnNapThe);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(135, 206, 250));
-		panel_1.setBounds(50, 207, 562, 193);
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_1.setBackground(new Color(51, 204, 204));
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 
 		JLabel lblNewLabel_4 = new JLabel("2.Nạp tiền qua ATM/InternetBanking");
-		lblNewLabel_4.setFont(new Font("Lucida Grande", Font.ITALIC, 15));
-		lblNewLabel_4.setForeground(Color.RED);
-		lblNewLabel_4.setBounds(6, 6, 321, 16);
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_4.setForeground(Color.YELLOW);
+		lblNewLabel_4.setBounds(10, 10, 320, 25);
 		panel_1.add(lblNewLabel_4);
 
 		JLabel lblNewLabel_5 = new JLabel("Số tiền :");
-		lblNewLabel_5.setBounds(6, 37, 61, 16);
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5.setBounds(10, 120, 100, 25);
 		panel_1.add(lblNewLabel_5);
 
 		txtSoTien = new JTextField();
-		txtSoTien.setBounds(160, 34, 255, 26);
+		txtSoTien.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtSoTien.setBounds(195, 120, 255, 25);
 		panel_1.add(txtSoTien);
 		txtSoTien.setColumns(10);
 
 		JLabel lblNewLabel_6 = new JLabel("Ngân hàng thụ hưởng:");
-		lblNewLabel_6.setBounds(6, 81, 168, 16);
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_6.setBounds(10, 80, 190, 25);
 		panel_1.add(lblNewLabel_6);
 
-		String NganHang[] = { "VietComBank", "AriBank", "CB Bank", "VietinBank", "BIDV" };
-		JComboBox cmbNganHangThuHuong = new JComboBox(NganHang);
-		cmbNganHangThuHuong.setBounds(160, 72, 255, 27);
+		String NganHang[] = { "VietComBank", "AgriBank", "CB Bank", "VietinBank", "BIDV" };
+		cmbNganHangThuHuong = new JComboBox(NganHang);
+		cmbNganHangThuHuong.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cmbNganHangThuHuong.setBounds(195, 80, 255, 25);
 		panel_1.add(cmbNganHangThuHuong);
 
 		JButton btnNapTien = new JButton("Nạp tiền");
@@ -127,7 +133,7 @@ public class FrameNapTien extends JFrame {
 
 			}
 		});
-		btnNapTien.setBounds(226, 130, 117, 57);
+		btnNapTien.setBounds(480, 50, 117, 57);
 		panel_1.add(btnNapTien);
 
 		JButton btnThoat = new JButton("Thoát");
@@ -136,7 +142,7 @@ public class FrameNapTien extends JFrame {
 				btnThoatClicked();
 			}
 		});
-		btnThoat.setBounds(389, 130, 117, 57);
+		btnThoat.setBounds(480, 130, 117, 57);
 		panel_1.add(btnThoat);
 	}
 
@@ -149,12 +155,17 @@ public class FrameNapTien extends JFrame {
 			khachHang.setTien(tien);
 			KhachHangDAO.suaKhachHang(khachHang);
 			JOptionPane.showMessageDialog(this, "So tien hien tai: " + tien);
+			cmbLoaiThe.setSelectedIndex(0);
+			txtMaThe.setText("");
+			cmbNganHangThuHuong.setSelectedIndex(0);
+			txtSoTien.setText("");
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private boolean isNumber(JTextField txt) {
 		try {
 			Double d = Double.parseDouble(txt.getText());
@@ -168,8 +179,9 @@ public class FrameNapTien extends JFrame {
 		dispose();
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void btnNapTheClicked() {
-		JComboBox cmbLoaiThe = new JComboBox();
+		cmbLoaiThe = new JComboBox();
 		try {
 			
 			if (txtMaThe.getText().isBlank() == true || txtMaThe.getText().isBlank() == true)
