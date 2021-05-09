@@ -26,15 +26,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.lgooddatepicker.components.DatePicker;
 
-
-import DAO.NhanVienDAO;
 import constant.HttpConstant;
 import entities.BangChamCong;
 import entities.NhanVien;
-
 import service.IpushMethodService;
 import service.impl.PushMethodService;
-
 import table.JTableUnEdit;
 
 
@@ -161,7 +157,9 @@ public class PnTinhLuong extends JPanel {
 				}
 				status = 0;
 			} else if (!txtMaNV.getText().isBlank()) {
-				NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
+				String httpNV = "http://localhost:8080/APISpring/api/nhanvien/" + txtMaNV.getText();
+				NhanVien nhanVien = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpNV, txtMaNV.getText()), NhanVien.class);
+				
 				if (nhanVien == null)
 					throw new Exception("Không tìm thấy nhân viên");
 				SimpleDateFormat formatter = new SimpleDateFormat("MMMMM dd, yyyy HH:mm:ss");

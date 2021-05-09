@@ -23,7 +23,6 @@ import javax.swing.Timer;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import DAO.NhanVienDAO;
 import constant.HttpConstant;
 import entities.BangChamCong;
 import entities.NhanVien;
@@ -115,7 +114,11 @@ public class PnChamCong extends JPanel {
 			
 			if (txtMaNV.getText().compareTo("") == 0)
 				throw new Exception("Vui lòng nhập mã nhân viên để chấm công!");
-			NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
+			
+			
+			//NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
+			String httpNV = "http://localhost:8080/APISpring/api/nhanvien/" + txtMaNV.getText();
+			NhanVien nhanVien = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpNV, txtMaNV.getText()), NhanVien.class);
 			if (nhanVien == null)
 				throw new Exception("Không tìm thấy mã nhân viên");
 			String httpString = "http://localhost:8080/APISpring/api/bangchamcong/" + txtMaNV.getText();
@@ -192,8 +195,8 @@ public class PnChamCong extends JPanel {
 			
 			if (txtMaNV.getText().compareTo("") == 0)
 				throw new Exception("Vui lòng nhập mã nhân viên để chấm công!");
-			NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
-			//NhanVien nhanVien = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/bangchamcong", txtMaNV.getText()), )
+			String httpNV = "http://localhost:8080/APISpring/api/nhanvien/" + txtMaNV.getText();
+			NhanVien nhanVien = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpNV, txtMaNV.getText()), NhanVien.class);
 			if (nhanVien == null)
 				throw new Exception("Không tìm thấy mã nhân viên");
 			
