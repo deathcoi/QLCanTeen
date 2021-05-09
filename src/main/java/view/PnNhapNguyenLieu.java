@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,9 +19,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import DAO.NguyenLieuDAO;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import constant.HttpConstant;
 import entities.NguyenLieu;
-import java.awt.Color;
+import service.IpushMethodService;
+import service.impl.PushMethodService;
 
 public class PnNhapNguyenLieu extends JPanel {
 
@@ -32,9 +37,6 @@ public class PnNhapNguyenLieu extends JPanel {
 	private JTextField txtSL;
 	private PnQuanLy pnQuanLy;
 
-	/**
-	 * Create the panel.
-	 */
 	public PnNhapNguyenLieu(JPanel pnQuanLy) {
 		this.pnQuanLy = (PnQuanLy) pnQuanLy;
 		setBounds(0, 0, 560, 600);
@@ -130,10 +132,19 @@ public class PnNhapNguyenLieu extends JPanel {
 	}
 
 	private void loadTable() {
+		ObjectMapper mapper = new ObjectMapper();
+		IpushMethodService method = new PushMethodService();
+		
 		DefaultTableModel model = (DefaultTableModel) table_1.getModel();
 		model.setRowCount(0);
-		List<NguyenLieu> list = NguyenLieuDAO.layDanhSachNguyenLieu();
-		for (NguyenLieu n : list) {
+		List<NguyenLieu> listNL = null;
+		try {
+			listNL = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/nguyenlieu", null), new TypeReference<List<NguyenLieu>>() {
+			});
+		} catch(Exception ex) {
+			listNL = null;
+		}
+		for (NguyenLieu n : listNL) {
 			model.addRow(new Object[] {
 				n.getMaNguyenLieu(),
 				n.getTenNguyenLieu(),
@@ -150,16 +161,17 @@ public class PnNhapNguyenLieu extends JPanel {
 	    }
 	
 	private void btnThemClicked() {
+		IpushMethodService method = new PushMethodService();
+		
 		try {
 			NguyenLieu nguyenLieu = new NguyenLieu();
 			nguyenLieu.setMaNguyenLieu(txtMNL.getText());
 			nguyenLieu.setTenNguyenLieu(txtTenNL.getText());
 			nguyenLieu.setSoLuong(Integer.parseInt(txtSL.getText()));
 			
-			NguyenLieuDAO.themNguyenLieu(nguyenLieu);
+			method.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/nguyenlieu", nguyenLieu);
 			
 			loadTable();
-			
 			loadText();
 			
 			pnQuanLy.getPnChinhSuaMonAn().refreshPn();
@@ -170,13 +182,15 @@ public class PnNhapNguyenLieu extends JPanel {
 	
 	private void btnSuaClicked() {
 		try {
+			IpushMethodService method = new PushMethodService();
+			
 			NguyenLieu nguyenLieu = new NguyenLieu();
 			
 			nguyenLieu.setMaNguyenLieu(txtMNL.getText());
 			nguyenLieu.setTenNguyenLieu(txtTenNL.getText());
 			nguyenLieu.setSoLuong(Integer.parseInt(txtSL.getText()));
 			
-			NguyenLieuDAO.suaNguyenLieu(nguyenLieu);
+			method.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/nguyenlieu", nguyenLieu);
 			
 			loadTable();
 			

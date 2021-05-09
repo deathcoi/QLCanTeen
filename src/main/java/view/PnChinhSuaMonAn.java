@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,14 +25,12 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import DAO.MonAnDAO;
-import DAO.NguyenLieuDAO;
 import constant.HttpConstant;
 import entities.LoaiMonAn;
 import entities.MonAn;
 import entities.NguyenLieu;
 import service.IpushMethodService;
 import service.impl.PushMethodService;
-import java.awt.Color;
 
 public class PnChinhSuaMonAn extends JPanel {
 
@@ -172,6 +171,7 @@ public class PnChinhSuaMonAn extends JPanel {
 		loadTable();
 	}
 	private void btnThemClicked() {
+		NguyenLieu n = null;
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			IpushMethodService method = new PushMethodService();
@@ -182,7 +182,10 @@ public class PnChinhSuaMonAn extends JPanel {
 			LoaiMonAn l = getLoaiMonAn(mapper, method, mlma);
 			monan.setLoaiMonAn(l);
 			String mlnl = cmbMaNL.getSelectedItem().toString().split("-")[0];
-			NguyenLieu n = NguyenLieuDAO.layThongTinNguyenLieu(mlnl);
+			
+			String httpStringNL = "http://localhost:8080/APISpring/api/nguyenlieu/" + mlnl;
+			n = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNL , mlnl), NguyenLieu.class);
+			
 			monan.setNguyenLieu(n);
 			monan.setTenMA(txtTenMA.getText());
 			MonAnDAO.themMonAn(monan);
@@ -191,6 +194,7 @@ public class PnChinhSuaMonAn extends JPanel {
 			refreshPn();
 		} catch (Exception e) {
 			e.printStackTrace();
+			n = null;
 		}
 	}
 	private void loadTable() {
@@ -229,12 +233,23 @@ public class PnChinhSuaMonAn extends JPanel {
 		return list;
 	}
 	private String[] getCmbMaNL() {
-		List<NguyenLieu> nguyenLieu = NguyenLieuDAO.layDanhSachNguyenLieu();
-		String[] list = new String[nguyenLieu.size()];
-		for(int i = 0 ; i<list.length; i++)
-		{
-			list[i]= nguyenLieu.get(i).getMaNguyenLieu() + "-" + nguyenLieu.get(i).getTenNguyenLieu();
+		ObjectMapper mapper = new ObjectMapper();
+		IpushMethodService method = new PushMethodService();
+		
+		List<NguyenLieu> listNL = null;
+		String[] list = null;
+		try {
+			listNL = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/nguyenlieu", null), new TypeReference<List<NguyenLieu>>() {
+			});
+			list = new String[listNL.size()];
+			for(int i = 0 ; i<list.length; i++)
+			{
+				list[i]= listNL.get(i).getMaNguyenLieu() + "-" + listNL.get(i).getTenNguyenLieu();
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
 		}
+		
 		return list;
 	}
 	
@@ -257,6 +272,7 @@ public class PnChinhSuaMonAn extends JPanel {
 			ObjectMapper mapper = new ObjectMapper();
 			IpushMethodService method = new PushMethodService();
 			
+			NguyenLieu n = null;
 			MonAn monan = MonAnDAO.layThongTinMonAn(txtMaMA.getText());
 			if(monan == null)
 				throw new Exception("khong tim thay mon an");
@@ -264,7 +280,10 @@ public class PnChinhSuaMonAn extends JPanel {
 			LoaiMonAn l = getLoaiMonAn(mapper, method, mlma);
 			monan.setLoaiMonAn(l);
 			String mlnl = cmbMaNL.getSelectedItem().toString().split("-")[0];
-			NguyenLieu n = NguyenLieuDAO.layThongTinNguyenLieu(mlnl);
+			
+			String httpStringNL = "http://localhost:8080/APISpring/api/nguyenlieu/" + mlnl;
+			n = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNL , mlnl), NguyenLieu.class);
+			
 			monan.setNguyenLieu(n);
 			monan.setTenMA(txtTenMA.getText());
 			MonAnDAO.suaMonAn(monan);

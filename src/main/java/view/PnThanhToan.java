@@ -39,7 +39,7 @@ import DAO.CTHoaDonDAO;
 import DAO.HoaDonDAO;
 import DAO.KhachHangDAO;
 import DAO.MonAnDAO;
-import DAO.NguyenLieuDAO;
+import constant.HttpConstant;
 import entities.CTHoaDon;
 import entities.HoaDon;
 import entities.KhachHang;
@@ -53,6 +53,8 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+import service.IpushMethodService;
+import service.impl.PushMethodService;
 import table.JTableButtonModel;
 import table.JTableButtonRenderer;
 
@@ -540,6 +542,8 @@ public class PnThanhToan extends JPanel {
 			HoaDonDAO.themHoaDon(hoaDon);
 			List<Map<String, ?>> dataSource = new ArrayList<Map<String, ?>>();
 			
+			IpushMethodService method = new PushMethodService();
+			
 			for (int i = 0; i < model.getRowCount(); i++) {
 				MonAn monAn = MonAnDAO.layThongTinMonAnTheoTen(model.getValueAt(i, 0).toString());
 				
@@ -548,7 +552,7 @@ public class PnThanhToan extends JPanel {
 					throw new Exception("Món " + monAn.getTenMA() + " đã hết!");
 				
 				nguyenLieu.setSoLuong(nguyenLieu.getSoLuong() - Integer.parseInt(model.getValueAt(i, 1).toString()));
-				NguyenLieuDAO.updateNguyenLieu(nguyenLieu);
+				method.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/nguyenlieu", nguyenLieu);
 				
 				CTHoaDon ctHoaDon = new CTHoaDon();
 				ctHoaDon.setHoaDon(hoaDon);
