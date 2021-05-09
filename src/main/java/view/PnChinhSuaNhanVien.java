@@ -1,33 +1,34 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.commons.collections.functors.IfClosure;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import DAO.NhanVienDAO;
-import DAO.TaiKhoanNVDAO;
+import constant.HttpConstant;
 import entities.NhanVien;
 import entities.TaiKhoanNV;
-
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.JRadioButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import service.IpushMethodService;
+import service.impl.PushMethodService;
 
 public class PnChinhSuaNhanVien extends JPanel {
 
@@ -181,6 +182,9 @@ public class PnChinhSuaNhanVien extends JPanel {
 
 	private void btnThemClicked() {
 		try {
+			ObjectMapper mapper = new ObjectMapper();
+			IpushMethodService method = new PushMethodService();
+			
 			if (checkText(txtMaNV) || checkText(txtNamSinh) || checkText(txtTenNV) || checkText(txtSdt))
 				throw new Exception("Vui lòng nhập đầy đủ thông tin!");
 			if (!isNumber(txtNamSinh.getText()) || !isNumber(txtSdt.getText()))
@@ -199,7 +203,9 @@ public class PnChinhSuaNhanVien extends JPanel {
 			TaiKhoanNV taiKhoanNV = new TaiKhoanNV();
 			taiKhoanNV.setMatKhau(nhanVien.getMaNV());
 			taiKhoanNV.setNhanVien(nhanVien);
-			TaiKhoanNVDAO.themTaiKhoanNV(taiKhoanNV);
+			
+			method.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/taikhoannv", taiKhoanNV);
+			//TaiKhoanNVDAO.themTaiKhoanNV(taiKhoanNV);
 
 			loadTable();
 		} catch (Exception e) {
@@ -237,13 +243,21 @@ public class PnChinhSuaNhanVien extends JPanel {
 			if (checkText(txtMaNV))
 				throw new Exception("Vui lòng nhập đầy đủ thông tin!");
 			NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
+			
+			ObjectMapper mapper = new ObjectMapper();
+			IpushMethodService method = new PushMethodService();
+						
 			if (nhanVien == null)
 				throw new Exception("Không tìm thấy nhân viên!");
 			if (JOptionPane.showConfirmDialog(this,
 					"Bạn có muốn xóa nhân viên " + nhanVien.getTenNV() + " không?") == JOptionPane.YES_OPTION) {
-				TaiKhoanNV taiKhoanNV = TaiKhoanNVDAO.layThongTinTK(nhanVien.getMaNV());
-				if (taiKhoanNV != null)
-					TaiKhoanNVDAO.xoaTaiKhoanNV(taiKhoanNV);
+				
+				String httpStringNV = "http://localhost:8080/APISpring/api/taikhoannv/" + nhanVien.getMaNV();
+				TaiKhoanNV taiKhoanNV = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNV, nhanVien.getMaNV()), TaiKhoanNV.class);
+				
+				if (taiKhoanNV != null) {
+					method.pushMethod(HttpConstant.HTTPREQUESTDELETE, "http://localhost:8080/APISpring/api/taikhoannv", taiKhoanNV);
+				}
 				NhanVienDAO.xoaNhanVien(nhanVien);
 				loadTable();
 			}

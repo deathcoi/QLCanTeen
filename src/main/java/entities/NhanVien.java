@@ -29,7 +29,6 @@ public class NhanVien implements Serializable{
 	private List<HoaDon> hoaDons;
 	
 	@OneToOne(mappedBy = "nhanVien")
-	@JsonIgnore
 	private TaiKhoanNV taiKhoanNV;
 	
 	@OneToMany(mappedBy = "nhanVien")
