@@ -122,17 +122,6 @@ public class PnKhachHang extends JPanel {
 		separator_10.setBounds(40, 53, 290, 1);
 		panel_4.add(separator_10);
 		
-		//JLabel lblNewLabel_10 = new JLabel("Nhân viên:");
-		//lblNewLabel_10.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		//lblNewLabel_10.setBounds(10, 65, 78, 14);
-		//panel_4.add(lblNewLabel_10);
-		
-		//lbNhanVien = new JLabel("");
-		//lbNhanVien.setHorizontalAlignment(SwingConstants.LEFT);
-		//lbNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		//lbNhanVien.setBounds(80, 61, 58, 20);
-		//panel_4.add(lbNhanVien);
-		
 		lbDateTime = new JLabel("");
 		lbDateTime.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbDateTime.setFont(new Font("Tahoma", Font.PLAIN, 14));

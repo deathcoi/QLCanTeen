@@ -28,6 +28,10 @@ import javax.swing.border.LineBorder;
 import entities.NhanVien;
 
 public class PnNhanVien extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+
+	@SuppressWarnings("unused")
 	private JFrame mainFrame;
 
 	private CardLayout cardLayout; // card dang nhap
@@ -50,6 +54,8 @@ public class PnNhanVien extends JPanel {
 	private PnMenu pnMenu;
 	
 	private PnMenuKhongChucNang pnMenuKhongChucNang;
+	
+	private PnDoiMatKhau pnDoiMatKhau;
 
 	public PnNhanVien(CardLayout cardLayout, JPanel cardPanel, JFrame mainFrame) {
 		setName("pnNhanVien");
@@ -272,7 +278,7 @@ public class PnNhanVien extends JPanel {
 		pnThongKeBtn.add(separator_25, BorderLayout.EAST);
 
 		JPanel pnChinhSuaMonAnBtn = new JPanel();
-		pnChinhSuaMonAnBtn.setName("pnNhapNguyenLieuBtn");
+		pnChinhSuaMonAnBtn.setName("pnChinhSuaMonAnBtn");
 		pnChinhSuaMonAnBtn.setForeground(Color.WHITE);
 		pnChinhSuaMonAnBtn.setBackground(new Color(153, 153, 204));
 		panel_7.add(pnChinhSuaMonAnBtn);
@@ -414,11 +420,15 @@ public class PnNhanVien extends JPanel {
 		
 		JPanel pnChamCong = new PnChamCong();
 		pnLeft.add(pnChamCong, "pnChamCong");
-
+		
+		pnDoiMatKhau = new PnDoiMatKhau(nhanVien);
+		pnLeft.add(pnDoiMatKhau, "pnDoiMatKhau");
+		
 		setTiming();
 	}
 	
 	private void doiMatKhauClicked() {
+		pnDoiMatKhau.setUser(nhanVien);
 		cardLeft.show(pnLeft, "pnDoiMatKhau");
 	}
 	
@@ -585,7 +595,6 @@ public class PnNhanVien extends JPanel {
 		}
 		
 	}
-	
 
 	public PnMenu getPnMenu() {
 		return pnMenu;

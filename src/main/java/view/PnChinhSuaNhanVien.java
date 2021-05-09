@@ -1,36 +1,36 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.commons.collections.functors.IfClosure;
-
 import DAO.NhanVienDAO;
 import DAO.TaiKhoanNVDAO;
 import entities.NhanVien;
 import entities.TaiKhoanNV;
-
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.JRadioButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.Color;
 
 public class PnChinhSuaNhanVien extends JPanel {
 
+	private static final long serialVersionUID = 1L;
+	
 	private JTable table_1;
 	private JTextField txtMaNV;
 	private JTextField txtTenNV;
@@ -48,40 +48,41 @@ public class PnChinhSuaNhanVien extends JPanel {
 		panel.setLayout(null);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 0, 560, 180);
+		panel_1.setBackground(new Color(51, 204, 204));
+		panel_1.setBounds(0, 0, 560, 230);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Mã nhân viên:");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel.setBounds(10, 10, 110, 20);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(10, 60, 130, 25);
 		panel_1.add(lblNewLabel);
 
 		txtMaNV = new JTextField();
 		txtMaNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtMaNV.setHorizontalAlignment(SwingConstants.LEFT);
-		txtMaNV.setBounds(120, 10, 100, 20);
+		txtMaNV.setBounds(140, 60, 100, 25);
 		panel_1.add(txtMaNV);
 		txtMaNV.setColumns(10);
 
-		JLabel lblTnNguynLiu = new JLabel("Tên nhân viên");
+		JLabel lblTnNguynLiu = new JLabel("Tên nhân viên:");
 		lblTnNguynLiu.setHorizontalAlignment(SwingConstants.LEFT);
-		lblTnNguynLiu.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblTnNguynLiu.setBounds(10, 45, 110, 20);
+		lblTnNguynLiu.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTnNguynLiu.setBounds(10, 95, 130, 25);
 		panel_1.add(lblTnNguynLiu);
 
 		JLabel lblSLng = new JLabel("Giới tính:");
 		lblSLng.setHorizontalAlignment(SwingConstants.LEFT);
-		lblSLng.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblSLng.setBounds(10, 80, 110, 20);
+		lblSLng.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblSLng.setBounds(10, 125, 110, 25);
 		panel_1.add(lblSLng);
 
 		txtTenNV = new JTextField();
 		txtTenNV.setHorizontalAlignment(SwingConstants.LEFT);
 		txtTenNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtTenNV.setColumns(10);
-		txtTenNV.setBounds(120, 45, 200, 20);
+		txtTenNV.setBounds(140, 95, 200, 25);
 		panel_1.add(txtTenNV);
 
 		JButton btnThem = new JButton("Thêm");
@@ -90,8 +91,8 @@ public class PnChinhSuaNhanVien extends JPanel {
 				btnThemClicked();
 			}
 		});
-		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnThem.setBounds(390, 25, 90, 25);
+		btnThem.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnThem.setBounds(390, 74, 90, 35);
 		panel_1.add(btnThem);
 
 		JButton btnSua = new JButton("Sửa");
@@ -100,34 +101,34 @@ public class PnChinhSuaNhanVien extends JPanel {
 				btnSuaClicked();
 			}
 		});
-		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSua.setBounds(390, 115, 90, 25);
+		btnSua.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnSua.setBounds(390, 164, 90, 35);
 		panel_1.add(btnSua);
 
 		JLabel lblNmSinh = new JLabel("Năm sinh:");
 		lblNmSinh.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNmSinh.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNmSinh.setBounds(10, 115, 110, 20);
+		lblNmSinh.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNmSinh.setBounds(10, 160, 110, 25);
 		panel_1.add(lblNmSinh);
 
 		JLabel lblSinThoi = new JLabel("Số điện thoại:");
 		lblSinThoi.setHorizontalAlignment(SwingConstants.LEFT);
-		lblSinThoi.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblSinThoi.setBounds(10, 150, 110, 20);
+		lblSinThoi.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblSinThoi.setBounds(10, 195, 130, 25);
 		panel_1.add(lblSinThoi);
 
 		txtNamSinh = new JTextField();
 		txtNamSinh.setHorizontalAlignment(SwingConstants.LEFT);
 		txtNamSinh.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtNamSinh.setColumns(10);
-		txtNamSinh.setBounds(120, 115, 100, 20);
+		txtNamSinh.setBounds(140, 160, 100, 25);
 		panel_1.add(txtNamSinh);
 
 		txtSdt = new JTextField();
 		txtSdt.setHorizontalAlignment(SwingConstants.LEFT);
 		txtSdt.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtSdt.setColumns(10);
-		txtSdt.setBounds(120, 150, 100, 20);
+		txtSdt.setBounds(140, 195, 100, 25);
 		panel_1.add(txtSdt);
 
 		JButton btnXoa = new JButton("Xóa");
@@ -136,21 +137,25 @@ public class PnChinhSuaNhanVien extends JPanel {
 				btnXoaClicked();
 			}
 		});
-		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnXoa.setBounds(390, 70, 90, 25);
+		btnXoa.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnXoa.setBounds(390, 119, 90, 35);
 		panel_1.add(btnXoa);
 
 		rdBtnNam = new JRadioButton("Nam");
+		rdBtnNam.setContentAreaFilled(false);
+		rdBtnNam.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		rdBtnNam.setSelected(true);
-		rdBtnNam.setBounds(120, 80, 70, 20);
+		rdBtnNam.setBounds(140, 125, 60, 25);
 		panel_1.add(rdBtnNam);
 
 		rdBtnNu = new JRadioButton("Nữ");
-		rdBtnNu.setBounds(191, 80, 70, 20);
+		rdBtnNu.setContentAreaFilled(false);
+		rdBtnNu.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		rdBtnNu.setBounds(220, 125, 60, 25);
 		panel_1.add(rdBtnNu);
 
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(0, 180, 560, 420);
+		panel_2.setBounds(0, 230, 560, 370);
 		panel.add(panel_2);
 		panel_2.setLayout(new BorderLayout(0, 0));
 
@@ -177,6 +182,13 @@ public class PnChinhSuaNhanVien extends JPanel {
 		ButtonGroup btnGroupGioiTinh = new ButtonGroup();
 		btnGroupGioiTinh.add(rdBtnNam);
 		btnGroupGioiTinh.add(rdBtnNu);
+		
+		JLabel lblChnhSaNhn = new JLabel("Chỉnh sửa nhân viên");
+		lblChnhSaNhn.setForeground(Color.YELLOW);
+		lblChnhSaNhn.setHorizontalAlignment(SwingConstants.LEFT);
+		lblChnhSaNhn.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblChnhSaNhn.setBounds(150, 10, 300, 40);
+		panel_1.add(lblChnhSaNhn);
 	}
 
 	private void btnThemClicked() {
@@ -223,6 +235,7 @@ public class PnChinhSuaNhanVien extends JPanel {
 		return false;
 	}
 
+	@SuppressWarnings("unused")
 	private boolean isNumber(String s) {
 		try {
 			Double d = Double.parseDouble(s);

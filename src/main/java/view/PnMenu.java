@@ -1,22 +1,5 @@
 package view;
 
-import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.table.DefaultTableModel;
-
-import com.mysql.cj.xdevapi.Table;
-
-import DAO.MonAnDAO;
-import entities.MonAn;
-import table.JTableButtonModel;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -30,7 +13,23 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
+
+import DAO.MonAnDAO;
+import entities.MonAn;
+import table.JTableButtonModel;
+
 public class PnMenu extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel pnMonAn;
 	private JPanel pnNuoc;
 	private PnThanhToan pnThanhToan;
@@ -79,7 +78,7 @@ public class PnMenu extends JPanel {
 				// pnBtn.setBackground(Color.cyan);
 
 				JLabel lb = new JLabel(monAn.getTenMA() + " : " + monAn.getNguyenLieu().getSoLuong());
-				lb.setForeground(Color.WHITE);
+				lb.setForeground(Color.BLACK);
 				lb.setHorizontalAlignment(SwingConstants.CENTER);
 				lb.setFont(new Font("Tahoma", Font.BOLD, 18));
 				pnBtn.add(lb, BorderLayout.CENTER);

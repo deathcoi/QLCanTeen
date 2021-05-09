@@ -1,11 +1,12 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,11 +14,9 @@ import DAO.CTHoaDonDAO;
 import entities.CTHoaDon;
 import entities.HoaDon;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
 public class FrameCTHoaDon extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
 	private HoaDon hoaDon;
@@ -45,6 +44,11 @@ public class FrameCTHoaDon extends JFrame {
 	}
 
 	private class JTableUnEdit extends DefaultTableModel {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public JTableUnEdit(Object[] objects, int i) {
 			super(objects, i);
 		}

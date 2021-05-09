@@ -1,37 +1,30 @@
 package view;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
-import javax.swing.JTable;
-import javax.swing.ButtonGroup;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
+import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
-
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-
-import DAO.KhachHangDAO;
-import DAO.NguyenLieuDAO;
-import Utils.HibernateUtil;
-import entities.KhachHang;
-import entities.NguyenLieu;
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import DAO.KhachHangDAO;
+import entities.KhachHang;
 
 public class PnThongTinKhachHang extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+	
 	private JTable table;
 	private JTextField txtMaKH;
 	private JTextField txtTenKH;
@@ -46,99 +39,107 @@ public class PnThongTinKhachHang extends JPanel {
 	
 	private ButtonGroup btnGroupLoai;
 	private ButtonGroup btnGroupGioiTinh;
+	private JLabel lblNewLabel_2;
 	/**
 	 * Create the panel.
 	 */
 	public PnThongTinKhachHang() {
+		setBackground(new Color(51, 204, 204));
 		setBounds(0, 0, 560, 600);
 		setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 560, 260);
+		panel.setBackground(new Color(51, 204, 204));
+		panel.setBounds(0, 0, 560, 300);
 		add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Loại khách:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel.setBounds(10, 10, 80, 20);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(10, 55, 120, 25);
 		panel.add(lblNewLabel);
 		
 		rdBtnGiangVien = new JRadioButton("Giảng Viên");
+		rdBtnGiangVien.setContentAreaFilled(false);
 		rdBtnGiangVien.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		rdBtnGiangVien.setBounds(249, 10, 109, 20);
+		rdBtnGiangVien.setBounds(250, 55, 109, 25);
 		panel.add(rdBtnGiangVien);
 		
 		rdBtnSinhVien = new JRadioButton("Sinh Viên");
+		rdBtnSinhVien.setContentAreaFilled(false);
 		rdBtnSinhVien.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		rdBtnSinhVien.setBounds(120, 10, 109, 20);
+		rdBtnSinhVien.setBounds(130, 55, 109, 25);
 		panel.add(rdBtnSinhVien);
 		
 		JLabel lblMKh = new JLabel("Mã KH:");
-		lblMKh.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblMKh.setBounds(10, 50, 80, 20);
+		lblMKh.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblMKh.setBounds(10, 90, 120, 25);
 		panel.add(lblMKh);
 		
 		JLabel lblTnKh = new JLabel("Tên KH:");
-		lblTnKh.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblTnKh.setBounds(10, 90, 80, 20);
+		lblTnKh.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTnKh.setBounds(10, 125, 120, 25);
 		panel.add(lblTnKh);
 		
 		JLabel lblSinThoi = new JLabel("Số điện thoại:");
-		lblSinThoi.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblSinThoi.setBounds(10, 210, 100, 20);
+		lblSinThoi.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblSinThoi.setBounds(10, 230, 120, 25);
 		panel.add(lblSinThoi);
 		
 		JLabel lblNgySinh = new JLabel("Năm sinh:");
-		lblNgySinh.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNgySinh.setBounds(10, 170, 80, 20);
+		lblNgySinh.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNgySinh.setBounds(10, 195, 120, 25);
 		panel.add(lblNgySinh);
 		
 		rdBtnNVVP = new JRadioButton("Nhân viên văn phòng");
+		rdBtnNVVP.setContentAreaFilled(false);
 		rdBtnNVVP.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		rdBtnNVVP.setBounds(374, 10, 180, 20);
+		rdBtnNVVP.setBounds(370, 55, 180, 25);
 		panel.add(rdBtnNVVP);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Giới tính:");
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_1_1.setBounds(10, 130, 80, 20);
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1_1.setBounds(10, 160, 120, 25);
 		panel.add(lblNewLabel_1_1);
 		
 		txtMaKH = new JTextField();
 		txtMaKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtMaKH.setBounds(120, 50, 109, 20);
+		txtMaKH.setBounds(130, 90, 109, 25);
 		panel.add(txtMaKH);
 		txtMaKH.setColumns(10);
 		
 		txtTenKH = new JTextField();
 		txtTenKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtTenKH.setColumns(10);
-		txtTenKH.setBounds(120, 90, 300, 20);
+		txtTenKH.setBounds(130, 125, 300, 25);
 		panel.add(txtTenKH);
 		
 		txtNamSinh = new JTextField();
 		txtNamSinh.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtNamSinh.setColumns(10);
-		txtNamSinh.setBounds(120, 170, 109, 20);
+		txtNamSinh.setBounds(130, 195, 109, 25);
 		panel.add(txtNamSinh);
 		
 		txtSdt = new JTextField();
 		txtSdt.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtSdt.setColumns(10);
-		txtSdt.setBounds(120, 210, 109, 20);
+		txtSdt.setBounds(130, 230, 109, 25);
 		panel.add(txtSdt);
 		
 		rdBtnNam = new JRadioButton("Nam");
+		rdBtnNam.setContentAreaFilled(false);
 		rdBtnNam.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		rdBtnNam.setBounds(120, 130, 109, 20);
+		rdBtnNam.setBounds(130, 160, 67, 25);
 		panel.add(rdBtnNam);
 		
 		rdBtnNu = new JRadioButton("Nữ");
+		rdBtnNu.setContentAreaFilled(false);
 		rdBtnNu.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		rdBtnNu.setBounds(249, 130, 109, 20);
+		rdBtnNu.setBounds(250, 160, 109, 25);
 		panel.add(rdBtnNu);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 260, 560, 290);
+		panel_1.setBounds(0, 300, 560, 250);
 		add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
@@ -151,13 +152,14 @@ public class PnThongTinKhachHang extends JPanel {
 		scrollPane.setViewportView(table);
 		
 		JLabel lblNewLabel_1 = new JLabel("Tìm thấy:");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.ITALIC, 14));
-		lblNewLabel_1.setBounds(400, 560, 66, 20);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 16));
+		lblNewLabel_1.setBounds(379, 560, 87, 20);
 		add(lblNewLabel_1);
 		
 		txtTimThay = new JTextField();
+		txtTimThay.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtTimThay.setEditable(false);
-		txtTimThay.setBounds(470, 560, 50, 20);
+		txtTimThay.setBounds(470, 560, 50, 25);
 		add(txtTimThay);
 		txtTimThay.setColumns(10);
 		
@@ -176,9 +178,15 @@ public class PnThongTinKhachHang extends JPanel {
 				timKhachHang();
 			}
 		});
-		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnTimKiem.setBounds(460, 225, 89, 25);
+		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnTimKiem.setBounds(401, 254, 109, 35);
 		panel.add(btnTimKiem);
+		
+		lblNewLabel_2 = new JLabel("Thông tin khách hàng");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblNewLabel_2.setForeground(Color.YELLOW);
+		lblNewLabel_2.setBounds(140, 10, 280, 40);
+		panel.add(lblNewLabel_2);
 	}
 	
 	private List<KhachHang> loadData(){

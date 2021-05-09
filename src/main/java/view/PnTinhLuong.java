@@ -18,28 +18,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
-import org.springframework.ui.Model;
+import javax.swing.JTextField;
 
 import com.github.lgooddatepicker.components.DatePicker;
 
 import DAO.BangChamCongDAO;
-import DAO.HoaDonDAO;
 import DAO.NhanVienDAO;
 import entities.BangChamCong;
-import entities.HoaDon;
 import entities.NhanVien;
-import net.bytebuddy.description.ModifierReviewable.OfAbstraction;
 import table.JTableUnEdit;
-import javax.swing.JTextField;
 
 
 public class PnTinhLuong extends JPanel {
 
-	/**
-	 * Create the panel.
-	 */
+	private static final long serialVersionUID = 1L;
+
 	private JTable table;
 	private int status;
 	
@@ -52,22 +45,27 @@ public class PnTinhLuong extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(51, 204, 204));
 		add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel lblNewLabel = new JLabel("Chấm công");
-		lblNewLabel.setForeground(Color.ORANGE);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblNewLabel.setForeground(Color.YELLOW);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		panel.add(lblNewLabel);
 		
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(51, 204, 204));
 		datePickerTuNgay = new DatePicker();
+		datePickerTuNgay.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		datePickerTuNgay.getComponentDateTextField().setEditable(false);
 		datePickerDenNgay = new DatePicker();
+		datePickerDenNgay.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		datePickerDenNgay.getComponentDateTextField().setEditable(false);
 		panel_3.add(datePickerTuNgay);
 		
 		JLabel lblNewLabel_1 = new JLabel("   ~~   ");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel_3.add(lblNewLabel_1);
 		panel_3.add(datePickerDenNgay);
 		add(panel_3);
@@ -83,20 +81,22 @@ public class PnTinhLuong extends JPanel {
 		scrollPane.setViewportView(table);
 		
 		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(new Color(51, 204, 204));
 		FlowLayout flowLayout_1 = (FlowLayout) panel_4.getLayout();
 		flowLayout_1.setAlignment(FlowLayout.LEFT);
 		add(panel_4);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Số tiền một giờ");
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_4.add(lblNewLabel_2_1);
 		
 		txtTienMotGio = new JTextField();
-		txtTienMotGio.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtTienMotGio.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtTienMotGio.setColumns(10);
 		panel_4.add(txtTienMotGio);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(51, 204, 204));
 		FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(panel_2);
@@ -116,16 +116,16 @@ public class PnTinhLuong extends JPanel {
 		});
 		
 		JLabel lblNewLabel_2 = new JLabel("Mã nhân viên   ");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2.add(lblNewLabel_2);
 		
 		txtMaNV = new JTextField();
-		txtMaNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtMaNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel_2.add(txtMaNV);
 		txtMaNV.setColumns(10);
-		btnTinhTien.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnTinhTien.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2.add(btnTinhTien);
-		btnXem.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnXem.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2.add(btnXem);
 	}
 	
@@ -215,6 +215,7 @@ public class PnTinhLuong extends JPanel {
 	    long diffInMillies = date2.getTime() - date1.getTime();
 	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
 	}
+	@SuppressWarnings("unused")
 	private boolean isNumber(String txt) {
 		try {
 			Double d = Double.parseDouble(txt);

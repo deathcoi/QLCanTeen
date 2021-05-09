@@ -1,42 +1,37 @@
 package view;
 
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import java.awt.BorderLayout;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import java.awt.Color;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import com.github.lgooddatepicker.components.DatePicker;
 
-import DAO.CTHoaDonDAO;
 import DAO.HoaDonDAO;
-import entities.CTHoaDon;
 import entities.HoaDon;
 import table.JTableUnEdit;
 
-import java.awt.ComponentOrientation;
-
 public class PnLichSuHoaDon extends JPanel {
-	private JTable table;
-
 	/**
-	 * Create the panel.
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
+	
+	private JTable table;
+
 	private DatePicker datePickerTuNgay;
 	private DatePicker datePickerDenNgay;
 	public PnLichSuHoaDon() {
@@ -44,15 +39,17 @@ public class PnLichSuHoaDon extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(51, 204, 204));
 		add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel lblNewLabel = new JLabel("Lịch sử hóa đơn");
-		lblNewLabel.setForeground(Color.ORANGE);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblNewLabel.setForeground(Color.YELLOW);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		panel.add(lblNewLabel);
 		
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(51, 204, 204));
 		datePickerTuNgay = new DatePicker();
 		datePickerTuNgay.getComponentDateTextField().setEditable(false);
 		datePickerDenNgay = new DatePicker();
@@ -75,6 +72,7 @@ public class PnLichSuHoaDon extends JPanel {
 		scrollPane.setViewportView(table);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(51, 204, 204));
 		FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		add(panel_2);
@@ -94,9 +92,9 @@ public class PnLichSuHoaDon extends JPanel {
 				btnXemChiTietClicked();
 			}
 		});
-		btnXemChiTiet.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnXemChiTiet.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2.add(btnXemChiTiet);
-		btnXem.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnXem.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2.add(btnXem);
 	}
 	

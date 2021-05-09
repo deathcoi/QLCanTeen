@@ -32,6 +32,9 @@ import entities.TaiKhoanNV;
 import main.Main;
 
 public class PnDangNhap extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+
 	private Main mainFrame;
 	
 	private JTextField txtTaiKhoan;
@@ -65,17 +68,17 @@ public class PnDangNhap extends JPanel {
 		add(panel, BorderLayout.EAST);
 
 		JLabel lblNewLabel = new JLabel("QUẢN LÝ CĂN TIN HUTECH");
-		lblNewLabel.setForeground(Color.ORANGE);
+		lblNewLabel.setForeground(Color.RED);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
 
 		lblNewLabel.setBounds(10, 10, 780, 96);
 		panel.add(lblNewLabel);
 
 
 		JLabel lblNewLabel_1 = new JLabel("Tên đăng nhập");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
 
 		txtTaiKhoan = new JTextField();
 		txtTaiKhoan.addKeyListener(new KeyAdapter() {
@@ -99,8 +102,8 @@ public class PnDangNhap extends JPanel {
 		txtMatKhau.setFont(new Font("Tahoma", Font.PLAIN, 18));
 
 		JLabel lblNewLabel_1_1 = new JLabel("Mật khẩu");
-		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 18));
 
 		lblNewLabel_1_1.setBounds(58, 313, 159, 39);
 		panel.add(lblNewLabel_1_1);
@@ -113,7 +116,7 @@ public class PnDangNhap extends JPanel {
 				System.exit(0);
 			}
 		});
-		btnThoat.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnThoat.setFont(new Font("Tahoma", Font.BOLD, 18));
 
 		JButton btnDangNhap = new JButton("Đăng nhập");
 		btnDangNhap.addActionListener(new ActionListener() {
@@ -123,10 +126,11 @@ public class PnDangNhap extends JPanel {
 		});
 		btnDangNhap.setOpaque(false);
 		btnDangNhap.setContentAreaFilled(false);
-		btnDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnDangNhap.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
 		JLabel lblNewLabel_2 = new JLabel("Đăng nhập");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblNewLabel_2.setForeground(Color.BLACK);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 25));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
