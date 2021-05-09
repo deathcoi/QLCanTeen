@@ -59,8 +59,7 @@ import table.JTableButtonRenderer;
 public class PnThanhToan extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	//private JPanel pnCall; //pn nào gọi pnthanh toán
-	
+
 	private CardLayout cardLeft;
 	private CardLayout cardRight;
 
@@ -440,6 +439,7 @@ public class PnThanhToan extends JPanel {
 		try {
 			if (txt.getText().isBlank())
 				throw new Exception("Vui lòng nhập đầy đủ thông tin");
+			@SuppressWarnings("unused")
 			Double d = Double.parseDouble(txt.getText());
 		} catch (NumberFormatException nfe) {
 			throw new Exception("Vui lòng nhập số!");
@@ -497,6 +497,7 @@ public class PnThanhToan extends JPanel {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void pnThanhToanBtnClicked() {
 		try {
 			kiemTraChu(txtTienMat);

@@ -6,9 +6,11 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.BoxLayout;
@@ -20,17 +22,23 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.lgooddatepicker.components.DatePicker;
 
-import DAO.BangChamCongDAO;
+
 import DAO.NhanVienDAO;
+import constant.HttpConstant;
 import entities.BangChamCong;
 import entities.NhanVien;
+
+import service.IpushMethodService;
+import service.impl.PushMethodService;
+
 import table.JTableUnEdit;
 
 
 public class PnTinhLuong extends JPanel {
-
 	private static final long serialVersionUID = 1L;
 
 	private JTable table;
@@ -111,7 +119,11 @@ public class PnTinhLuong extends JPanel {
 		JButton btnTinhTien = new JButton("Tính lương");
 		btnTinhTien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnTinhTienClicked();
+				try {
+					btnTinhTienClicked();
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -130,11 +142,15 @@ public class PnTinhLuong extends JPanel {
 	}
 	
 	private void btnXemClicked() {
+		IpushMethodService service = new PushMethodService();
+		ObjectMapper mapper = new ObjectMapper();
 		try {
 			JTableUnEdit model = (JTableUnEdit) table.getModel();
 			model.setRowCount(0);
 			if (datePickerTuNgay.getComponentDateTextField().getText().isBlank() == true || datePickerDenNgay.getComponentDateTextField().getText().isBlank() == true) {
-				List<BangChamCong> list = BangChamCongDAO.layDanhSachBangChamCong();
+				List<BangChamCong> list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET,
+						"http://localhost:8080/APISpring/api/bangchamcong", null), new TypeReference<List<BangChamCong>>() {
+						});
 				for (BangChamCong h : list) {
 					model.addRow(new Object[] {
 						h.getNhanVien().getMaNV(),
@@ -151,8 +167,13 @@ public class PnTinhLuong extends JPanel {
 				SimpleDateFormat formatter = new SimpleDateFormat("MMMMM dd, yyyy HH:mm:ss");
 				Date tuNgay = formatter.parse(datePickerTuNgay.getComponentDateTextField().getText() + " 23:59:59");
 				Date denNgay = formatter.parse(datePickerDenNgay.getComponentDateTextField().getText() + " 23:59:59");
+				
+				String jsonTuNgay = mapper.writeValueAsString(tuNgay);
+				String jsonDenNgay = mapper.writeValueAsString(denNgay);
 
-				List<BangChamCong> list = BangChamCongDAO.layDanhSachBangChamCongTheoNgayVaMa(tuNgay, denNgay, txtMaNV.getText());
+				//List<BangChamCong> list = BangChamCongDAO.layDanhSachBangChamCongTheoNgayVaMa(tuNgay, denNgay, txtMaNV.getText());
+				String httpString = "http://localhost:8080/APISpring/api/bangchamcong/" + jsonTuNgay + "/" + jsonDenNgay + "/" + txtMaNV.getText();
+				List<BangChamCong> list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET,httpString, null), new TypeReference<List<BangChamCong>>() {});
 				for (BangChamCong h : list) {
 					model.addRow(new Object[] {
 							h.getNhanVien().getMaNV(),
@@ -166,8 +187,12 @@ public class PnTinhLuong extends JPanel {
 				SimpleDateFormat formatter = new SimpleDateFormat("MMMMM dd, yyyy HH:mm:ss");
 				Date tuNgay = formatter.parse(datePickerTuNgay.getComponentDateTextField().getText() + " 23:59:59");
 				Date denNgay = formatter.parse(datePickerDenNgay.getComponentDateTextField().getText() + " 23:59:59");
-
-				List<BangChamCong> list = BangChamCongDAO.layDanhSachBangChamCongTheoNgay(tuNgay, denNgay);
+				
+				String jsonTuNgay = mapper.writeValueAsString(tuNgay);
+				String jsonDenNgay = mapper.writeValueAsString(denNgay);
+				
+				String httpString = "http://localhost:8080/APISpring/api/bangchamcong/" + jsonTuNgay + "/" + jsonDenNgay;
+				List<BangChamCong> list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET,httpString, null), new TypeReference<List<BangChamCong>>() {});
 				for (BangChamCong h : list) {
 					model.addRow(new Object[] {
 							h.getNhanVien().getMaNV(),
@@ -185,7 +210,7 @@ public class PnTinhLuong extends JPanel {
 		}
 	}
 	
-	private void btnTinhTienClicked() {
+	private void btnTinhTienClicked() throws ParseException {
 		try {
 			if (txtMaNV.getText().isBlank())
 				throw new Exception("Vui lòng nhập mã nhân viên để tính lương!");
@@ -206,6 +231,17 @@ public class PnTinhLuong extends JPanel {
 			tien = tien * hour;
 			JOptionPane.showMessageDialog(this, "Tổng giờ làm: " + hour + "\nTiền lương của nhân viên: " + tien);
 			
+		} catch (ParseException e) {
+			SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+			Double hour = 0d;
+			for (int i = 0; i < table.getRowCount(); i++) {
+				Date date1 = format.parse(table.getValueAt(i, 2).toString());
+				Date date2 = format.parse(table.getValueAt(i, 3).toString());
+				hour += getDateDiff(date1, date2, TimeUnit.HOURS);
+			}
+			Double tien = Double.parseDouble(txtTienMotGio.getText());
+			tien = tien * hour;
+			JOptionPane.showMessageDialog(this, "Tổng giờ làm: " + hour + "\nTiền lương của nhân viên: " + tien);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 			e.printStackTrace();

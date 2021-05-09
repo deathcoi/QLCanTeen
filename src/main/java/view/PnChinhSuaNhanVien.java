@@ -21,16 +21,22 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import DAO.NhanVienDAO;
-import DAO.TaiKhoanNVDAO;
+import constant.HttpConstant;
 import entities.NhanVien;
 import entities.TaiKhoanNV;
+
+import service.IpushMethodService;
+import service.impl.PushMethodService;
+
 import java.awt.Color;
 
 public class PnChinhSuaNhanVien extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private JTable table_1;
 	private JTextField txtMaNV;
 	private JTextField txtTenNV;
@@ -162,13 +168,7 @@ public class PnChinhSuaNhanVien extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		panel_2.add(scrollPane, BorderLayout.CENTER);
 
-		table_1 = new JTable(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"M\u00E3 nh\u00E2n vi\u00EAn", "T\u00EAn nh\u00E2n vi\u00EAn", "Gi\u1EDBi t\u00EDnh", "N\u0103m sinh", "S\u0110T"
-			}
-		));
+		table_1 = new JTable(new DefaultTableModel(new Object[][] {}, new String[] { "Mã nhân viên", "Tên nhân viên", "Giới tính", "Năm sinh", "SĐT" }));
 		table_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -182,7 +182,7 @@ public class PnChinhSuaNhanVien extends JPanel {
 		ButtonGroup btnGroupGioiTinh = new ButtonGroup();
 		btnGroupGioiTinh.add(rdBtnNam);
 		btnGroupGioiTinh.add(rdBtnNu);
-		
+
 		JLabel lblChnhSaNhn = new JLabel("Chỉnh sửa nhân viên");
 		lblChnhSaNhn.setForeground(Color.YELLOW);
 		lblChnhSaNhn.setHorizontalAlignment(SwingConstants.LEFT);
@@ -193,6 +193,8 @@ public class PnChinhSuaNhanVien extends JPanel {
 
 	private void btnThemClicked() {
 		try {
+			IpushMethodService method = new PushMethodService();
+
 			if (checkText(txtMaNV) || checkText(txtNamSinh) || checkText(txtTenNV) || checkText(txtSdt))
 				throw new Exception("Vui lòng nhập đầy đủ thông tin!");
 			if (!isNumber(txtNamSinh.getText()) || !isNumber(txtSdt.getText()))
@@ -211,7 +213,10 @@ public class PnChinhSuaNhanVien extends JPanel {
 			TaiKhoanNV taiKhoanNV = new TaiKhoanNV();
 			taiKhoanNV.setMatKhau(nhanVien.getMaNV());
 			taiKhoanNV.setNhanVien(nhanVien);
-			TaiKhoanNVDAO.themTaiKhoanNV(taiKhoanNV);
+
+			method.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/taikhoannv",
+					taiKhoanNV);
+			// TaiKhoanNVDAO.themTaiKhoanNV(taiKhoanNV);
 
 			loadTable();
 		} catch (Exception e) {
@@ -250,13 +255,24 @@ public class PnChinhSuaNhanVien extends JPanel {
 			if (checkText(txtMaNV))
 				throw new Exception("Vui lòng nhập đầy đủ thông tin!");
 			NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
+
+			ObjectMapper mapper = new ObjectMapper();
+			IpushMethodService method = new PushMethodService();
+
 			if (nhanVien == null)
 				throw new Exception("Không tìm thấy nhân viên!");
 			if (JOptionPane.showConfirmDialog(this,
 					"Bạn có muốn xóa nhân viên " + nhanVien.getTenNV() + " không?") == JOptionPane.YES_OPTION) {
-				TaiKhoanNV taiKhoanNV = TaiKhoanNVDAO.layThongTinTK(nhanVien.getMaNV());
-				if (taiKhoanNV != null)
-					TaiKhoanNVDAO.xoaTaiKhoanNV(taiKhoanNV);
+
+				String httpStringNV = "http://localhost:8080/APISpring/api/taikhoannv/" + nhanVien.getMaNV();
+				TaiKhoanNV taiKhoanNV = mapper.readValue(
+						method.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNV, nhanVien.getMaNV()),
+						TaiKhoanNV.class);
+
+				if (taiKhoanNV != null) {
+					method.pushMethod(HttpConstant.HTTPREQUESTDELETE, "http://localhost:8080/APISpring/api/taikhoannv",
+							taiKhoanNV);
+				}
 				NhanVienDAO.xoaNhanVien(nhanVien);
 				loadTable();
 			}
@@ -276,7 +292,8 @@ public class PnChinhSuaNhanVien extends JPanel {
 			if (nhanVien == null)
 				throw new Exception("Không tìm thấy nhân viên!");
 
-			if (JOptionPane.showConfirmDialog(this, "Bạn có muốn cập nhật nhân viên " + nhanVien.getTenNV() + " không?") == JOptionPane.YES_OPTION) {
+			if (JOptionPane.showConfirmDialog(this,
+					"Bạn có muốn cập nhật nhân viên " + nhanVien.getTenNV() + " không?") == JOptionPane.YES_OPTION) {
 				nhanVien.setTenNV(txtTenNV.getText());
 				nhanVien.setGioiTinh((rdBtnNam.isSelected() ? "Nam" : "Nữ"));
 				nhanVien.setNamSinh(Integer.parseInt(txtNamSinh.getText()));
@@ -290,7 +307,7 @@ public class PnChinhSuaNhanVien extends JPanel {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 	}
-	
+
 	private void mouseClickedInTable() {
 		int index = table_1.getSelectedRow();
 		if (table_1.getSelectedRow() != -1) {

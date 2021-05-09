@@ -25,14 +25,17 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import DAO.TaiKhoanKHDAO;
-import DAO.TaiKhoanNVDAO;
+import constant.HttpConstant;
 import entities.TaiKhoanKH;
 import entities.TaiKhoanNV;
 import main.Main;
+import service.IpushMethodService;
+import service.impl.PushMethodService;
 
 public class PnDangNhap extends JPanel {
-
 	private static final long serialVersionUID = 1L;
 
 	private Main mainFrame;
@@ -187,11 +190,24 @@ public class PnDangNhap extends JPanel {
 
 	private void btnDangNhapClicked() {
 		try {
+			ObjectMapper mapper = new ObjectMapper();
+			IpushMethodService service = new PushMethodService();
+			
+			
 			String pass = new String(txtMatKhau.getPassword());
 			if (txtTaiKhoan.getText().compareTo("") == 0 || pass.compareTo("") == 0)
 				throw new Exception("Vui lòng nhập đầy đủ thông tin");
-			TaiKhoanNV taiKhoanNV = TaiKhoanNVDAO.layThongTinTK(txtTaiKhoan.getText());
+			
+			String httpStringNV = "http://localhost:8080/APISpring/api/taikhoannv/" + txtTaiKhoan.getText();
+			TaiKhoanNV taiKhoanNV = null;
+				try {
+					taiKhoanNV = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNV, txtTaiKhoan.getText()), TaiKhoanNV.class);
+				} catch (Exception e) {
+					taiKhoanNV = null;
+				}	
 			TaiKhoanKH taiKhoanKH = TaiKhoanKHDAO.layThongTinTK(txtTaiKhoan.getText());
+			
+			
 			if (taiKhoanNV == null && taiKhoanKH == null)
 				throw new Exception("Tài khoản không tồn tại");
 			if (taiKhoanNV != null) {

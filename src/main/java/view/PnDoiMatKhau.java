@@ -18,16 +18,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import DAO.TaiKhoanKHDAO;
-import DAO.TaiKhoanNVDAO;
+import constant.HttpConstant;
 import entities.KhachHang;
 import entities.NhanVien;
 import entities.TaiKhoanKH;
 import entities.TaiKhoanNV;
+import service.IpushMethodService;
+import service.impl.PushMethodService;
 
 
 public class PnDoiMatKhau extends JPanel {
 	private static final long serialVersionUID = 1L;
+	
 	@SuppressWarnings("unused")
 	private JFrame mainFrame;
 	private JLabel lbKhachHang;
@@ -149,12 +154,20 @@ public class PnDoiMatKhau extends JPanel {
 						throw  new Exception("Sai mật khẩu!!!");
 				}
 				else {
+					
+					ObjectMapper mapper = new ObjectMapper();
+					IpushMethodService method = new PushMethodService();
+					
 					NhanVien nv = (NhanVien) user;
-					TaiKhoanNV nhanVien = TaiKhoanNVDAO.layThongTinTK(nv.getMaNV());
+					
+					String httpStringNV = "http://localhost:8080/APISpring/api/taikhoannv/" + nv.getMaNV();
+					TaiKhoanNV taiKhoanNV = mapper.readValue(
+							method.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNV, nv.getMaNV()),
+							TaiKhoanNV.class);
 					String pass = new String(txtMKHT.getPassword());
 					String passM = new String(txtMKM.getPassword());
 					String passNL = new String(txtMKNL.getPassword());
-					if(pass.compareTo(nhanVien.getMatKhau()) == 0) {
+					if(pass.compareTo(taiKhoanNV.getMatKhau()) == 0) {
 						if(passM.compareTo(pass) == 0)
 							throw new Exception("Không nhập trùng mật khẩu cũ!!!");
 						else
@@ -162,8 +175,8 @@ public class PnDoiMatKhau extends JPanel {
 								throw new Exception("Mật khẩu nhập lại không trùng khớp!!!");
 							else
 							{
-								nhanVien.setMatKhau(passM);
-								TaiKhoanNVDAO.DoiMatKhau(nhanVien);
+								taiKhoanNV.setMatKhau(passM);
+								method.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/taikhoannv", taiKhoanNV);
 							}
 					}
 					else
