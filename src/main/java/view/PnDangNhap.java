@@ -27,7 +27,6 @@ import javax.swing.SwingConstants;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import DAO.TaiKhoanKHDAO;
 import constant.HttpConstant;
 import entities.TaiKhoanKH;
 import entities.TaiKhoanNV;
@@ -204,8 +203,15 @@ public class PnDangNhap extends JPanel {
 					taiKhoanNV = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNV, txtTaiKhoan.getText()), TaiKhoanNV.class);
 				} catch (Exception e) {
 					taiKhoanNV = null;
-				}	
-			TaiKhoanKH taiKhoanKH = TaiKhoanKHDAO.layThongTinTK(txtTaiKhoan.getText());
+				}
+				
+			String httpStringKH = "http://localhost:8080/APISpring/api/taikhoankh/" + txtTaiKhoan.getText();
+			TaiKhoanKH taiKhoanKH = null;
+			try {
+				taiKhoanKH = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringKH, txtTaiKhoan.getText()), TaiKhoanKH.class);
+			} catch(Exception ex) {
+				taiKhoanKH = null;
+			}
 			
 			
 			if (taiKhoanNV == null && taiKhoanKH == null)
