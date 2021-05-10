@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,10 +36,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import DAO.CTHoaDonDAO;
 import DAO.HoaDonDAO;
 import DAO.KhachHangDAO;
-import DAO.MonAnDAO;
 import constant.HttpConstant;
 import entities.CTHoaDon;
 import entities.HoaDon;
@@ -543,9 +545,11 @@ public class PnThanhToan extends JPanel {
 			List<Map<String, ?>> dataSource = new ArrayList<Map<String, ?>>();
 			
 			IpushMethodService method = new PushMethodService();
+			ObjectMapper mapper = new ObjectMapper();
 			
 			for (int i = 0; i < model.getRowCount(); i++) {
-				MonAn monAn = MonAnDAO.layThongTinMonAnTheoTen(model.getValueAt(i, 0).toString());
+				String httpMA = "http://localhost:8080/APISpring/api/monan/name/" + URLEncoder.encode(model.getValueAt(i, 0).toString(), "UTF-8");
+				MonAn monAn = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
 				
 				NguyenLieu nguyenLieu = monAn.getNguyenLieu();
 				if (nguyenLieu.getSoLuong() - Integer.parseInt(model.getValueAt(i, 1).toString()) < 0)
