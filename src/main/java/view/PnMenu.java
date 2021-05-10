@@ -22,8 +22,15 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
-import DAO.MonAnDAO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import constant.HttpConstant;
 import entities.MonAn;
+import service.IpushMethodService;
+import service.impl.PushMethodService;
 import table.JTableButtonModel;
 
 public class PnMenu extends JPanel {
@@ -63,10 +70,18 @@ public class PnMenu extends JPanel {
 	}
 
 	private void addMonAnAuto() {
-		List<MonAn> list = MonAnDAO.layDanhSachMonAn();
+		ObjectMapper mapper = new ObjectMapper();
+		IpushMethodService method = new PushMethodService();
+		List<MonAn> list = null;
+		try {
+			list = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/monan", null), new TypeReference<List<MonAn>>() {});
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 
 		for (MonAn monAn : list) {
-			//System.out.println(monAn.getTenMA());
 			if (monAn.getNguyenLieu().getSoLuong() != 0) {
 				JPanel pnBtn = new JPanel();
 				pnBtn.setOpaque(false);

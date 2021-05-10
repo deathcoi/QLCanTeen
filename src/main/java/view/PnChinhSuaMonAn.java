@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -24,7 +25,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import DAO.MonAnDAO;
 import constant.HttpConstant;
 import entities.LoaiMonAn;
 import entities.MonAn;
@@ -173,10 +173,32 @@ public class PnChinhSuaMonAn extends JPanel {
 	private void btnThemClicked() {
 		NguyenLieu n = null;
 		try {
+			if (txtMaMA.getText().isBlank() || txtTenMA.getText().isBlank())
+				throw new Exception("Vui lòng nhập đầy đủ thông tin");
+			
 			ObjectMapper mapper = new ObjectMapper();
 			IpushMethodService method = new PushMethodService();
 			
-			MonAn monan = new MonAn();
+//			String httpMA = "http://localhost:8080/APISpring/api/monan/name/" + URLEncoder.encode(model.getValueAt(i, 0).toString(), "UTF-8");
+//			MonAn monAn = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
+			
+			MonAn monan = null;
+			try {
+				String httpMA = "http://localhost:8080/APISpring/api/monan/id/" + URLEncoder.encode(txtMaMA.getText(), "UTF-8");
+				monan = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
+			} catch (Exception ex) {
+				monan = null;
+			}
+			if (monan != null)
+				throw new Exception("Trùng mã món ăn");
+			
+			String httpMA = "http://localhost:8080/APISpring/api/monan/name/" + URLEncoder.encode(txtTenMA.getText(), "UTF-8");
+			monan = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
+			
+			if (monan != null)
+				throw new Exception("Trùng tên món ăn, vui lòng đổi tên!");
+			
+			monan = new MonAn();
 			monan.setMaMA(txtMaMA.getText());
 			String mlma = cmbMaLoai.getSelectedItem().toString().split("-")[0];	
 			LoaiMonAn l = getLoaiMonAn(mapper, method, mlma);
@@ -184,23 +206,38 @@ public class PnChinhSuaMonAn extends JPanel {
 			String mlnl = cmbMaNL.getSelectedItem().toString().split("-")[0];
 			
 			String httpStringNL = "http://localhost:8080/APISpring/api/nguyenlieu/" + mlnl;
-			n = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNL , mlnl), NguyenLieu.class);
+			n = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNL , null), NguyenLieu.class);
 			
 			monan.setNguyenLieu(n);
 			monan.setTenMA(txtTenMA.getText());
-			MonAnDAO.themMonAn(monan);
+			
+			method.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/monan", monan);
 			loadTable();
 			
 			refreshPn();
 		} catch (Exception e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, e.getMessage());
 			n = null;
 		}
 	}
 	private void loadTable() {
+		ObjectMapper mapper = new ObjectMapper();
+		IpushMethodService method = new PushMethodService();
+		
 		DefaultTableModel model = (DefaultTableModel) table_1.getModel();
 		model.setRowCount(0);
-		List<MonAn> list =MonAnDAO.layDanhSachMonAn();
+		
+		List<MonAn> list = null;
+		try {
+			list = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/monan", null), new TypeReference<List<MonAn>>() {});
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		
 		for (MonAn n : list) {
 			model.addRow(new Object[] {
 				n.getMaMA(),
@@ -218,9 +255,7 @@ public class PnChinhSuaMonAn extends JPanel {
 			ObjectMapper mapper = new ObjectMapper();
 			IpushMethodService method = new PushMethodService();
 			
-			monAn = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET,
-					"http://localhost:8080/APISpring/api/loaimonan", null), new TypeReference<List<LoaiMonAn>>() {
-					});
+			monAn = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/loaimonan", null), new TypeReference<List<LoaiMonAn>>() {});
 			list = new String[monAn.size()];
 			for(int i = 0 ; i<list.length; i++)
 			{
@@ -255,10 +290,25 @@ public class PnChinhSuaMonAn extends JPanel {
 	
 	private void btnXoaClicked() {
 		try {
-			MonAn monan = MonAnDAO.layThongTinMonAn(txtMaMA.getText());
+			if (txtMaMA.getText().isBlank())
+				throw new Exception("Vui lòng nhập mã món ăn để xóa");
+			ObjectMapper mapper = new ObjectMapper();
+			IpushMethodService method = new PushMethodService();
+			
+			String httpMA = "http://localhost:8080/APISpring/api/monan/id/" + txtMaMA.getText();
+			MonAn monan = null;
+			try {
+				monan = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
+			} catch (Exception ex) {
+				monan = null;
+			}
 			if(monan == null)
 				throw new Exception("khong tim thay mon an");
-			MonAnDAO.xoaMonAn(monan);
+			
+			int isSuccess = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTDELETE, "http://localhost:8080/APISpring/api/monan", monan), int.class);
+			if (isSuccess == 0)
+				throw new Exception("Error when deleting, check constraint!");
+			
 			loadTable();
 			refreshPn();
 		} catch (Exception e) {
@@ -269,24 +319,43 @@ public class PnChinhSuaMonAn extends JPanel {
 	
 	private void btnSuaClicked() {
 		try {
+			if (txtMaMA.getText().isBlank() || txtTenMA.getText().isBlank())
+				throw new Exception("Vui lòng nhập đầy đủ thông tin");
+			
 			ObjectMapper mapper = new ObjectMapper();
 			IpushMethodService method = new PushMethodService();
 			
 			NguyenLieu n = null;
-			MonAn monan = MonAnDAO.layThongTinMonAn(txtMaMA.getText());
+			
+			String httpMA = "http://localhost:8080/APISpring/api/monan/id/" + txtMaMA.getText();
+			MonAn monan = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
+			
 			if(monan == null)
 				throw new Exception("khong tim thay mon an");
+			
+			httpMA = "http://localhost:8080/APISpring/api/monan/name/" + URLEncoder.encode(txtTenMA.getText(), "UTF-8");
+			MonAn monanTest = null;
+			try {
+				monanTest = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
+			} catch (Exception ex) {
+				monanTest = null;
+			}
+			if (monanTest != null)
+				throw new Exception("Trùng tên món ăn, vui lòng đổi tên!");
+			
 			String mlma = cmbMaLoai.getSelectedItem().toString().split("-")[0];	
 			LoaiMonAn l = getLoaiMonAn(mapper, method, mlma);
 			monan.setLoaiMonAn(l);
 			String mlnl = cmbMaNL.getSelectedItem().toString().split("-")[0];
 			
 			String httpStringNL = "http://localhost:8080/APISpring/api/nguyenlieu/" + mlnl;
-			n = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNL , mlnl), NguyenLieu.class);
+			n = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNL, null), NguyenLieu.class);
 			
 			monan.setNguyenLieu(n);
 			monan.setTenMA(txtTenMA.getText());
-			MonAnDAO.suaMonAn(monan);
+			
+			method.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/monan", monan);
+			
 			loadTable();
 			JOptionPane.showMessageDialog(this,"sua thanh cong");
 			

@@ -100,7 +100,7 @@ public class PushMethodService implements IpushMethodService{
 			
 			ObjectMapper mapper = new ObjectMapper();
 			String json = mapper.writeValueAsString(id);
-			StringEntity stringEntity = new StringEntity(json);
+			StringEntity stringEntity = new StringEntity(json, "UTF-8");
 			
 			HttpResponse response = null;
 			
@@ -134,9 +134,6 @@ public class PushMethodService implements IpushMethodService{
 			if (response.getStatusLine().getStatusCode() != 200) {
 				throw new RuntimeException("Failed : HTTP error code : " + response.getStatusLine().getStatusCode());
 			}
-			
-//			if (response.getEntity() == null)
-//				throw new Exception("Error! Please check your ID or number format!");
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
 			StringBuilder output = new StringBuilder();

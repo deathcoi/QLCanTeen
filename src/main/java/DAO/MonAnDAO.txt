@@ -8,9 +8,9 @@ import org.hibernate.query.Query;
 
 import Utils.HibernateUtil;
 import entities.MonAn;
-import entities.NhanVien;
 
 public class MonAnDAO {
+	@SuppressWarnings("unchecked")
 	public static List<MonAn> layDanhSachMonAn() {
 		List<MonAn> list = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
