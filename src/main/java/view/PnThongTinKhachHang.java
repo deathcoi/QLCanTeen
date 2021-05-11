@@ -18,8 +18,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import DAO.KhachHangDAO;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import constant.HttpConstant;
 import entities.KhachHang;
+import service.IpushMethodService;
+import service.impl.PushMethodService;
 
 public class PnThongTinKhachHang extends JPanel {
 
@@ -190,7 +195,16 @@ public class PnThongTinKhachHang extends JPanel {
 	}
 	
 	private List<KhachHang> loadData(){
-		List<KhachHang> list = KhachHangDAO.layThongTinKhachHang();		
+		ObjectMapper mapper = new ObjectMapper();
+		IpushMethodService method = new PushMethodService();
+		
+		List<KhachHang> list = null;
+		try {
+			list = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/khachhang", null), new TypeReference<List<KhachHang>>() {
+			});
+		} catch(Exception ex) {
+			list = null;
+		}
 		Iterator<KhachHang> iterator = list.iterator();
 		//tim theo ma
 		String rdBtnLoai = "";
@@ -203,6 +217,7 @@ public class PnThongTinKhachHang extends JPanel {
 		else if (rdBtnNVVP.isSelected()) {
 			rdBtnLoai = rdBtnNVVP.getText();
 		}
+		
 		if (rdBtnLoai.compareTo("") != 0) {
 			while(iterator.hasNext()) {
 				KhachHang h = iterator.next();

@@ -40,7 +40,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import DAO.CTHoaDonDAO;
 import DAO.HoaDonDAO;
-import DAO.KhachHangDAO;
 import constant.HttpConstant;
 import entities.CTHoaDon;
 import entities.HoaDon;
@@ -443,7 +442,6 @@ public class PnThanhToan extends JPanel {
 		try {
 			if (txt.getText().isBlank())
 				throw new Exception("Vui lòng nhập đầy đủ thông tin");
-			@SuppressWarnings("unused")
 			Double d = Double.parseDouble(txt.getText());
 		} catch (NumberFormatException nfe) {
 			throw new Exception("Vui lòng nhập số!");
@@ -451,21 +449,23 @@ public class PnThanhToan extends JPanel {
 	}
 	
 	private void btnKiemTraClicked() {
+		ObjectMapper mapper = new ObjectMapper();
+		IpushMethodService service = new PushMethodService();
+		
+		KhachHang kh = null;
 		try {
 			kiemTraTxt(txtKhachHang);
-			List<KhachHang> list = KhachHangDAO.layDanhSachKhachHangTheoSDT(Long.parseLong(txtKhachHang.getText()));
-			if (list == null || list.size() == 0) {
+			String httpStringKH = "http://localhost:8080/APISpring/api/khachhang/sdt/" + txtKhachHang.getText();
+			kh = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringKH, txtKhachHang.getText()), KhachHang.class);
+			if (kh == null) {
 				JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin!");
 				txtKhachHang.setText("");
 			}
 			else {
-				for (KhachHang k : list) {
-					khachHang = k;
-					txtKhachHang.setText(k.getTenKH());
-				}
+				txtKhachHang.setText(kh.getTenKH());
+				khachHang = kh;
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -501,8 +501,10 @@ public class PnThanhToan extends JPanel {
 		}
 	}
 	
-	@SuppressWarnings("unused")
 	private void pnThanhToanBtnClicked() {
+		ObjectMapper mapper = new ObjectMapper();
+		IpushMethodService service = new PushMethodService();
+		
 		try {
 			kiemTraChu(txtTienMat);
 			JTableButtonModel model = (JTableButtonModel) table.getModel();
@@ -515,48 +517,47 @@ public class PnThanhToan extends JPanel {
 			hoaDon.setTongTien(Long.parseLong(lbTongCong.getText()));
 			
 			//nếu không có khách hàng thì tính tiền mặt, nếu có text khách hàng thì làm
-			if (txtKhachHang.getText().isBlank() == false) {
-				if (khachHang == null) {
-					//nếu khách hàng ban đầu chưa có thì set khách hàng
-					khachHang = KhachHangDAO.layThongTinKhachHangTheoSDT(Long.parseLong(txtKhachHang.getText()));
-					if (khachHang != null) {
-						//nếu đã có khách hàng thì set khách hàng
-						hoaDon.setKhachHang(khachHang);
-					}
-				} else {
-					//nếu đã có khách hàng thì set khách hàng
-					hoaDon.setKhachHang(khachHang);
-				}
-			}
+//			if (txtKhachHang.getText().isBlank() == false) {
+//				if (khachHang == null) {
+//					//nếu khách hàng ban đầu chưa có thì set khách hàng
+//					String httpStringKH = "http://localhost:8080/APISpring/api/khachhang/" + txtKhachHang.getText();
+//					khachHang = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringKH, txtKhachHang.getText()), KhachHang.class);
+//					if (khachHang != null) {
+//						//nếu đã có khách hàng thì set khách hàng
+//						hoaDon.setKhachHang(khachHang);
+//					}
+//				} else {
+//					//nếu đã có khách hàng thì set khách hàng
+//					hoaDon.setKhachHang(khachHang);
+//				}
+//			}
 			
 			//nếu khách hàng dùng acc
 			if (khachHang != null) {
+				hoaDon.setKhachHang(khachHang);
 				Long tien = Long.parseLong(lbTongCong.getText());
 				if (khachHang.getTien() <= tien){
 					throw new Exception("Tài khoản của khách hàng " + khachHang.getTenKH() + " không đủ tiền");
 				} else {
 					Long tien2 = khachHang.getTien() - tien;
 					khachHang.setTien(tien2);
-					KhachHangDAO.suaKhachHang(khachHang);
+					service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/khachhang/", khachHang);
 				}
 			}
 			
 			HoaDonDAO.themHoaDon(hoaDon);
 			List<Map<String, ?>> dataSource = new ArrayList<Map<String, ?>>();
 			
-			IpushMethodService method = new PushMethodService();
-			ObjectMapper mapper = new ObjectMapper();
-			
 			for (int i = 0; i < model.getRowCount(); i++) {
 				String httpMA = "http://localhost:8080/APISpring/api/monan/name/" + URLEncoder.encode(model.getValueAt(i, 0).toString(), "UTF-8");
-				MonAn monAn = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
+				MonAn monAn = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
 				
 				NguyenLieu nguyenLieu = monAn.getNguyenLieu();
 				if (nguyenLieu.getSoLuong() - Integer.parseInt(model.getValueAt(i, 1).toString()) < 0)
 					throw new Exception("Món " + monAn.getTenMA() + " đã hết!");
 				
 				nguyenLieu.setSoLuong(nguyenLieu.getSoLuong() - Integer.parseInt(model.getValueAt(i, 1).toString()));
-				method.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/nguyenlieu", nguyenLieu);
+				service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/nguyenlieu", nguyenLieu);
 				
 				CTHoaDon ctHoaDon = new CTHoaDon();
 				ctHoaDon.setHoaDon(hoaDon);
