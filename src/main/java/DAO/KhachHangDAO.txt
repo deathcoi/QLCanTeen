@@ -71,19 +71,6 @@ public class KhachHangDAO {
 		return list;
 	}
 
-	public static List<KhachHang> timKiemThongTinKhachHang(String maLoai, String maKH, String tenKH, String gioiTinh, Integer namSinh, Long sdt) {
-		List<KhachHang> list = null;
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		try {
-			Query hql = session.createQuery("From KhachHang kh");
-			list = hql.list();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			session.close();
-		}
-		return list;
-	}
 	
 	public static  void  suaKhachHang(KhachHang khachHang) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -99,4 +86,3 @@ public class KhachHangDAO {
 	}
 
 }
-

@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -13,11 +14,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
-import DAO.KhachHangDAO;
-import entities.KhachHang;
-import javax.swing.BoxLayout;
 import javax.swing.border.LineBorder;
+
+import constant.HttpConstant;
+import entities.KhachHang;
+import service.IpushMethodService;
+import service.impl.PushMethodService;
 
 public class FrameNapTien extends JFrame {
 
@@ -148,12 +150,16 @@ public class FrameNapTien extends JFrame {
 
 	private void btnNapTienClicked() {
 		try {
+			IpushMethodService service = new PushMethodService();
+			
 			if (!isNumber(txtSoTien))
 				throw new Exception("Vui long nhap so tien");
 			Long tien = khachHang.getTien();
 			tien += Long.parseLong(txtSoTien.getText());
 			khachHang.setTien(tien);
-			KhachHangDAO.suaKhachHang(khachHang);
+			
+			service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/khachhang/", khachHang);
+			
 			JOptionPane.showMessageDialog(this, "So tien hien tai: " + tien);
 			cmbLoaiThe.setSelectedIndex(0);
 			txtMaThe.setText("");
@@ -181,6 +187,7 @@ public class FrameNapTien extends JFrame {
 
 	@SuppressWarnings("rawtypes")
 	private void btnNapTheClicked() {
+		IpushMethodService service = new PushMethodService();
 		cmbLoaiThe = new JComboBox();
 		try {
 			
@@ -229,7 +236,7 @@ public class FrameNapTien extends JFrame {
 					}
 				}
 				khachHang.setTien(tien);
-				KhachHangDAO.suaKhachHang(khachHang);
+				service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/khachhang/", khachHang);
 				JOptionPane.showMessageDialog(this, "So tien hien tai: " + tien);
 			}
 		} catch (Exception e) {
@@ -239,13 +246,11 @@ public class FrameNapTien extends JFrame {
 	}
 	
 	void indexchange(){
-		if(cmbLoaiThe.getSelectedIndex() != - 1) {
-			if(cmbLoaiThe.getSelectedIndex()== 1)
-				txtMaThe.setText("vt");
-			if(cmbLoaiThe.getSelectedIndex()== 2)
-				txtMaThe.setText("mb");
-			if(cmbLoaiThe.getSelectedIndex()== 3)
-				txtMaThe.setText("vn");
-		}
+		if (cmbLoaiThe.getSelectedIndex() == 0)
+			txtMaThe.setText("vt");
+		if (cmbLoaiThe.getSelectedIndex() == 1)
+			txtMaThe.setText("mb");
+		if (cmbLoaiThe.getSelectedIndex() == 2)
+			txtMaThe.setText("vn");
 	}
 }
