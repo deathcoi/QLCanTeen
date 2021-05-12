@@ -18,10 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.lgooddatepicker.components.DatePicker;
 
-import DAO.HoaDonDAO;
+import constant.HttpConstant;
 import entities.HoaDon;
+import service.IpushMethodService;
+import service.impl.PushMethodService;
 import table.JTableUnEdit;
 
 public class PnLichSuHoaDon extends JPanel {
@@ -100,10 +104,13 @@ public class PnLichSuHoaDon extends JPanel {
 	
 	private void btnXemClicked() {
 		try {
+			ObjectMapper mapper = new ObjectMapper();
+			IpushMethodService service = new PushMethodService();
+			
 			JTableUnEdit model = (JTableUnEdit) table.getModel();
 			model.setRowCount(0);
 			if (datePickerTuNgay.getComponentDateTextField().getText().isBlank() == true || datePickerDenNgay.getComponentDateTextField().getText().isBlank() == true) {
-				List<HoaDon> list = HoaDonDAO.layDanhSacHoaDon();
+				List<HoaDon> list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/hoadon", null), new TypeReference<List<HoaDon>>() {});
 				for (HoaDon h : list) {
 					model.addRow(new Object[] {
 							h.getMaHD(),
@@ -119,7 +126,10 @@ public class PnLichSuHoaDon extends JPanel {
 				Date denNgay = formatter.parse(datePickerDenNgay.getComponentDateTextField().getText() + " 23:59:59");
 				//JOptionPane.showMessageDialog(this, tuNgay.toString());
 				//formatter.format(date)
-				List<HoaDon> list = HoaDonDAO.layDanhSacHoaDonTheoNgay(tuNgay, denNgay);
+				
+				String url = "http://localhost:8080/APISpring/api/hoadon/date/" + mapper.writeValueAsString(tuNgay) + "/" + mapper.writeValueAsString(denNgay);
+				
+				List<HoaDon> list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, url, null), new TypeReference<List<HoaDon>>() {});
 				for (HoaDon h : list) {
 					model.addRow(new Object[] {
 							h.getMaHD(),
@@ -136,13 +146,22 @@ public class PnLichSuHoaDon extends JPanel {
 	}
 	
 	private void btnXemChiTietClicked() {
-		// model = (DefaultTableModel) table.getModel();
-		if (table.getSelectedRow() != -1) {
-			HoaDon hoaDon = HoaDonDAO.layThongTinHoaDon((String) table.getValueAt(table.getSelectedRow(), 0));
-			FrameCTHoaDon frameCTHoaDon = new FrameCTHoaDon(hoaDon); 
-			frameCTHoaDon.setVisible(true);
-		} else {
-			JOptionPane.showMessageDialog(this, "Vui lòng chọn một dòng để xem chi tiết!");
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			IpushMethodService service = new PushMethodService();
+			
+			if (table.getSelectedRow() != -1) {
+				String url = "http://localhost:8080/APISpring/api/hoadon/id/" + (String) table.getValueAt(table.getSelectedRow(), 0);
+				HoaDon hoaDon = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, url, null), HoaDon.class);
+
+				FrameCTHoaDon frameCTHoaDon = new FrameCTHoaDon(hoaDon); 
+				frameCTHoaDon.setVisible(true);
+			} else {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn một dòng để xem chi tiết!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();	
 		}
+		
 	}
 }

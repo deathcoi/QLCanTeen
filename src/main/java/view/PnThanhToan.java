@@ -39,7 +39,6 @@ import javax.swing.table.TableColumnModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import DAO.CTHoaDonDAO;
-import DAO.HoaDonDAO;
 import constant.HttpConstant;
 import entities.CTHoaDon;
 import entities.HoaDon;
@@ -511,7 +510,7 @@ public class PnThanhToan extends JPanel {
 			if (model.getRowCount() == 0)
 				throw new Exception("Vui lòng chọn món ăn!");
 
-			HoaDon hoaDon = HoaDonDAO.taoHoaDonMoi();
+			HoaDon hoaDon = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/hoadon/autocreate", null), HoaDon.class);
 			hoaDon.setNhanVien(nhanVien);
 			hoaDon.setNgayLap(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(lbDateTime.getText()));
 			hoaDon.setTongTien(Long.parseLong(lbTongCong.getText()));
@@ -545,7 +544,7 @@ public class PnThanhToan extends JPanel {
 				}
 			}
 			
-			HoaDonDAO.themHoaDon(hoaDon);
+			service.pushMethod(HttpConstant.HTTPREQUESTPOST,  "http://localhost:8080/APISpring/api/hoadon", hoaDon);
 			List<Map<String, ?>> dataSource = new ArrayList<Map<String, ?>>();
 			
 			for (int i = 0; i < model.getRowCount(); i++) {
