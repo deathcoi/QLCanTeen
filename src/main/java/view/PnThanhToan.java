@@ -275,6 +275,18 @@ public class PnThanhToan extends JPanel {
 		lbRefresh.setIcon(new ImageIcon("picture/refresh.png"));
 		pnRefresh.add(lbRefresh, BorderLayout.CENTER);
 		
+		JPanel pnMomo = new JPanel();
+		pnMomo.addMouseListener(new PanelButtonMouseAdapter(pnMomo));
+		pnMomo.setName("pnMomo");
+		pnMomo.setBounds(325, 485, 60, 60);
+		add(pnMomo);
+		pnMomo.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lbMomo = new JLabel("");
+		lbMomo.setIcon(new ImageIcon("picture/momoQR.png"));
+		lbMomo.setHorizontalAlignment(SwingConstants.CENTER);
+		pnMomo.add(lbMomo, BorderLayout.CENTER);
+		
 		setTiming();
 		
 	}
@@ -302,10 +314,15 @@ public class PnThanhToan extends JPanel {
 				cardChange();
 				renew();
 			}
-			if (panel.getName().compareTo("pnThanhToanBtn") == 0)
+			if (panel.getName().compareTo("pnThanhToanBtn") == 0) {
 				pnThanhToanBtnClicked();
-			if (panel.getName().compareTo("pnRefresh") == 0)
+			}
+			if (panel.getName().compareTo("pnRefresh") == 0) {
 				renew();
+			}
+			if (panel.getName().compareTo("pnMomo") == 0) {
+				
+			}
 			panel.setBackground(Color.CYAN);
 		}
 
@@ -323,6 +340,8 @@ public class PnThanhToan extends JPanel {
 		public void mouseExited(MouseEvent e) {
 			panel.setBackground(new Color(153, 153, 204));
 			if (panel.getName().compareTo("pnRefresh") == 0)
+				panel.setBackground(Color.WHITE);
+			if (panel.getName().compareTo("pnMomo") == 0)
 				panel.setBackground(Color.WHITE);
 		}
 	}

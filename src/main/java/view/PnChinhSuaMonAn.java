@@ -193,7 +193,12 @@ public class PnChinhSuaMonAn extends JPanel {
 				throw new Exception("Trùng mã món ăn");
 			
 			String httpMA = "http://localhost:8080/APISpring/api/monan/name/" + URLEncoder.encode(txtTenMA.getText(), "UTF-8");
-			monan = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
+			try {
+				monan = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
+			} catch (Exception e) {
+				monan = null;
+			}
+			
 			
 			if (monan != null)
 				throw new Exception("Trùng tên món ăn, vui lòng đổi tên!");
