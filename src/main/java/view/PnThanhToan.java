@@ -38,7 +38,6 @@ import javax.swing.table.TableColumnModel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import DAO.CTHoaDonDAO;
 import constant.HttpConstant;
 import entities.CTHoaDon;
 import entities.HoaDon;
@@ -581,7 +580,7 @@ public class PnThanhToan extends JPanel {
 				ctHoaDon.setHoaDon(hoaDon);
 				ctHoaDon.setMonAn(monAn);
 				ctHoaDon.setSoLuong(Integer.parseInt(model.getValueAt(i, 1).toString()));
-				CTHoaDonDAO.themHoaDon(ctHoaDon);
+				service.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/cthoadon", ctHoaDon);
 				
 				Map<String, Object> field = new HashMap<String, Object>(); // xu li report
 				

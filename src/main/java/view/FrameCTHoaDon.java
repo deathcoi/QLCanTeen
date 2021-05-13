@@ -10,9 +10,14 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import DAO.CTHoaDonDAO;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import constant.HttpConstant;
 import entities.CTHoaDon;
 import entities.HoaDon;
+import service.IpushMethodService;
+import service.impl.PushMethodService;
 
 public class FrameCTHoaDon extends JFrame {
 
@@ -60,7 +65,17 @@ public class FrameCTHoaDon extends JFrame {
 	}
 	
 	private void loadData() {
-		List<CTHoaDon> list = CTHoaDonDAO.layDanhSachCTHoaDon(hoaDon);
+		ObjectMapper mapper = new ObjectMapper();
+		IpushMethodService service = new PushMethodService();
+		
+		List<CTHoaDon> list = null;
+		try {
+			list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET,
+					"http://localhost:8080/APISpring/api/cthoadon", hoaDon), new TypeReference<List<CTHoaDon>>() {
+					});
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 		JTableUnEdit model = (JTableUnEdit) table.getModel();
 		for (CTHoaDon ctHoaDon : list) {
 			model.addRow(new Object[] {
