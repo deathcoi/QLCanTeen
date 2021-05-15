@@ -241,6 +241,12 @@ public class PnKhachHang extends JPanel {
 		mntmNewMenuItem_1.setOpaque(true);
 		mntmNewMenuItem_1.setBackground(new Color(255, 255, 153));
 		mntmNewMenuItem_1.setIcon(new ImageIcon("picture/help.png"));
+		mntmNewMenuItem_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				mntmNewMenuItem_1Clicked();
+			}
+		});
 		panel_9.add(mntmNewMenuItem_1, BorderLayout.CENTER);
 
 		JPanel panel_10 = new JPanel();
@@ -364,5 +370,9 @@ public class PnKhachHang extends JPanel {
 				e1.printStackTrace();
 			}
 		}
+	}
+	private void mntmNewMenuItem_1Clicked() {
+		FrameGuide frm = new FrameGuide();
+		frm.setVisible(true);
 	}
 }
