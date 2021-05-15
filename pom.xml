@@ -10,7 +10,7 @@
 		<json-core-databind-annotation.version>2.12.2</json-core-databind-annotation.version>
 		<json-mapper-and-core.version>1.9.13</json-mapper-and-core.version>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -91,5 +91,18 @@
 			<artifactId>jackson-core-asl</artifactId>
 			<version>${json-mapper-and-core.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+
 	</dependencies>
 </project>

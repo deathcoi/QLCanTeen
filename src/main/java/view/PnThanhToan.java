@@ -37,6 +37,11 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mservice.pay.models.POSPayResponse;
+import com.mservice.pay.processor.notallinone.POSPay;
+import com.mservice.shared.constants.Parameter;
+import com.mservice.shared.sharedmodels.Environment;
+import com.mservice.shared.utils.LogUtils;
 
 import constant.HttpConstant;
 import entities.CTHoaDon;
@@ -85,6 +90,8 @@ public class PnThanhToan extends JPanel {
 	private KhachHang khachHang;
 	
 	private JPanel pnQLOrNV;
+	
+	private int momoClick = 0; //0 chưa bấm, 1 đã bấm
 
 	
 	public JLabel getLbTongCong() {
@@ -310,38 +317,61 @@ public class PnThanhToan extends JPanel {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+			if (panel.getName().compareTo("pnMomo") != 0) {
+				panel.setBackground(Color.CYAN);
+			}
+			
 			if (panel.getName().compareTo("pnHuyBtn") == 0) {
 				cardChange();
 				renew();
 			}
 			if (panel.getName().compareTo("pnThanhToanBtn") == 0) {
-				pnThanhToanBtnClicked();
+				if (momoClick == 0) {
+					pnThanhToanBtnClicked();
+				} else {
+					momoThanhToan();
+				}
+				
 			}
 			if (panel.getName().compareTo("pnRefresh") == 0) {
 				renew();
 			}
 			if (panel.getName().compareTo("pnMomo") == 0) {
-				
+				momoClick = (momoClick == 1) ? 0 : 1;
+				if (momoClick == 1) {
+					panel.setBackground(Color.CYAN);
+				} else {
+					panel.setBackground(Color.WHITE);
+				}
 			}
-			panel.setBackground(Color.CYAN);
+			
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			panel.setBackground(Color.BLUE);
+			if (panel.getName().compareTo("pnMomo") != 0) {
+				panel.setBackground(Color.BLUE);
+			}
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			panel.setBackground(Color.BLUE);
+			if (panel.getName().compareTo("pnMomo") != 0) {
+				panel.setBackground(Color.BLUE);
+			} else if (momoClick == 0) {
+				panel.setBackground(Color.BLUE);
+			}
+			
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			panel.setBackground(new Color(153, 153, 204));
+			if (panel.getName().compareTo("pnMomo") != 0) {
+				panel.setBackground(new Color(153, 153, 204));
+			}
 			if (panel.getName().compareTo("pnRefresh") == 0)
 				panel.setBackground(Color.WHITE);
-			if (panel.getName().compareTo("pnMomo") == 0)
+			if (panel.getName().compareTo("pnMomo") == 0 && momoClick == 0)
 				panel.setBackground(Color.WHITE);
 		}
 	}
@@ -473,7 +503,12 @@ public class PnThanhToan extends JPanel {
 		try {
 			kiemTraTxt(txtKhachHang);
 			String httpStringKH = "http://localhost:8080/APISpring/api/khachhang/sdt/" + txtKhachHang.getText();
-			kh = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringKH, txtKhachHang.getText()), KhachHang.class);
+			try {
+				kh = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringKH, txtKhachHang.getText()), KhachHang.class);
+			} catch (Exception e){
+				kh = null;
+			}
+			
 			if (kh == null) {
 				JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin!");
 				txtKhachHang.setText("");
@@ -641,6 +676,119 @@ public class PnThanhToan extends JPanel {
 				cl.show(pnLeftFromTheOutside, "pnMenu");
 			}
 			
+			
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	private void momoThanhToan() {
+		ObjectMapper mapper = new ObjectMapper();
+		IpushMethodService service = new PushMethodService();
+		
+		try {
+			kiemTraChu(txtTienMat);
+			if (txtKhachHang.getText().isBlank())
+				throw new Exception("Vui lòng nhập mã thanh toán khách hàng hoặc scan mã thanh toán khách hàng!");
+			JTableButtonModel model = (JTableButtonModel) table.getModel();
+			if (model.getRowCount() == 0)
+				throw new Exception("Vui lòng chọn món ăn!");
+
+			HoaDon hoaDon = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/hoadon/autocreate", null), HoaDon.class);
+			hoaDon.setNhanVien(nhanVien);
+			hoaDon.setNgayLap(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(lbDateTime.getText()));
+			hoaDon.setTongTien(Long.parseLong(lbTongCong.getText()));
+			
+			POSPayResponse posPayResponse = momoRequest(txtKhachHang.getText(), hoaDon.getMaHD(), Long.parseLong(lbTongCong.getText()));
+			if (posPayResponse.getStatus() == 0) {
+				JOptionPane.showMessageDialog(this, "Thanh toán momo thành công");
+			} else {
+				momoException(posPayResponse.getStatus());
+			}
+			
+			service.pushMethod(HttpConstant.HTTPREQUESTPOST,  "http://localhost:8080/APISpring/api/hoadon", hoaDon);
+			List<Map<String, ?>> dataSource = new ArrayList<Map<String, ?>>();
+			
+			for (int i = 0; i < model.getRowCount(); i++) {
+				String httpMA = "http://localhost:8080/APISpring/api/monan/name/" + URLEncoder.encode(model.getValueAt(i, 0).toString(), "UTF-8");
+				MonAn monAn = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
+				
+				NguyenLieu nguyenLieu = monAn.getNguyenLieu();
+				if (nguyenLieu.getSoLuong() - Integer.parseInt(model.getValueAt(i, 1).toString()) < 0)
+					throw new Exception("Món " + monAn.getTenMA() + " đã hết!");
+				
+				nguyenLieu.setSoLuong(nguyenLieu.getSoLuong() - Integer.parseInt(model.getValueAt(i, 1).toString()));
+				service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/nguyenlieu", nguyenLieu);
+				
+				CTHoaDon ctHoaDon = new CTHoaDon();
+				ctHoaDon.setHoaDon(hoaDon);
+				ctHoaDon.setMonAn(monAn);
+				ctHoaDon.setSoLuong(Integer.parseInt(model.getValueAt(i, 1).toString()));
+				service.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/cthoadon", ctHoaDon);
+				
+				Map<String, Object> field = new HashMap<String, Object>(); // xu li report
+				
+				field.put("monAn", ctHoaDon.getMonAn().getTenMA());
+				field.put("soTien", ctHoaDon.getMonAn().getLoaiMonAn().getGiaTien());
+				field.put("soLuong", ctHoaDon.getSoLuong());
+				
+				dataSource.add(field);
+
+			}
+			Map<String, Object> param = new HashMap<String, Object>();
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			Date date = formatter.parse(lbDateTime.getText());
+			
+			param.put("maHD", hoaDon.getMaHD());
+			param.put("nhanVien", nhanVien.getTenNV());
+			param.put("khachHang", posPayResponse.getMessage().getPhoneNumber());
+			param.put("ngay", date);
+			param.put("tongTien", Long.parseLong(lbTongCong.getText()));
+			param.put("tienMat", (txtTienMat.getText().isBlank() == false ? Long.parseLong(txtTienMat.getText()) : null));
+			param.put("tienThua", (lbTienThua.getText().isBlank() == false ? Long.parseLong(lbTienThua.getText()) : null));	
+			
+			model.setRowCount(0);	//khi da xong moi thu thi xoa bang
+			
+			JRDataSource jrDataSource = new JRBeanCollectionDataSource(dataSource);
+			String sourceName = "src/main/java/view/RpThanhToan.jrxml";
+			JasperReport report = JasperCompileManager.compileReport(sourceName);
+			JasperPrint filledReport = JasperFillManager.fillReport(report, param, jrDataSource);
+			
+			/*FrameThanhToan frameThanhToan = new FrameThanhToan();
+			JPanel pnRp = frameThanhToan.getContentPane();
+			
+			pnRp.add(new JRViewer(filledReport));
+			frameThanhToan.setContentPane(pnRp);
+			frameThanhToan.setVisible(true);
+			frameThanhToan.pack();*/
+			JasperViewer jViewer = new JasperViewer(filledReport, false);
+			jViewer.setVisible(true);
+			
+			khachHang = null; //reset khach hang
+			txtKhachHang.setText("");
+			
+			PnMenu mn = new PnMenu(this);
+			if (pnQLOrNV instanceof PnNhanVien) {
+				PnNhanVien pn = (PnNhanVien) pnQLOrNV;
+				JPanel pnLeftFromTheOutside = pn.getPnLeft();
+				pnLeftFromTheOutside.remove(mn);
+				pnLeftFromTheOutside.add(mn, "pnMenu");
+				CardLayout cl = pn.getCardLeft();
+				cl.show(pnLeftFromTheOutside, "pnMenu");
+			} else {
+				PnQuanLy pn = (PnQuanLy) pnQLOrNV;
+				JPanel pnLeftFromTheOutside = pn.getPnCardLeft();
+				pnLeftFromTheOutside.remove(mn);
+				pnLeftFromTheOutside.add(mn, "pnMenu");
+				CardLayout cl = pn.getCardLeft();
+				cl.show(pnLeftFromTheOutside, "pnMenu");
+			}
+			
+			
+			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 			e.printStackTrace();
@@ -667,6 +815,36 @@ public class PnThanhToan extends JPanel {
 				Long tienThua = tien - tong;
 				lbTienThua.setText(tienThua.toString());
 			}
+		}
+	}
+	
+	private POSPayResponse momoRequest(String paymentCode, String partnerRefId, Long amount) {
+		try {
+			LogUtils.init();
+			String publicKey = "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAkC3M5MmmME8yskpPsJaCli8KPvpz2J844mNQSGFBAzeL1gPay6FzCrYR7dxBfJ4PcHsPtKb0BjTigablnkigsry5QCb/i9GgEqVksRl4mbL6CsOLgPRL8XSzP4Gb0JuLhYWArssKNJ9DTkl/d1Y28B99RaznNQSVYQAT1heOYIFMW3//SxEOgatm6kA0DJ88z22z8N2zz94MG2Cka+u3Z8aRIEUBjrrqgq2CB9hXvfGtd/8IOLAWt5RFu2q3Wyt5JP7C9IFYUppFmrHrXZjiS4m78eQJwp4OzWEeOMiej6mD9i8iVGZZpd6V42+zGV5A2PusvlTVfHHPL8AYFhk/afpKXdyDQ7qqWnGEAOXNeVZBfUkoSaEo0GKOKg2wIcHF8VboDlIaebxxn12JAUcBYHVhoayI3uVNI4YQ4+mwrmWYHj2HunjYsvECH8JLGZGEAX+1/c7egLzt+gLPhQAjZ/oKVzsB9oEvQRmN3DoKQkeKP9gPk6NUgSNp7xsFt5Walz26IU+cHqGWL5dl/71+C2xY2zE3mSvAp4Mebs21/THHmfGHcHv40SyC9qAZK8weYBgk9aEYr0EwYV3SOwnSmbzmaB27KYzIzUj0KnOJQfjo+9rEno/COs0BkvcvlJ4ZvDLxOTX9K+FlbEsrez2vpf5S99izb9hVyDYz49YIyrcCAwEAAQ==";
+
+			//String partnerRefId = "hd02";
+			String description = "thanh toan momo";
+			String storeId = "CanTeenHutechSTH";
+	        String storeName = "Can Teen Hutech";
+	        //String paymentCode = "536153917546247748";
+	        //Long amount = 1000l;
+	        
+	        POSPayResponse posProcessResponse = POSPay.process(Environment.selectEnv(Environment.EnvTarget.DEV, Environment.ProcessType.PAY_POS), partnerRefId, amount, storeId, storeName, publicKey, description, paymentCode, Parameter.VERSION, Parameter.APP_PAY_TYPE);
+	        return posProcessResponse;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private void momoException(int status) throws Exception {
+		if (status == 3) {
+			throw new Exception("Thông tin tài khoản không tồn tại");
+		} else if (status == 162) {
+			throw new Exception("Mã thanh toán đã được sử dụng, vui lòng tạo mới mã thanh toán để tiếp tục thanh toán");
+		} else {
+			throw new Exception("Có lỗi xảy ra khi thanh toán momo!");
 		}
 	}
 }
