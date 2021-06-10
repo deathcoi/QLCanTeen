@@ -184,7 +184,7 @@ public class PnThongTinKhachHang extends JPanel {
 			}
 		});
 		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnTimKiem.setBounds(401, 254, 109, 35);
+		btnTimKiem.setBounds(401, 254, 134, 35);
 		panel.add(btnTimKiem);
 		
 		lblNewLabel_2 = new JLabel("Thông tin khách hàng");

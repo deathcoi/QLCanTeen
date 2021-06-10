@@ -48,47 +48,47 @@ public class PnNhapNguyenLieu extends JPanel {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(51, 204, 204));
-		panel_1.setBounds(0, 0, 560, 110);
+		panel_1.setBounds(0, 0, 560, 160);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Mã nguyên liệu:");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(10, 10, 140, 25);
+		lblNewLabel.setBounds(10, 54, 140, 25);
 		panel_1.add(lblNewLabel);
 		
 		txtMNL = new JTextField();
 		txtMNL.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtMNL.setHorizontalAlignment(SwingConstants.LEFT);
-		txtMNL.setBounds(150, 10, 100, 25);
+		txtMNL.setBounds(150, 54, 100, 25);
 		panel_1.add(txtMNL);
 		txtMNL.setColumns(10);
 		
 		JLabel lblTnNguynLiu = new JLabel("Tên nguyên liệu:");
 		lblTnNguynLiu.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTnNguynLiu.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTnNguynLiu.setBounds(10, 45, 140, 25);
+		lblTnNguynLiu.setBounds(10, 89, 140, 25);
 		panel_1.add(lblTnNguynLiu);
 		
 		JLabel lblSLng = new JLabel("Số lượng:");
 		lblSLng.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSLng.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblSLng.setBounds(10, 80, 140, 25);
+		lblSLng.setBounds(10, 124, 140, 25);
 		panel_1.add(lblSLng);
 		
 		txtTenNL = new JTextField();
 		txtTenNL.setHorizontalAlignment(SwingConstants.LEFT);
 		txtTenNL.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtTenNL.setColumns(10);
-		txtTenNL.setBounds(150, 45, 200, 25);
+		txtTenNL.setBounds(150, 89, 200, 25);
 		panel_1.add(txtTenNL);
 		
 		txtSL = new JTextField();
 		txtSL.setHorizontalAlignment(SwingConstants.LEFT);
 		txtSL.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtSL.setColumns(10);
-		txtSL.setBounds(150, 80, 100, 25);
+		txtSL.setBounds(150, 124, 100, 25);
 		panel_1.add(txtSL);
 		
 		JButton btnThem = new JButton("Thêm");
@@ -98,7 +98,7 @@ public class PnNhapNguyenLieu extends JPanel {
 			}
 		});
 		btnThem.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnThem.setBounds(390, 25, 90, 30);
+		btnThem.setBounds(390, 69, 90, 30);
 		panel_1.add(btnThem);
 		
 		JButton btnSua = new JButton("Sửa");
@@ -108,11 +108,18 @@ public class PnNhapNguyenLieu extends JPanel {
 			}
 		});
 		btnSua.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnSua.setBounds(390, 60, 90, 30);
+		btnSua.setBounds(390, 104, 90, 30);
 		panel_1.add(btnSua);
 		
+		JLabel lblNhpNguynLiu = new JLabel("Nhập nguyên liệu");
+		lblNhpNguynLiu.setForeground(Color.YELLOW);
+		lblNhpNguynLiu.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNhpNguynLiu.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblNhpNguynLiu.setBounds(165, 11, 227, 30);
+		panel_1.add(lblNhpNguynLiu);
+		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(0, 110, 560, 490);
+		panel_2.setBounds(0, 160, 560, 440);
 		panel.add(panel_2);
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
