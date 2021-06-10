@@ -63,33 +63,33 @@ public class PnChinhSuaMonAn extends JPanel {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(51, 204, 204));
-		panel_1.setBounds(0, 0, 560, 150);
+		panel_1.setBounds(0, 0, 560, 190);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Mã món ăn:");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(10, 10, 130, 25);
+		lblNewLabel.setBounds(10, 49, 130, 25);
 		panel_1.add(lblNewLabel);
 		
 		txtMaMA = new JTextField();
 		txtMaMA.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtMaMA.setHorizontalAlignment(SwingConstants.LEFT);
-		txtMaMA.setBounds(140, 10, 200, 25);
+		txtMaMA.setBounds(140, 49, 200, 25);
 		panel_1.add(txtMaMA);
 		txtMaMA.setColumns(10);
 		
 		JLabel lblTnNguynLiu = new JLabel("Mã loại:");
 		lblTnNguynLiu.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTnNguynLiu.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTnNguynLiu.setBounds(10, 45, 130, 25);
+		lblTnNguynLiu.setBounds(10, 84, 130, 25);
 		panel_1.add(lblTnNguynLiu);
 		
 		JLabel lblSLng = new JLabel("Mã nguyên liệu:");
 		lblSLng.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSLng.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblSLng.setBounds(10, 80, 130, 25);
+		lblSLng.setBounds(10, 119, 130, 25);
 		panel_1.add(lblSLng);
 		
 		JButton btnThem = new JButton("Thêm");
@@ -99,7 +99,7 @@ public class PnChinhSuaMonAn extends JPanel {
 			}
 		});
 		btnThem.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnThem.setBounds(360, 5, 90, 30);
+		btnThem.setBounds(360, 44, 90, 30);
 		panel_1.add(btnThem);
 		
 		JButton btnSua = new JButton("Sửa");
@@ -109,20 +109,20 @@ public class PnChinhSuaMonAn extends JPanel {
 			}
 		});
 		btnSua.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnSua.setBounds(360, 110, 90, 30);
+		btnSua.setBounds(360, 149, 90, 30);
 		panel_1.add(btnSua);
 		
 		JLabel lblTnMnn = new JLabel("Tên món ăn:");
 		lblTnMnn.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTnMnn.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTnMnn.setBounds(10, 115, 130, 25);
+		lblTnMnn.setBounds(10, 154, 130, 25);
 		panel_1.add(lblTnMnn);
 		
 		txtTenMA = new JTextField();
 		txtTenMA.setHorizontalAlignment(SwingConstants.LEFT);
 		txtTenMA.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtTenMA.setColumns(10);
-		txtTenMA.setBounds(140, 115, 200, 25);
+		txtTenMA.setBounds(140, 154, 200, 25);
 		panel_1.add(txtTenMA);
 		
 		JButton btnXoa = new JButton("Xóa");
@@ -132,19 +132,19 @@ public class PnChinhSuaMonAn extends JPanel {
 			}
 		});
 		btnXoa.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnXoa.setBounds(360, 75, 90, 30);
+		btnXoa.setBounds(360, 114, 90, 30);
 		panel_1.add(btnXoa);
 		
 		String[] maLoais = getCmbMaLoai();
 		cmbMaLoai = new JComboBox(maLoais);
 		cmbMaLoai.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cmbMaLoai.setBounds(140, 45, 200, 25);
+		cmbMaLoai.setBounds(140, 84, 200, 25);
 		panel_1.add(cmbMaLoai);
 		
 		String[] maNguyenLieus = getCmbMaNL();
 		cmbMaNL = new JComboBox(maNguyenLieus);
 		cmbMaNL.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cmbMaNL.setBounds(140, 80, 200, 25);
+		cmbMaNL.setBounds(140, 119, 200, 25);
 		panel_1.add(cmbMaNL);
 		
 		JButton btnThemLoaiMonAn = new JButton("Thêm loại món ăn ");
@@ -154,11 +154,18 @@ public class PnChinhSuaMonAn extends JPanel {
 				btnThemLoaiMonAnClicked();
 			}
 		});
-		btnThemLoaiMonAn.setBounds(360, 40, 190, 30);
+		btnThemLoaiMonAn.setBounds(360, 79, 190, 30);
 		panel_1.add(btnThemLoaiMonAn);
 		
+		JLabel lblChnhSaMn = new JLabel("Chỉnh sửa món ăn");
+		lblChnhSaMn.setForeground(Color.YELLOW);
+		lblChnhSaMn.setHorizontalAlignment(SwingConstants.LEFT);
+		lblChnhSaMn.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblChnhSaMn.setBounds(189, 8, 239, 30);
+		panel_1.add(lblChnhSaMn);
+		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(0, 150, 560, 350);
+		panel_2.setBounds(0, 190, 560, 310);
 		panel.add(panel_2);
 		panel_2.setLayout(new BorderLayout(0, 0));
 		

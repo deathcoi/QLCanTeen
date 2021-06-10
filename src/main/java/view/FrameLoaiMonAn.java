@@ -39,40 +39,40 @@ public class FrameLoaiMonAn extends JFrame {
 
 		JLabel lblNewLabel = new JLabel("Mã loại");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(10, 10, 116, 30);
+		lblNewLabel.setBounds(10, 49, 116, 30);
 		getContentPane().add(lblNewLabel);
 
 		txtMaLoai = new JTextField();
 		txtMaLoai.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txtMaLoai.setBounds(136, 10, 414, 30);
+		txtMaLoai.setBounds(136, 49, 414, 30);
 		getContentPane().add(txtMaLoai);
 		txtMaLoai.setColumns(10);
 
 		JLabel lblTnLoi = new JLabel("Tên loại");
 		lblTnLoi.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTnLoi.setBounds(10, 50, 116, 30);
+		lblTnLoi.setBounds(10, 89, 116, 30);
 		getContentPane().add(lblTnLoi);
 
 		txtTenLoai = new JTextField();
 		txtTenLoai.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtTenLoai.setColumns(10);
-		txtTenLoai.setBounds(136, 50, 414, 30);
+		txtTenLoai.setBounds(136, 89, 414, 30);
 		getContentPane().add(txtTenLoai);
 
 		JLabel lblGiTin = new JLabel("Giá tiền");
 		lblGiTin.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblGiTin.setBounds(10, 90, 116, 30);
+		lblGiTin.setBounds(10, 129, 116, 30);
 		getContentPane().add(lblGiTin);
 
 		txtGiaTien = new JTextField();
 		txtGiaTien.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtGiaTien.setColumns(10);
-		txtGiaTien.setBounds(136, 90, 414, 30);
+		txtGiaTien.setBounds(136, 129, 414, 30);
 		getContentPane().add(txtGiaTien);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		scrollPane.setBounds(10, 170, 540, 330);
+		scrollPane.setBounds(10, 210, 540, 290);
 		getContentPane().add(scrollPane);
 
 		table = new JTable(new DefaultTableModel(new Object[] { "Mã loại", "Tên loại", "Giá tiền" }, 0));
@@ -94,7 +94,7 @@ public class FrameLoaiMonAn extends JFrame {
 			}
 		});
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnXoa.setBounds(465, 130, 85, 30);
+		btnXoa.setBounds(465, 169, 85, 30);
 		getContentPane().add(btnXoa);
 
 		JButton btnThem = new JButton("Thêm/Sửa");
@@ -104,8 +104,14 @@ public class FrameLoaiMonAn extends JFrame {
 			}
 		});
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnThem.setBounds(309, 130, 146, 30);
+		btnThem.setBounds(309, 169, 146, 30);
 		getContentPane().add(btnThem);
+		
+		JLabel lblChnhSaLoi = new JLabel("Chỉnh sửa loại món ăn");
+		lblChnhSaLoi.setForeground(Color.YELLOW);
+		lblChnhSaLoi.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblChnhSaLoi.setBounds(161, 8, 293, 30);
+		getContentPane().add(lblChnhSaLoi);
 	}
 
 	private JTextField txtMaLoai;

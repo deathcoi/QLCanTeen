@@ -53,7 +53,7 @@ public class PnTinhLuong extends JPanel {
 		add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel lblNewLabel = new JLabel("Chấm công");
+		JLabel lblNewLabel = new JLabel("Tính lương");
 		lblNewLabel.setForeground(Color.YELLOW);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		panel.add(lblNewLabel);
