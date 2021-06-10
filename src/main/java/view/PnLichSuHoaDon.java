@@ -122,7 +122,7 @@ public class PnLichSuHoaDon extends JPanel {
 				}
 			} else {
 				SimpleDateFormat formatter = new SimpleDateFormat("MMMMM dd, yyyy HH:mm:ss");
-				Date tuNgay = formatter.parse(datePickerTuNgay.getComponentDateTextField().getText() + " 23:59:59");
+				Date tuNgay = formatter.parse(datePickerTuNgay.getComponentDateTextField().getText() + " 00:00:00");
 				Date denNgay = formatter.parse(datePickerDenNgay.getComponentDateTextField().getText() + " 23:59:59");
 				//JOptionPane.showMessageDialog(this, tuNgay.toString());
 				//formatter.format(date)

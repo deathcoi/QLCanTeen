@@ -116,13 +116,15 @@ public class PnThongKe extends JPanel {
 
 	private void btnXacNhanClicked() {
 		try {
+			if (datePickerTuNgay.getText().isBlank() || datePickerDenNgay.getText().isBlank())
+				throw new Exception("Vui lòng chọn ngày đầy đủ!");
 			ObjectMapper mapper = new ObjectMapper();
 			IpushMethodService service = new PushMethodService();
 			
 			List<Map<String, ?>> dataSource = new ArrayList<Map<String, ?>>();
 
 			SimpleDateFormat formatter = new SimpleDateFormat("MMMMM dd, yyyy HH:mm:ss");
-			Date tuNgay = formatter.parse(datePickerTuNgay.getComponentDateTextField().getText() + " 23:59:59");
+			Date tuNgay = formatter.parse(datePickerTuNgay.getComponentDateTextField().getText() + " 00:00:00");
 			Date denNgay = formatter.parse(datePickerDenNgay.getComponentDateTextField().getText() + " 23:59:59");
 			
 			String url = "http://localhost:8080/APISpring/api/hoadon/date/" + mapper.writeValueAsString(tuNgay) + "/" + mapper.writeValueAsString(denNgay);
