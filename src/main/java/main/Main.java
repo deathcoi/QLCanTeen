@@ -13,6 +13,7 @@ import view.PnKhachHang;
 import view.PnNhanVien;
 import view.PnQuanLy;
 
+@SuppressWarnings("serial")
 public class Main extends JFrame {
 
 	private JPanel contentPane;

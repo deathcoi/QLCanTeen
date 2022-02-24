@@ -27,9 +27,9 @@ import javax.swing.border.LineBorder;
 
 import entities.NhanVien;
 
+@SuppressWarnings("serial")
 public class PnQuanLy extends JPanel {
 
-	private static final long serialVersionUID = 1L;
 	@SuppressWarnings("unused")
 	private JFrame mainFrame;
 	
