@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import DAO.KhachHangDAO;
 import constant.HttpConstant;
 import entities.KhachHang;
 import service.IpushMethodService;
@@ -195,13 +196,9 @@ public class PnThongTinKhachHang extends JPanel {
 	}
 	
 	private List<KhachHang> loadData(){
-		ObjectMapper mapper = new ObjectMapper();
-		IpushMethodService method = new PushMethodService();
-		
 		List<KhachHang> list = null;
 		try {
-			list = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/khachhang", null), new TypeReference<List<KhachHang>>() {
-			});
+			list = KhachHangDAO.layThongTinKhachHang();
 		} catch(Exception ex) {
 			list = null;
 		}

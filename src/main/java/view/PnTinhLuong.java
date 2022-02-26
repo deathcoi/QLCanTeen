@@ -26,6 +26,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.lgooddatepicker.components.DatePicker;
 
+import DAO.BangChamCongDAO;
+import DAO.NhanVienDAO;
 import constant.HttpConstant;
 import entities.BangChamCong;
 import entities.NhanVien;
@@ -144,9 +146,8 @@ public class PnTinhLuong extends JPanel {
 			JTableUnEdit model = (JTableUnEdit) table.getModel();
 			model.setRowCount(0);
 			if (datePickerTuNgay.getComponentDateTextField().getText().isBlank() == true || datePickerDenNgay.getComponentDateTextField().getText().isBlank() == true) {
-				List<BangChamCong> list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET,
-						"http://localhost:8080/APISpring/api/bangchamcong", null), new TypeReference<List<BangChamCong>>() {
-						});
+				List<BangChamCong> list = BangChamCongDAO.layDanhSachBangChamCong();
+				
 				for (BangChamCong h : list) {
 					model.addRow(new Object[] {
 						h.getNhanVien().getMaNV(),
@@ -157,22 +158,15 @@ public class PnTinhLuong extends JPanel {
 				}
 				status = 0;
 			} else if (!txtMaNV.getText().isBlank()) {
-				String httpNV = "http://localhost:8080/APISpring/api/nhanvien/" + txtMaNV.getText();
-				NhanVien nhanVien = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpNV, txtMaNV.getText()), NhanVien.class);
-				
+				NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
 				if (nhanVien == null)
 					throw new Exception("Không tìm thấy nhân viên");
 				SimpleDateFormat formatter = new SimpleDateFormat("MMMMM dd, yyyy HH:mm:ss");
 				Date tuNgay = formatter.parse(datePickerTuNgay.getComponentDateTextField().getText() + " 23:59:59");
 				Date denNgay = formatter.parse(datePickerDenNgay.getComponentDateTextField().getText() + " 23:59:59");
-				
-				String jsonTuNgay = mapper.writeValueAsString(tuNgay);
-				String jsonDenNgay = mapper.writeValueAsString(denNgay);
 
-				//List<BangChamCong> list = BangChamCongDAO.layDanhSachBangChamCongTheoNgayVaMa(tuNgay, denNgay, txtMaNV.getText());
-				String httpString = "http://localhost:8080/APISpring/api/bangchamcong/" + jsonTuNgay + "/" + jsonDenNgay + "/" + txtMaNV.getText();
-				List<BangChamCong> list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET,httpString, null), new TypeReference<List<BangChamCong>>() {});
-				for (BangChamCong h : list) {
+				List<BangChamCong> list = BangChamCongDAO.layDanhSachBangChamCongTheoNgay(tuNgay, denNgay);
+						for (BangChamCong h : list) {
 					model.addRow(new Object[] {
 							h.getNhanVien().getMaNV(),
 							h.getNhanVien().getTenNV(),
@@ -186,12 +180,8 @@ public class PnTinhLuong extends JPanel {
 				Date tuNgay = formatter.parse(datePickerTuNgay.getComponentDateTextField().getText() + " 23:59:59");
 				Date denNgay = formatter.parse(datePickerDenNgay.getComponentDateTextField().getText() + " 23:59:59");
 				
-				String jsonTuNgay = mapper.writeValueAsString(tuNgay);
-				String jsonDenNgay = mapper.writeValueAsString(denNgay);
-				
-				String httpString = "http://localhost:8080/APISpring/api/bangchamcong/" + jsonTuNgay + "/" + jsonDenNgay;
-				List<BangChamCong> list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET,httpString, null), new TypeReference<List<BangChamCong>>() {});
-				for (BangChamCong h : list) {
+				List<BangChamCong> list = BangChamCongDAO.layDanhSachBangChamCongTheoNgay(tuNgay, denNgay);
+						for (BangChamCong h : list) {
 					model.addRow(new Object[] {
 							h.getNhanVien().getMaNV(),
 							h.getNhanVien().getTenNV(),
