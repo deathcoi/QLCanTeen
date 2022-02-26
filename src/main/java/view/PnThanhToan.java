@@ -43,6 +43,11 @@ import com.mservice.shared.constants.Parameter;
 import com.mservice.shared.sharedmodels.Environment;
 import com.mservice.shared.utils.LogUtils;
 
+import DAO.CTHoaDonDAO;
+import DAO.HoaDonDAO;
+import DAO.KhachHangDAO;
+import DAO.MonAnDAO;
+import DAO.NguyenLieuDAO;
 import constant.HttpConstant;
 import entities.CTHoaDon;
 import entities.HoaDon;
@@ -502,9 +507,8 @@ public class PnThanhToan extends JPanel {
 		KhachHang kh = null;
 		try {
 			kiemTraTxt(txtKhachHang);
-			String httpStringKH = "http://localhost:8080/APISpring/api/khachhang/sdt/" + txtKhachHang.getText();
 			try {
-				kh = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringKH, txtKhachHang.getText()), KhachHang.class);
+				kh = KhachHangDAO.layThongTinKhachHangTheoSDT(Long.parseLong(txtKhachHang.getText()));
 			} catch (Exception e){
 				kh = null;
 			}
@@ -563,7 +567,7 @@ public class PnThanhToan extends JPanel {
 			if (model.getRowCount() == 0)
 				throw new Exception("Vui lòng chọn món ăn!");
 
-			HoaDon hoaDon = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/hoadon/autocreate", null), HoaDon.class);
+			HoaDon hoaDon = HoaDonDAO.taoHoaDonMoi();
 			hoaDon.setNhanVien(nhanVien);
 			hoaDon.setNgayLap(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(lbDateTime.getText()));
 			hoaDon.setTongTien(Long.parseLong(lbTongCong.getText()));
@@ -593,30 +597,24 @@ public class PnThanhToan extends JPanel {
 				} else {
 					Long tien2 = khachHang.getTien() - tien;
 					khachHang.setTien(tien2);
-					service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/khachhang/", khachHang);
+					KhachHangDAO.suaKhachHang(khachHang);
 				}
 			}
 			
-			service.pushMethod(HttpConstant.HTTPREQUESTPOST,  "http://localhost:8080/APISpring/api/hoadon", hoaDon);
+			HoaDonDAO.themHoaDon(hoaDon);
 			List<Map<String, ?>> dataSource = new ArrayList<Map<String, ?>>();
 			
 			for (int i = 0; i < model.getRowCount(); i++) {
-				String httpMA = "http://localhost:8080/APISpring/api/monan/name/" + URLEncoder.encode(model.getValueAt(i, 0).toString(), "UTF-8");
-				MonAn monAn = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
-				
+				MonAn monAn = MonAnDAO.layThongTinMonAnTheoTen(model.getValueAt(i, 0).toString());
 				NguyenLieu nguyenLieu = monAn.getNguyenLieu();
 				if (nguyenLieu.getSoLuong() - Integer.parseInt(model.getValueAt(i, 1).toString()) < 0)
 					throw new Exception("Món " + monAn.getTenMA() + " đã hết!");
-				
-				nguyenLieu.setSoLuong(nguyenLieu.getSoLuong() - Integer.parseInt(model.getValueAt(i, 1).toString()));
-				service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/nguyenlieu", nguyenLieu);
-				
+				NguyenLieuDAO.updateNguyenLieu(nguyenLieu);
 				CTHoaDon ctHoaDon = new CTHoaDon();
 				ctHoaDon.setHoaDon(hoaDon);
 				ctHoaDon.setMonAn(monAn);
 				ctHoaDon.setSoLuong(Integer.parseInt(model.getValueAt(i, 1).toString()));
-				service.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/cthoadon", ctHoaDon);
-				
+				CTHoaDonDAO.themHoaDon(ctHoaDon);
 				Map<String, Object> field = new HashMap<String, Object>(); // xu li report
 				
 				field.put("monAn", ctHoaDon.getMonAn().getTenMA());
@@ -696,7 +694,7 @@ public class PnThanhToan extends JPanel {
 			if (model.getRowCount() == 0)
 				throw new Exception("Vui lòng chọn món ăn!");
 
-			HoaDon hoaDon = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/hoadon/autocreate", null), HoaDon.class);
+			HoaDon hoaDon = HoaDonDAO.taoHoaDonMoi();
 			hoaDon.setNhanVien(nhanVien);
 			hoaDon.setNgayLap(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(lbDateTime.getText()));
 			hoaDon.setTongTien(Long.parseLong(lbTongCong.getText()));
@@ -707,27 +705,23 @@ public class PnThanhToan extends JPanel {
 			} else {
 				momoException(posPayResponse.getStatus());
 			}
-			
-			service.pushMethod(HttpConstant.HTTPREQUESTPOST,  "http://localhost:8080/APISpring/api/hoadon", hoaDon);
+			HoaDonDAO.themHoaDon(hoaDon);
 			List<Map<String, ?>> dataSource = new ArrayList<Map<String, ?>>();
 			
 			for (int i = 0; i < model.getRowCount(); i++) {
-				String httpMA = "http://localhost:8080/APISpring/api/monan/name/" + URLEncoder.encode(model.getValueAt(i, 0).toString(), "UTF-8");
-				MonAn monAn = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpMA, null), MonAn.class);
+				MonAn monAn = MonAnDAO.layThongTinMonAnTheoTen(model.getValueAt(i, 0).toString());
 				
 				NguyenLieu nguyenLieu = monAn.getNguyenLieu();
 				if (nguyenLieu.getSoLuong() - Integer.parseInt(model.getValueAt(i, 1).toString()) < 0)
 					throw new Exception("Món " + monAn.getTenMA() + " đã hết!");
 				
 				nguyenLieu.setSoLuong(nguyenLieu.getSoLuong() - Integer.parseInt(model.getValueAt(i, 1).toString()));
-				service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/nguyenlieu", nguyenLieu);
-				
+				NguyenLieuDAO.updateNguyenLieu(nguyenLieu);
 				CTHoaDon ctHoaDon = new CTHoaDon();
 				ctHoaDon.setHoaDon(hoaDon);
 				ctHoaDon.setMonAn(monAn);
 				ctHoaDon.setSoLuong(Integer.parseInt(model.getValueAt(i, 1).toString()));
-				service.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/cthoadon", ctHoaDon);
-				
+				CTHoaDonDAO.themHoaDon(ctHoaDon);
 				Map<String, Object> field = new HashMap<String, Object>(); // xu li report
 				
 				field.put("monAn", ctHoaDon.getMonAn().getTenMA());

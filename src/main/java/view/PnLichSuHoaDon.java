@@ -22,6 +22,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.lgooddatepicker.components.DatePicker;
 
+import DAO.HoaDonDAO;
 import constant.HttpConstant;
 import entities.HoaDon;
 import service.IpushMethodService;
@@ -110,7 +111,7 @@ public class PnLichSuHoaDon extends JPanel {
 			JTableUnEdit model = (JTableUnEdit) table.getModel();
 			model.setRowCount(0);
 			if (datePickerTuNgay.getComponentDateTextField().getText().isBlank() == true || datePickerDenNgay.getComponentDateTextField().getText().isBlank() == true) {
-				List<HoaDon> list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/hoadon", null), new TypeReference<List<HoaDon>>() {});
+				List<HoaDon> list = HoaDonDAO.layDanhSacHoaDon();
 				for (HoaDon h : list) {
 					model.addRow(new Object[] {
 							h.getMaHD(),
@@ -127,9 +128,7 @@ public class PnLichSuHoaDon extends JPanel {
 				//JOptionPane.showMessageDialog(this, tuNgay.toString());
 				//formatter.format(date)
 				
-				String url = "http://localhost:8080/APISpring/api/hoadon/date/" + mapper.writeValueAsString(tuNgay) + "/" + mapper.writeValueAsString(denNgay);
-				
-				List<HoaDon> list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, url, null), new TypeReference<List<HoaDon>>() {});
+				List<HoaDon>	list = HoaDonDAO.layDanhSacHoaDonTheoNgay(tuNgay, denNgay);
 				for (HoaDon h : list) {
 					model.addRow(new Object[] {
 							h.getMaHD(),
@@ -151,9 +150,10 @@ public class PnLichSuHoaDon extends JPanel {
 			IpushMethodService service = new PushMethodService();
 			
 			if (table.getSelectedRow() != -1) {
-				String url = "http://localhost:8080/APISpring/api/hoadon/id/" + (String) table.getValueAt(table.getSelectedRow(), 0);
-				HoaDon hoaDon = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, url, null), HoaDon.class);
-
+				
+				HoaDon hoaDon = HoaDonDAO.layThongTinHoaDon((String) table.getValueAt(table.getSelectedRow(), 0));
+				
+				
 				FrameCTHoaDon frameCTHoaDon = new FrameCTHoaDon(hoaDon); 
 				frameCTHoaDon.setVisible(true);
 			} else {

@@ -20,6 +20,9 @@ import javax.swing.JPasswordField;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import DAO.KhachHangDAO;
+import DAO.TaiKhoanKHDAO;
+import DAO.TaiKhoanNVDAO;
 import constant.HttpConstant;
 import entities.KhachHang;
 import entities.NhanVien;
@@ -143,10 +146,9 @@ public class PnDoiMatKhau extends JPanel {
 				String passM = new String(txtMKM.getPassword());
 				String passNL = new String(txtMKNL.getPassword());
 				
-				String httpStringKH = "http://localhost:8080/APISpring/api/taikhoankh/" + kh.getMaKH();
 				TaiKhoanKH khachHang = null;
 				try {
-					khachHang = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringKH, kh.getMaKH()), TaiKhoanKH.class);
+					khachHang = TaiKhoanKHDAO.layThongTinTK(kh.getMaKH());
 				} catch(Exception ex) {
 					khachHang = null;
 				}
@@ -158,7 +160,7 @@ public class PnDoiMatKhau extends JPanel {
 						throw new Exception("Mật khẩu nhập lại không trùng khớp!!!");
 					else {
 						khachHang.setMatKhau(passM);
-						service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/taikhoankh/", khachHang);
+						TaiKhoanKHDAO.DoiMatKhau(khachHang);
 					}
 				} else
 					throw new Exception("Sai mật khẩu!!!");
@@ -166,9 +168,7 @@ public class PnDoiMatKhau extends JPanel {
 
 				NhanVien nv = (NhanVien) user;
 
-				String httpStringNV = "http://localhost:8080/APISpring/api/taikhoannv/" + nv.getMaNV();
-				TaiKhoanNV taiKhoanNV = mapper.readValue(
-						service.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNV, nv.getMaNV()), TaiKhoanNV.class);
+				TaiKhoanNV taiKhoanNV = TaiKhoanNVDAO.layThongTinTK(nv.getMaNV());
 				String pass = new String(txtMKHT.getPassword());
 				String passM = new String(txtMKM.getPassword());
 				String passNL = new String(txtMKNL.getPassword());
@@ -179,8 +179,7 @@ public class PnDoiMatKhau extends JPanel {
 						throw new Exception("Mật khẩu nhập lại không trùng khớp!!!");
 					else {
 						taiKhoanNV.setMatKhau(passM);
-						service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/taikhoannv",
-								taiKhoanNV);
+						TaiKhoanNVDAO.DoiMatKhau(taiKhoanNV);
 					}
 				} else
 					throw new Exception("Sai mật khẩu!!!");

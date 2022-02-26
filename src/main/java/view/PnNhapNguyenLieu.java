@@ -146,12 +146,7 @@ public class PnNhapNguyenLieu extends JPanel {
 		DefaultTableModel model = (DefaultTableModel) table_1.getModel();
 		model.setRowCount(0);
 		List<NguyenLieu> listNL = null;
-//		try {
-//			listNL = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/nguyenlieu", null), new TypeReference<List<NguyenLieu>>() {
-//			});
-//		} catch(Exception ex) {
-//			listNL = null;
-//		}
+
 		listNL = NguyenLieuDAO.layDanhSachNguyenLieu();
 		for (NguyenLieu n : listNL) {
 			model.addRow(new Object[] {
@@ -178,8 +173,7 @@ public class PnNhapNguyenLieu extends JPanel {
 			nguyenLieu.setTenNguyenLieu(txtTenNL.getText());
 			nguyenLieu.setSoLuong(Integer.parseInt(txtSL.getText()));
 			
-			method.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/nguyenlieu", nguyenLieu);
-			
+			NguyenLieuDAO.themNguyenLieu(nguyenLieu);
 			loadTable();
 			loadText();
 			
@@ -199,8 +193,7 @@ public class PnNhapNguyenLieu extends JPanel {
 			nguyenLieu.setTenNguyenLieu(txtTenNL.getText());
 			nguyenLieu.setSoLuong(Integer.parseInt(txtSL.getText()));
 			
-			method.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/nguyenlieu", nguyenLieu);
-			
+			NguyenLieuDAO.suaNguyenLieu(nguyenLieu);
 			loadTable();
 			
 			loadText();

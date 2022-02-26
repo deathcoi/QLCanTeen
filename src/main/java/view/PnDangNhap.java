@@ -27,6 +27,8 @@ import javax.swing.SwingConstants;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import DAO.TaiKhoanKHDAO;
+import DAO.TaiKhoanNVDAO;
 import constant.HttpConstant;
 import entities.TaiKhoanKH;
 import entities.TaiKhoanNV;
@@ -197,22 +199,20 @@ public class PnDangNhap extends JPanel {
 			if (txtTaiKhoan.getText().compareTo("") == 0 || pass.compareTo("") == 0)
 				throw new Exception("Vui lòng nhập đầy đủ thông tin");
 			
-			String httpStringNV = "http://localhost:8080/APISpring/api/taikhoannv/" + txtTaiKhoan.getText();
+			
 			TaiKhoanNV taiKhoanNV = null;
 				try {
-					taiKhoanNV = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringNV, txtTaiKhoan.getText()), TaiKhoanNV.class);
+					taiKhoanNV = TaiKhoanNVDAO.layThongTinTK(txtTaiKhoan.getText());
 				} catch (Exception e) {
 					taiKhoanNV = null;
 				}
 				
-			String httpStringKH = "http://localhost:8080/APISpring/api/taikhoankh/" + txtTaiKhoan.getText();
 			TaiKhoanKH taiKhoanKH = null;
 			try {
-				taiKhoanKH = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpStringKH, txtTaiKhoan.getText()), TaiKhoanKH.class);
+				taiKhoanKH = TaiKhoanKHDAO.layThongTinTK(txtTaiKhoan.getText());
 			} catch(Exception ex) {
 				taiKhoanKH = null;
 			}
-			
 			
 			if (taiKhoanNV == null && taiKhoanKH == null)
 				throw new Exception("Tài khoản không tồn tại");

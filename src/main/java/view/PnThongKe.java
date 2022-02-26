@@ -26,6 +26,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.lgooddatepicker.components.DatePicker;
 
+import DAO.HoaDonDAO;
 import constant.HttpConstant;
 import entities.HoaDon;
 import entities.NhanVien;
@@ -127,8 +128,7 @@ public class PnThongKe extends JPanel {
 			Date tuNgay = formatter.parse(datePickerTuNgay.getComponentDateTextField().getText() + " 00:00:00");
 			Date denNgay = formatter.parse(datePickerDenNgay.getComponentDateTextField().getText() + " 23:59:59");
 			
-			String url = "http://localhost:8080/APISpring/api/hoadon/date/" + mapper.writeValueAsString(tuNgay) + "/" + mapper.writeValueAsString(denNgay);
-			List<HoaDon> list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, url, null), new TypeReference<List<HoaDon>>() {});
+			List<HoaDon> list = HoaDonDAO.layDanhSacHoaDonTheoNgay(tuNgay, denNgay);
 			for (HoaDon hoaDon : list) {	
 				Map<String, Object> field = new HashMap<String, Object>();
 				field.put("maHD", hoaDon.getMaHD());
