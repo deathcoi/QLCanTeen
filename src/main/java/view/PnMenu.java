@@ -27,6 +27,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import DAO.MonAnDAO;
 import constant.HttpConstant;
 import entities.MonAn;
 import service.IpushMethodService;
@@ -70,16 +71,18 @@ public class PnMenu extends JPanel {
 	}
 
 	private void addMonAnAuto() {
-		ObjectMapper mapper = new ObjectMapper();
-		IpushMethodService method = new PushMethodService();
+//		ObjectMapper mapper = new ObjectMapper();
+//		IpushMethodService method = new PushMethodService();
+//		List<MonAn> list = null;
+//		try {
+//			list = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/monan", null), new TypeReference<List<MonAn>>() {});
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (JsonProcessingException e) {
+//			e.printStackTrace();
+//		}
 		List<MonAn> list = null;
-		try {
-			list = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/monan", null), new TypeReference<List<MonAn>>() {});
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
+		list = MonAnDAO.layDanhSachMonAn();
 
 		for (MonAn monAn : list) {
 			if (monAn.getNguyenLieu().getSoLuong() != 0) {

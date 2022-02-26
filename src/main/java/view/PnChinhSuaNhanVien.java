@@ -28,6 +28,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import DAO.NhanVienDAO;
 import constant.HttpConstant;
 import entities.NhanVien;
 import entities.TaiKhoanNV;
@@ -240,20 +241,21 @@ public class PnChinhSuaNhanVien extends JPanel {
 	}
 
 	private void loadTable() {
-		IpushMethodService service = new PushMethodService();
-		ObjectMapper mapper = new ObjectMapper();
+//		IpushMethodService service = new PushMethodService();
+//		ObjectMapper mapper = new ObjectMapper();
 		
 		DefaultTableModel model = (DefaultTableModel) table_1.getModel();
 		model.setRowCount(0);
 		List<NhanVien> list = new ArrayList<NhanVien>();
-		try {
-			list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/nhanvien", null), new TypeReference<List<NhanVien>>() {
-			});
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/nhanvien", null), new TypeReference<List<NhanVien>>() {
+//			});
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (JsonProcessingException e) {
+//			e.printStackTrace();
+//		}
+		list = NhanVienDAO.layDanhSachNhanVien();
 		for (NhanVien n : list) {
 			model.addRow(new Object[] { n.getMaNV(), n.getTenNV(), n.getGioiTinh(), n.getNamSinh(), n.getSdt() });
 		}

@@ -25,6 +25,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import DAO.LoaiMonAnDAO;
+import DAO.MonAnDAO;
+import DAO.NguyenLieuDAO;
 import constant.HttpConstant;
 import entities.LoaiMonAn;
 import entities.MonAn;
@@ -241,13 +244,8 @@ public class PnChinhSuaMonAn extends JPanel {
 		model.setRowCount(0);
 		
 		List<MonAn> list = null;
-		try {
-			list = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/monan", null), new TypeReference<List<MonAn>>() {});
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
+		list = MonAnDAO.layDanhSachMonAn();
+		//list = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/monan", null), new TypeReference<List<MonAn>>() {});
 		
 		
 		for (MonAn n : list) {
@@ -261,17 +259,18 @@ public class PnChinhSuaMonAn extends JPanel {
 		}
 	}
 	private String[] getCmbMaLoai() {
-		List<LoaiMonAn> monAn = null;
+		List<LoaiMonAn> dsLoaimonAn = null;
 		String[] list = null;
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			IpushMethodService method = new PushMethodService();
 			
-			monAn = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/loaimonan", null), new TypeReference<List<LoaiMonAn>>() {});
-			list = new String[monAn.size()];
+//			monAn = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/loaimonan", null), new TypeReference<List<LoaiMonAn>>() {});
+			dsLoaimonAn = LoaiMonAnDAO.layDanhSachLoaiMonAn();
+			list = new String[dsLoaimonAn.size()];
 			for(int i = 0 ; i<list.length; i++)
 			{
-				list[i]= monAn.get(i).getMaLoai() + "-" + monAn.get(i).getTenLoai();
+				list[i]= dsLoaimonAn.get(i).getMaLoai() + "-" + dsLoaimonAn.get(i).getTenLoai();
 				
 			}
 		} catch (Exception e) {
@@ -286,8 +285,8 @@ public class PnChinhSuaMonAn extends JPanel {
 		List<NguyenLieu> listNL = null;
 		String[] list = null;
 		try {
-			listNL = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/nguyenlieu", null), new TypeReference<List<NguyenLieu>>() {
-			});
+			listNL = NguyenLieuDAO.layDanhSachNguyenLieu();
+			//listNL = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/nguyenlieu", null), new TypeReference<List<NguyenLieu>>() {});
 			list = new String[listNL.size()];
 			for(int i = 0 ; i<list.length; i++)
 			{

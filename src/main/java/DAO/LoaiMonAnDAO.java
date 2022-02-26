@@ -4,13 +4,11 @@ import java.util.List;
 
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import Utils.HibernateUtil;
 import entities.LoaiMonAn;
-import entities.NguyenLieu;
 
 public class LoaiMonAnDAO {
 	public static List<LoaiMonAn> layDanhSachLoaiMonAn(){

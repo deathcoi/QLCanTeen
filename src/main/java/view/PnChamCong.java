@@ -23,6 +23,7 @@ import javax.swing.Timer;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import DAO.BangChamCongDAO;
 import constant.HttpConstant;
 import entities.BangChamCong;
 import entities.NhanVien;
@@ -165,9 +166,8 @@ public class PnChamCong extends JPanel {
 			IpushMethodService service = new PushMethodService();
 
 			ObjectMapper mapper = new ObjectMapper();
-			List<BangChamCong> list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET,
-					"http://localhost:8080/APISpring/api/bangchamcong", null), new TypeReference<List<BangChamCong>>() {
-					});
+			List<BangChamCong> list = BangChamCongDAO.layDanhSachBangChamCong();
+			//mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/bangchamcong", null), new TypeReference<List<BangChamCong>>() {});
 
 			System.out.println(list.size());
 

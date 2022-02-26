@@ -1,8 +1,8 @@
 package table;
 
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
+@SuppressWarnings("serial")
 public class JTableButtonModel extends DefaultTableModel{
 
 	public JTableButtonModel(Object[] rows, int columns) {
@@ -13,6 +13,7 @@ public class JTableButtonModel extends DefaultTableModel{
 		return false;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Class getColumnClass(int column) {
 		return getValueAt(0, column).getClass();
 	}

@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import DAO.NguyenLieuDAO;
 import constant.HttpConstant;
 import entities.NguyenLieu;
 import service.IpushMethodService;
@@ -145,12 +146,13 @@ public class PnNhapNguyenLieu extends JPanel {
 		DefaultTableModel model = (DefaultTableModel) table_1.getModel();
 		model.setRowCount(0);
 		List<NguyenLieu> listNL = null;
-		try {
-			listNL = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/nguyenlieu", null), new TypeReference<List<NguyenLieu>>() {
-			});
-		} catch(Exception ex) {
-			listNL = null;
-		}
+//		try {
+//			listNL = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/nguyenlieu", null), new TypeReference<List<NguyenLieu>>() {
+//			});
+//		} catch(Exception ex) {
+//			listNL = null;
+//		}
+		listNL = NguyenLieuDAO.layDanhSachNguyenLieu();
 		for (NguyenLieu n : listNL) {
 			model.addRow(new Object[] {
 				n.getMaNguyenLieu(),
