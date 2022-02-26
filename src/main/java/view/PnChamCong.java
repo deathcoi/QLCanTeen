@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import DAO.BangChamCongDAO;
+import DAO.NhanVienDAO;
 import constant.HttpConstant;
 import entities.BangChamCong;
 import entities.NhanVien;
@@ -33,7 +34,7 @@ import table.JTableUnEdit;
 
 public class PnChamCong extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
+
 	private JTable table;
 	private JLabel lbDateTime;
 	private JTextField txtMaNV;
@@ -111,23 +112,18 @@ public class PnChamCong extends JPanel {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			IpushMethodService service = new PushMethodService();
-			
-			
+
 			if (txtMaNV.getText().compareTo("") == 0)
 				throw new Exception("Vui lòng nhập mã nhân viên để chấm công!");
-			
-			
-			//NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
-			String httpNV = "http://localhost:8080/APISpring/api/nhanvien/" + txtMaNV.getText();
-			NhanVien nhanVien = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpNV, txtMaNV.getText()), NhanVien.class);
+
+			NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
 			if (nhanVien == null)
 				throw new Exception("Không tìm thấy mã nhân viên");
-			String httpString = "http://localhost:8080/APISpring/api/bangchamcong/" + txtMaNV.getText();
 			BangChamCong bcc = null;
 			try {
-				bcc = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpString, txtMaNV.getText()), BangChamCong.class);
+				bcc = BangChamCongDAO.layThongTinBCCTheoMaNV(txtMaNV.getText());
 			} catch (Exception e) {
-				//do nothing because it's null
+				// do nothing because it's null
 			}
 			if (bcc != null)
 				if (bcc.getKetThuc() == null)
@@ -138,8 +134,8 @@ public class PnChamCong extends JPanel {
 			bangChamCong.setStt(1);
 			bangChamCong.setBatDau(batDau);
 			bangChamCong.setNhanVien(nhanVien);
-			
-			service.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/bangchamcong", bangChamCong);
+
+			BangChamCongDAO.themBCC(bangChamCong);
 
 			JTableUnEdit model = (JTableUnEdit) table.getModel();
 			model.addRow(new Object[] { nhanVien.getMaNV(), nhanVien.getTenNV(), bangChamCong.getBatDau(), });
@@ -167,7 +163,6 @@ public class PnChamCong extends JPanel {
 
 			ObjectMapper mapper = new ObjectMapper();
 			List<BangChamCong> list = BangChamCongDAO.layDanhSachBangChamCong();
-			//mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, "http://localhost:8080/APISpring/api/bangchamcong", null), new TypeReference<List<BangChamCong>>() {});
 
 			System.out.println(list.size());
 
@@ -175,10 +170,7 @@ public class PnChamCong extends JPanel {
 			model.setRowCount(0);
 
 			for (BangChamCong bcc : list) {
-				model.addRow(new Object[] {
-						bcc.getNhanVien().getMaNV(),
-						bcc.getNhanVien().getTenNV(),
-						bcc.getBatDau(),
+				model.addRow(new Object[] { bcc.getNhanVien().getMaNV(), bcc.getNhanVien().getTenNV(), bcc.getBatDau(),
 						bcc.getKetThuc() });
 			}
 		} catch (Exception ex) {
@@ -195,14 +187,12 @@ public class PnChamCong extends JPanel {
 			
 			if (txtMaNV.getText().compareTo("") == 0)
 				throw new Exception("Vui lòng nhập mã nhân viên để chấm công!");
-			String httpNV = "http://localhost:8080/APISpring/api/nhanvien/" + txtMaNV.getText();
-			NhanVien nhanVien = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpNV, txtMaNV.getText()), NhanVien.class);
-			if (nhanVien == null)
+			NhanVien nhanVien = NhanVienDAO.layThongTinNhanVien(txtMaNV.getText());
+					if (nhanVien == null)
 				throw new Exception("Không tìm thấy mã nhân viên");
 			
 			String httpString = "http://localhost:8080/APISpring/api/bangchamcong/" + txtMaNV.getText();
-			BangChamCong bcc = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET, httpString , txtMaNV.getText()), BangChamCong.class);
-			
+			BangChamCong bcc = BangChamCongDAO.layThongTinBCCTheoMaNV(txtMaNV.getText());
 			if (bcc != null)
 				if (bcc.getBatDau() == null)
 					throw new Exception("Nhân viên này chưa bắt đầu ca làm!");
@@ -213,10 +203,8 @@ public class PnChamCong extends JPanel {
 			bcc.setKetThuc(ketThuc);
 			
 			//api update
-			service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/bangchamcong/", bcc);
-
+			BangChamCongDAO.suaBCC(bcc);
 			loadTable();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage());

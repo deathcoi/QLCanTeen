@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import DAO.LoaiMonAnDAO;
 import constant.HttpConstant;
 import entities.LoaiMonAn;
 import service.IpushMethodService;
@@ -106,7 +107,7 @@ public class FrameLoaiMonAn extends JFrame {
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnThem.setBounds(309, 169, 146, 30);
 		getContentPane().add(btnThem);
-		
+
 		JLabel lblChnhSaLoi = new JLabel("Chỉnh sửa loại món ăn");
 		lblChnhSaLoi.setForeground(Color.YELLOW);
 		lblChnhSaLoi.setFont(new Font("Tahoma", Font.BOLD, 25));
@@ -135,15 +136,8 @@ public class FrameLoaiMonAn extends JFrame {
 		ObjectMapper mapper = new ObjectMapper();
 
 		List<LoaiMonAn> list = null;
-		try {
-			list = mapper.readValue(method.pushMethod(HttpConstant.HTTPREQUESTGET,
-					"http://localhost:8080/APISpring/api/loaimonan", null), new TypeReference<List<LoaiMonAn>>() {
-					});
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
+		list = LoaiMonAnDAO.layDanhSachLoaiMonAn();
+
 		for (int i = 0; i < list.size(); i++) {
 			model.addRow(new Object[] { list.get(i).getMaLoai(), list.get(i).getTenLoai(), list.get(i).getGiaTien() });
 		}
@@ -164,17 +158,16 @@ public class FrameLoaiMonAn extends JFrame {
 				loaiMonAn.setMaLoai(txtMaLoai.getText());
 				loaiMonAn.setTenLoai(txtTenLoai.getText());
 				loaiMonAn.setGiaTien(Long.parseLong(txtGiaTien.getText()));
-
-				method.pushMethod(HttpConstant.HTTPREQUESTPOST, "http://localhost:8080/APISpring/api/loaimonan", loaiMonAn);
+				
+				LoaiMonAnDAO.themLoaiMonAn(loaiMonAn);
 
 				JOptionPane.showMessageDialog(this, "Thêm loại món ăn thành công!");
 				loadTable();
 			} else {
 				loaiMonAn.setTenLoai(txtTenLoai.getText());
 				loaiMonAn.setGiaTien(Long.parseLong(txtGiaTien.getText()));
-
-				method.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/loaimonan",
-						loaiMonAn);
+				
+				LoaiMonAnDAO.suaLoaiMonAn(loaiMonAn);
 
 				JOptionPane.showMessageDialog(this, "Sửa loại món ăn thành công!");
 				loadTable();
@@ -210,9 +203,8 @@ public class FrameLoaiMonAn extends JFrame {
 				throw new Exception("Loại món ăn không tồn tại!");
 			if (JOptionPane.showConfirmDialog(this,
 					"Xóa loại món ăn " + loaiMonAn.getTenLoai() + " ?") == JOptionPane.YES_OPTION) {
-				
-				method.pushMethod(HttpConstant.HTTPREQUESTDELETE, "http://localhost:8080/APISpring/api/loaimonan",
-						loaiMonAn);
+
+				LoaiMonAnDAO.xoaLoaiMonAn(loaiMonAn);
 				loadTable();
 
 				refreshTxt();
@@ -229,14 +221,9 @@ public class FrameLoaiMonAn extends JFrame {
 		txtMaLoai.setText("");
 		txtTenLoai.setText("");
 	}
-	
-	private LoaiMonAn getLoaiMonAn(ObjectMapper mapper, IpushMethodService method, String txt) throws JsonMappingException, JsonProcessingException {
-		String http = ("http://localhost:8080/APISpring/api/loaimonan/" + txt);
-		String str = method.pushMethod(HttpConstant.HTTPREQUESTGET, http, txt);
-		System.out.println(str);
-		if (str.equals(""))
-			return null;
-		return mapper.readValue(str, LoaiMonAn.class);
+
+	private LoaiMonAn getLoaiMonAn(ObjectMapper mapper, IpushMethodService method, String txt) {
+		return LoaiMonAnDAO.layThongTin(txt);
 	}
-	
+
 }

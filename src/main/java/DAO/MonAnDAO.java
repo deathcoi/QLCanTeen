@@ -67,17 +67,20 @@ public class MonAnDAO {
 		}
 	}
 	
-	public static void xoaMonAn(MonAn monan) {
+	public static int xoaMonAn(MonAn monan) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			session.remove(monan);
 			transaction.commit();
+			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
+		
+		return 0;
 	}
 	public static void suaMonAn(MonAn monan) {
 		Session session = HibernateUtil.getSessionFactory().openSession();

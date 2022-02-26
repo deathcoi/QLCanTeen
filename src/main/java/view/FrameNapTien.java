@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import DAO.KhachHangDAO;
 import constant.HttpConstant;
 import entities.KhachHang;
 import service.IpushMethodService;
@@ -67,13 +68,13 @@ public class FrameNapTien extends JFrame {
 		lblNewLabel_2.setBounds(10, 116, 100, 25);
 		panel.add(lblNewLabel_2);
 
-		String LoaiThe[] = {"Viettel", "Mobifone", "Vinaphone" };
+		String LoaiThe[] = { "Viettel", "Mobifone", "Vinaphone" };
 		cmbLoaiThe = new JComboBox(LoaiThe);
 		cmbLoaiThe.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cmbLoaiThe.addActionListener (new ActionListener () {
-		    public void actionPerformed(ActionEvent e) {
-		        indexchange();
-		    }
+		cmbLoaiThe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				indexchange();
+			}
 		});
 		cmbLoaiThe.setBounds(195, 76, 250, 25);
 		panel.add(cmbLoaiThe);
@@ -151,15 +152,15 @@ public class FrameNapTien extends JFrame {
 	private void btnNapTienClicked() {
 		try {
 			IpushMethodService service = new PushMethodService();
-			
+
 			if (!isNumber(txtSoTien))
 				throw new Exception("Vui long nhap so tien");
 			Long tien = khachHang.getTien();
 			tien += Long.parseLong(txtSoTien.getText());
 			khachHang.setTien(tien);
-			
-			service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/khachhang/", khachHang);
-			
+
+			KhachHangDAO.suaKhachHang(khachHang);
+
 			JOptionPane.showMessageDialog(this, "So tien hien tai: " + tien);
 			cmbLoaiThe.setSelectedIndex(0);
 			txtMaThe.setText("");
@@ -190,7 +191,7 @@ public class FrameNapTien extends JFrame {
 		IpushMethodService service = new PushMethodService();
 		cmbLoaiThe = new JComboBox();
 		try {
-			
+
 			if (txtMaThe.getText().isBlank() == true || txtMaThe.getText().isBlank() == true)
 				throw new Exception("Vui long` nhap  du  thong  tin");
 			Long tien = khachHang.getTien();
@@ -236,7 +237,7 @@ public class FrameNapTien extends JFrame {
 					}
 				}
 				khachHang.setTien(tien);
-				service.pushMethod(HttpConstant.HTTPREQUESTPUT, "http://localhost:8080/APISpring/api/khachhang/", khachHang);
+				KhachHangDAO.suaKhachHang(khachHang);
 				JOptionPane.showMessageDialog(this, "So tien hien tai: " + tien);
 			}
 		} catch (Exception e) {
@@ -244,8 +245,8 @@ public class FrameNapTien extends JFrame {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 	}
-	
-	void indexchange(){
+
+	void indexchange() {
 		if (cmbLoaiThe.getSelectedIndex() == 0)
 			txtMaThe.setText("vt");
 		if (cmbLoaiThe.getSelectedIndex() == 1)
