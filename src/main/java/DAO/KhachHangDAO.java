@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import org.apache.lucene.analysis.fi.FinnishAnalyzer;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;

@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import DAO.CTHoaDonDAO;
 import constant.HttpConstant;
 import entities.CTHoaDon;
 import entities.HoaDon;
@@ -70,9 +71,7 @@ public class FrameCTHoaDon extends JFrame {
 		
 		List<CTHoaDon> list = null;
 		try {
-			list = mapper.readValue(service.pushMethod(HttpConstant.HTTPREQUESTGET,
-					"http://localhost:8080/APISpring/api/cthoadon", hoaDon), new TypeReference<List<CTHoaDon>>() {
-					});
+			list = CTHoaDonDAO.layDanhSachCTHoaDon(hoaDon);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
